@@ -1,0 +1,101 @@
+  <style>
+
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Update EPC">
+            	
+        
+			
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" >
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Update EPC</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                     
+                     
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Hostname<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="hostname" ng-model="vm.hostname"  ng-change="checkHostName(vm.hostname)"placeholder="Enter HostName">
+                      	   <span style="color:red" ng-show="hostnameErr">Hostname is Mandatory</span>
+                      	<span ng-show="vm.hostNameRes.code==500" style="color:red" >Invalid Hostname</span>
+                      
+                        </div>
+                 
+                        
+                        
+                        <div class="col-md-6" ng-show="vm.hostNameRes.code==200">
+                            <label for="assectcod" class="form-label">Existing EPC</label>
+                            <input type="text" class="form-control" id="extPCV" ng-model="vm.tag.tagCode" disabled>
+                        </div>
+                         <div class="col-md-6"ng-show="vm.hostNameRes.code==200">
+                            <label for="assectcod" class="form-label">New  EPC</label>
+                            <input type="text" class="form-control" id="newPCV" ng-model="vm.newEPC" placeholder="Enter new EPC">
+                             <span style="color:red" ng-show="hostnameErr">Hostname is Mandatory</span>
+                            
+                        </div>
+                        
+                        
+                           
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.update()" title="Save" ng-disabled="diabledSaveButton">Update</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

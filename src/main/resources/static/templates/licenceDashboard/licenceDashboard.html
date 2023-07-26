@@ -1,0 +1,608 @@
+
+<style>
+
+/* calender */
+
+.container-calendar {
+   /* background: #ffffff; */
+    padding: 15px;
+    max-width: 404px;
+    margin: 0 auto;
+    overflow: auto;
+    background: #003399;
+    border-radius: 32px;
+}
+.btn-seltab {
+	 background-color: #3226ae;
+  border-color: #3226ae;
+}
+
+.btn-unseltab {
+	 background-color: #ffffff;
+  border-color: #ffffff;
+}
+.selTabFont{
+    font-size: 21px;
+    font-weight: 400;
+    color: white;
+
+}
+.unselTabFont{
+    font-size: 21px;
+    font-weight: 400;
+    color: black;
+
+}
+.button-container-calendar button {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #003399;
+    color: #fff;
+    border: 1px solid #0aa2b5;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.table-calendar {
+    border-collapse: collapse;
+    width: 100%;
+    color: white
+}
+
+.table-calendar td, .table-calendar th {
+    padding: 5px;
+   
+    text-align: center;
+    vertical-align: top;
+}
+
+.date-picker.selected {
+    font-weight: bold;
+    outline: 1px dashed #00BCD4;
+}
+
+.date-picker.selected span {
+    border-bottom: 2px solid currentColor;
+}
+
+/* sunday */
+
+
+/* friday */
+.date-picker:nth-child(7) {
+  color: red;
+}
+
+#monthAndYear {
+    text-align: center;
+    margin-top: 0;
+    color: white;
+}
+
+.button-container-calendar {
+    position: relative;
+    margin-bottom: 1em;
+    overflow: hidden;
+    clear: both;
+    color: white;
+}
+
+#previous {
+    float: left;
+}
+
+#next {
+    float: right;
+}
+
+.footer-container-calendar {
+    margin-top: 1em;
+    border-top: 1px solid #dadada;
+    padding: 10px 0;
+}
+
+.footer-container-calendar select {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #ffffff;
+    color: #585858;
+    border: 1px solid #bfc5c5;
+    border-radius: 3px;
+    padding: 5px 1em;
+}
+
+.footer-container-calendar label { 
+  padding-left: 80px;
+    font-weight: 900;
+}
+    .wrapper1 {
+    margin: 15px auto;
+    max-width: 1100px;
+}
+<link rel="stylesheet" type="text/css" href="js/datatables.min.css"/>
+<script type="text/javascript" src="js/datatables.min.js"></script> 
+</style>
+    <div style="margin: 10px;height:100%">
+        <uib-tabset active="activeJustified" justified="true">
+            
+
+            <!-- RFID Zone start -->
+            <uib-tab heading="">
+           <div class="row">
+	          <div class="col-md-6" >
+	            	<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'" style="height:40px;" ng-click="goToAssetDashboard()"><span ng-class="selTab=='home'?'selTabFont':'unselTabFont'" >Asset</span></button>
+	          
+	          </div>
+	           <div class="col-md-6" >
+	           <button type="button" ng-class="selTab=='licence'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'"style="height:40px;" ng-click="goToLicenceDashboard()"> <span ng-class="selTab=='licence'?'selTabFont':'unselTabFont'" >Licence</span></button>
+	          </div>
+          </div>
+            
+<!--              <div class="btn-group btn_align">
+  											<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'" style="height:40px;width: 725px;" ng-click="goToAssetDashboard()"><span ng-class="selTab=='home'?'selTabFont':'unselTabFont'" >Asset</span></button>
+ 											 <button type="button" ng-class="selTab=='licence'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'"style="height:40px;width: 725px;" ng-click="goToLicenceDashboard()"> <span ng-class="selTab=='licence'?'selTabFont':'unselTabFont'" >Licence</span></button>  												
+										</div> -->
+            
+          <h1>Licence Dashboard</h1>
+  <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==1">
+                    <div class="row">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4" ng-click="allLicnece()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total Licence  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"></h5>
+                                    <h3 class="card-text text-end"> {{vm.licencesCount.totoalLicence}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3 dash-card" style="width: 266px" ng-click="assignedLicnece()">
+                                <div class="card-header">Assigned Licence  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"></h5>
+                                    <h3 class="card-text text-end"> {{vm.licencesCount.allocatedLicence}} </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" ng-click="instockLicence()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Instock Licence</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.licencesCount.instockCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-md-4" ng-click="endOfLife()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">End Of Life</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.eolCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-md-4" ng-click="customerSuppliedSoftware()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Customer Supplied Software</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.customerSuppliedSoftwareCount.listcount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="col-md-4" ng-click="customerSuppliedSoftware()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Customer Supplied Software Count</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.customerSuppliedSoftwareCount.totalCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+             
+                   
+                </div>
+                
+
+              
+                
+             
+                <!-- pie chart start -->
+               
+               <div class="row mt-5  ">
+                         <div class="col-md-6 " >
+              
+                <div class="panel-body container-fluid">
+        	<section>
+            <div class="card">
+             <hr>
+            
+                <div class=" box">
+                    <section class="">
+                        <div class="row lead">
+                            <div class="col-md-6 text-center mt-2" style="font-weight: 500;font-size: 1.5rem">Licence By Status</div>
+                        </div>
+                        
+                        <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope" 
+                        chart-data="datasLicenceStock" chart-labels="datasLicenceStockLabel" chart-colors="datasLicenceStockColors"  width="523" height="261" 
+                        style="display: block; width: 523px; height: 261px;border: none"></canvas>
+                        
+                        
+                          
+                    </section>
+                </div>
+            </div>
+           
+        </section>
+    </div>
+    </div>
+                 <div class="col-md-6 " >
+              
+                <div class="panel-body container-fluid">
+        	<section>
+            <div class="card">
+             <hr>
+            
+                <div class=" box">
+                    <section class="">
+                        <div class="row lead">
+                            <div class="col-md-6 text-center mt-2" style="font-weight: 500;font-size: 1.5rem">Licence By Associate</div>
+                        </div>
+                        
+                        <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope" 
+                        chart-data="vm.licencesAssociateGraph.count" chart-labels="vm.licencesAssociateGraph.associateName" chart-colors="datasLicenceStockColors"  width="523" height="261" 
+                        style="display: block; width: 523px; height: 261px;border: none"></canvas>
+                        
+                        
+                          
+                    </section>
+                </div>
+            </div>
+        
+        </section>
+    </div>
+    </div>
+                
+            
+       </div>      
+               
+            <!-- pie chart end -->   
+                
+                 <div class="row  mt-5">
+                <div class="col-md-12 " ng-show="menuBranch==0||menuBranch==1">
+                
+              
+               <div class="card">
+              <hr>
+               <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"  style="font-weight: 500;font-size: 1.5rem">Licence By Publisher</div>
+                        </div>
+                <div class="material-tbl1 overflow-auto mt-3">
+                 <table id="datatable-buttons" class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
+                           >
+                          <thead class="tabelhedaer-bg">
+                          <tr>
+                          
+                          <th>Sr.No</th>
+                          <th>Publisher</th>
+                            <th>Total </th>
+                          <th>Assign</th>
+                          <th>In Stock</th>
+                        
+                          </tr>
+                          </thead>  
+                          
+                           <tbody>
+                          
+                           <tr ng-repeat="licencesCount in vm.licencesCountByPublisher">
+                          <td>{{$index+1}}</td>
+                           <td>{{licencesCount.publisher}}</td>
+                           <td>{{licencesCount.total}}</td>
+                            <td>{{licencesCount.assigned}}</td>
+                           <td>{{licencesCount.instock}}</td>
+                           </tr>
+                           
+                          
+                           </tbody>
+                            
+                     </table>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                     
+                      </div>
+                      </div>
+                      </div>      
+                           
+                </div>
+                
+                 <div class="row  mt-5">
+                <div class="col-md-12 " ng-show="menuBranch==0||menuBranch==1">
+                
+              
+               <div class="card">
+              <hr>
+               <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"  style="font-weight: 500;font-size: 1.5rem">Licence Stock</div>
+                        </div>
+                <div class="material-tbl1 overflow-auto mt-3">
+                 <table id="datatable-buttons" class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
+                           >
+                          <thead class="tabelhedaer-bg">
+                          <tr>
+                          
+                          <th>Sr.No</th>
+                          <th>Publisher</th>
+                            <th>Total Available </th>
+                          <th>Install</th>
+                          <th>In Stock</th>
+                        
+                          </tr>
+                          </thead>  
+                          
+                           <tbody>
+                          
+                           <tr ng-repeat="licencesCount in vm.licencesStockCountByPublisher">
+                          <td>{{$index+1}}</td>
+                           <td>{{licencesCount.publisher}}</td>
+                           <td>{{licencesCount.total}}</td>
+                            <td>{{licencesCount.install}}</td>
+                           <td>{{licencesCount.total-licencesCount.install}}</td>
+                           </tr>
+                           
+                          
+                           </tbody>
+                            
+                     </table>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                     
+                      </div>
+                      </div>
+                      </div>      
+                           
+                </div>
+              <!-- pie chart start -->
+               
+               <div class="row mt-5  ">
+                         <div class="col-md-6 " >
+              
+                <div class="panel-body container-fluid">
+        	<section>
+            <div class="card">
+             <hr>
+            
+                <div class=" box">
+                    <section class="">
+                        <div class="row lead">
+                            <div class="col-md-6 text-center mt-2" style="font-weight: 500;font-size: 1.5rem">Installed Licence By Associate</div>
+                        </div>
+                        
+                       <table id="datatable-buttons" class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                          <thead class="tabelhedaer-bg">
+                          <tr>
+                          
+                          <th>Sr.No</th>
+                          <th>Associate</th>
+                            <th>Total </th>
+                        
+                        
+                          </tr>
+                          </thead>  
+                          
+                           <tbody>
+                          
+                           <tr ng-repeat="licencesCount in vm.publisherWithCounts">
+                          <td>{{$index+1}}</td>
+                           <td>{{licencesCount.associateName}}</td>
+                           <td>{{licencesCount.count}}</td>
+                  
+                           </tr>
+                           
+                          
+                           </tbody>
+                            
+                     </table>
+                        
+                          
+                    </section>
+                </div>
+            </div>
+           
+        </section>
+    </div>
+    </div>
+                 <div class="col-md-6 " >
+              
+                <div class="panel-body container-fluid">
+        	<section>
+            <div class="card">
+             <hr>
+            
+                <div class=" box">
+                <div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+
+  <table id="example" class="table table-striped" style="width:100%">
+						<thead>
+							<tr>
+								<th>Sr.No</th>
+	                          <th>Product Name</th>
+	                            <th>Total </th>
+							</tr>
+						</thead>
+
+						<tfoot>
+							<tr>
+								 <th>Sr.No</th>
+	                          <th>Product Name</th>
+	                            <th>Total </th>
+                      
+							</tr>
+						</tfoot>
+
+						<tbody>
+							<tr ng-repeat="licencesCount in vm.productWithCounts">
+								 <td>{{$index+1}}</td>
+                           <td>{{licencesCount.productName}}</td>
+                           <td>{{licencesCount.count}}</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+		</div>
+                  <!--   <section class="">
+                        <div class="row lead">
+                            <div class="col-md-6 text-center mt-2" style="font-weight: 500;font-size: 1.5rem">Installed Licence By Product</div>
+                        </div>
+                        
+                        <table id="datatable-buttons" class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                          <thead class="tabelhedaer-bg">
+                          <tr>
+                          
+                          <th>Sr.No</th>
+                          <th>Product Name</th>
+                            <th>Total </th>
+                      
+                          </tr>
+                          </thead>  
+                          
+                           <tbody>
+                          
+                           <tr ng-repeat="licencesCount in vm.productWithCounts">
+                          <td>{{$index+1}}</td>
+                           <td>{{licencesCount.productName}}</td>
+                           <td>{{licencesCount.count}}</td>
+                          
+                           </tr>
+                           
+                          
+                           </tbody>
+                            
+                     </table> 
+                        
+                          
+                    </section> -->
+                </div>
+            </div>
+        
+        </section>
+    </div>
+    </div>
+                
+            
+       </div>      
+               
+            <!-- pie chart end -->     
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+           
+               
+               
+               
+                <div  class="row mt-5">
+      
+        
+        
+          <div class="col-md-12 " style="margin-top: 3px;" ng-show="menuBranch==0||menuBranch==1">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem"> Installed licences in System </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                            <canvas class="chart chart-line" chart-data="lastFiveDatesCount" chart-labels="lastFiveDates" 
+								chart-series="series2" chart-click="onClick" style="width: 936px;
+							    height: 318px"></canvas> 
+                           
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+
+    
+    
+    </div>  
+    
+    
+    
+    <div class="row" ng-show="menuBranch==0||menuBranch==1">
+    
+    
+    
+      <!--   <div class="col-md-12 " style="margin-top: 3px;">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Licence By Publisher</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                           <canvas class="chart chart-bar " chart-data="licenceByPubliaserData" 
+                           chart-labels="licenceByPubliaserLabels" chart-colors="colors3" chart-dataset-override="datasetOverride3"
+                            style="display: block; width: 523px; height: 200px;">
+                            </canvas>
+                            
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div> -->
+    </div>
+        
+  
+    
+    
+            </uib-tab>
+
+           
+
+                
+    </div>
+    
+    
+ 
+ 

@@ -1,0 +1,369 @@
+ <style>
+<!--
+
+-->
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left; font-size: 1.7rem;
+    font-weight: 700;"heading="Employee">
+     
+             <!-- Upload Form Start  -->
+ 				<div class="material mt-5" ng-show="uploadtab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Upload Employee</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                        <label for="inputCity" class="col-form-label">Upload (.xlsx)</label> 
+							                                              	 <input id="uploadEmployee"  class="form-control"  type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+
+							                                              	 <span ng-show="uploadErr" style="color:red">  * file is mandatory</span>
+						                                             	<a href="assets/uploadExcel/Employee.xlsx" type="button"class="btn btn-primary btn-rounded button-style waves-effect waves-light btn-sm"    style="margin:10px; display: inline-block;">Download format</a>
+						                                             	
+						             
+                        </div>
+                    
+                       
+                        
+                          
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.uploadEmployee()" ng-disabled="diabledSaveButton">Upload</button>
+                              <button type="submit" class="cancleBtn" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Upload End   -->
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNew">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Employee</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                       <!--   <div class="col-md-6">
+                            <label for="inputState"  class="form-label"> Gender<sup
+                                    style="color: red;">*</sup></label>
+                                    
+                                   <select class="form-control mandtry"
+																			ng-model="employee.gender" id="brand"
+																		
+																			style="height: calc(2.25rem + 14px)" required>
+																			<option value="" disabled selected>Select Gender </option>
+																			<option value="Male" >Male </option>
+																			<option value="feMale" >FeMale </option>
+																		</select>  
+                          
+							<span ng-show="genderErr" style="color:red">  * Gender is mandatory</span>
+                        </div>
+                                              <div class="col-md-6">
+                         <label for="inputState" class="form-label"> Title<sup
+                                    style="color: red;">*</sup></label>
+                                    
+                                     <select class="form-control mandtry"
+																			ng-model="employee.title" id="brand"
+																		
+																			style="height: calc(2.25rem + 14px)" required>
+																			<option value="" disabled selected>Select Title </option>
+																			<option value="Mr" >Mr </option>
+																			<option value="Mrs" >Mrs</option>
+																		</select>
+																		<span ng-show="titleErr" style="color:red">  * Title is mandatory</span>
+                                    
+                        </div>
+                           -->
+                        
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">First Name<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control mandtry" id="fname" ng-model="employee.firstName"   placeholder="Enter First Name" ng-blur="capitalFName(employee.fName)">
+						     <span ng-show="fNameErr" style="color:red">  * First Name is mandatory</span>
+                       
+                        </div>
+                        <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Last Name<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control mandtry" id="lname" ng-model="employee.lastName"   placeholder="Enter Last Name" ng-blur="capitalLName(employee.lName)">
+						          <span ng-show="lNameErr" style="color:red">  * Last Name is mandatory</span>
+                       
+                        </div>
+                        <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Mobile No<sup style="color: red;">*</sup></label>
+                             <input type="number" class="form-control mandtry" id="mobileNo" ng-model="employee.mobileNo"  ng-blur="validateContatNo(employee.contactNo)" placeholder="Enter Mobile No">
+						       <span ng-show="invalidMoNo" style="color:red">  * {{contactNo1ErrMsg}}</span>
+						        <span ng-show="MoNoErr" style="color:red">  * Mobile No is mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Email Id<sup style="color: red;">*</sup></label>
+                            <input type="email" class="form-control mandtry" id="email" ng-model="employee.email"  ng-blur="validateEmail(employee.emailId)"; placeholder="Enter Email Id">
+						   <span ng-show="emialErr" style="color:red">  * Invalid Email ID</span>
+						    <span ng-show="emailErr" style="color:red">  * is mandatory</span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Employee No<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control " id="employeeNo" ng-model="employee.employeeNo"  placeholder="Enter Employee No" >
+						    <span ng-show="employeeNoErr" style="color:red">  * Employee No is mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">User Name</label>
+                           <input type="text" class="form-control mandtry" id="workLoc" ng-model="employee.username"  placeholder="Enter Username">
+						                                           
+                        </div>
+                    
+                         <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Employee Type<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control " id="employeeNo" ng-model="employee.employeeType"  placeholder="Enter Employee Type" >
+						    <span ng-show="employeeTypeErr" style="color:red">  * Employee Type is mandatory</span>
+                        </div>
+                     <!--   <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Date Of Birth<sup style="color: red;">*</sup></label>
+                            <input type="date" class="form-control " id="dob" ng-model="employee.dateOfBirth" ng-blur="dob(employee.dateOfBirth);">
+						     <span ng-show="dateOfBirth" style="color:red">  * Date Of Birth mandatory</span>
+						      <span ng-show="invaliddateOfBirth" style="color:red">   Please select correct DOB</span>
+                        </div>
+                        
+                          <div class="col-md-6">
+                            <label  for="inputCity" class="form-label">Date of Joining<sup style="color: red;">*</sup></label>
+                            <input type="date" class="form-control " id="doj" ng-model="employee.dateOfJoining" ng-blur="doj(employee.dateOfJoining);">
+						    <span ng-show="jDateErr" style="color:red">  * Date Of Joining is mandatory</span>
+						 <span ng-show="invaliddateOfjoin" style="color:red">   Please select correct DOJ</span>
+                        </div> -->
+                        <legend class="dotted text-center mt-5" style="color: #616060; font-size: 18px;"><b>Employee-Company Details</b>
+                    </legend>
+                    <hr>
+                          <div class="col-md-6">
+                            <label for="inputState"  class="form-label"> Branch<sup
+                                    style="color: red;">*</sup></label>
+                                    
+                                   <select class="form-control mandtry"
+																			ng-model="employee.branch.branchId" id="branch"
+																			ng-options="branch.branchId as branch.branchName for branch in vm.branches"
+																			style="height: calc(2.25rem + 14px)" required>
+																			<option value="" disabled selected>Select Branch</option>
+																		</select>
+																		<span ng-show="branchErr" style="color:red">  * Branch is mandatory</span>  
+                          
+							
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="inputState"  class="form-label"> Department<sup
+                                    style="color: red;">*</sup></label>
+                                    
+                                    <select class="form-control mandtry"
+																			ng-model="employee.department.departmentId" id="department"
+																			ng-options="department.departmentId as department.departmentName for department in vm.departments"
+																			style="height: calc(2.25rem + 14px)" required>
+																			<option value="" disabled selected>Select Department</option>
+																		</select>
+																		<span ng-show="deptalrt" style="color:red">  * Department is mandatory</span>
+							
+                        </div>
+                        <!--  <div class="col-md-6">
+                            <label for="inputState"  class="form-label"> Designation<sup
+                                    style="color: red;">*</sup></label>
+                                    
+                                     <select class="form-control mandtry"
+																			ng-model="employee.designation.designationId" id="designation"
+																			ng-options="designation.designationId as designation.designationName for designation in vm.designations"
+																			style="height: calc(2.25rem + 14px)" required>
+																			<option value="" disabled selected>Select Designation</option>
+																		</select>
+																		<span ng-show="designationErr" style="color:red">  * Designation is mandatory</span>
+                        </div> -->
+                         <div class="col-md-6">
+                            <label for="inputCity" class="form-label">Work Location</label>
+                           <input type="text" class="form-control mandtry" id="workLoc" ng-model="employee.workLocation"  placeholder="Enter Work Location">
+						                                           
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">Bussiness Unit</label>
+                           <input type="text" class="form-control mandtry" id="workLoc" ng-model="employee.bussinessUnit"  placeholder="Enter Bussiness Unit">
+						                                           
+                        </div>
+                        
+                         <div class="col-md-6">
+                            <label for="inputCity" class="form-label">Teams</label>
+                           <input type="text" class="form-control mandtry" id="workLoc" ng-model="employee.team"  placeholder="Enter Team">
+						                                           
+                        </div>
+                        
+                         <div class="col-md-6">
+                            <label for="inputCity" class="form-label">Manager</label>
+                           <input type="text" class="form-control mandtry" id="workLoc" ng-model="employee.manager"  placeholder="Enter Manager">
+						                                           
+                        </div>
+                          <div class="col-md-6">
+                            <label for="inputCity" class="form-label">Hire Date</label>
+                           <input type="date" class="form-control mandtry" id="workLoc" ng-model="employee.hireDate"  placeholder="Enter Manager">
+						                                           
+                        </div>
+                    
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.save(employee)" ng-show="!editView" ng-disabled="disabledClick">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- List View Star -->
+                <div class="material mt-5" >
+                    <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-4">
+                            <form class="d-flex search">
+                            <input class="me-2" type="search" placeholder="Search" aria-label="Search" ng-model="vm.serachText">
+                                <button class="searchBtn" type="submit"  ng-click="vm.loadEmployees()">Search</button>
+                               
+                            </form>
+                        </div>
+                          <div class="col-2 text-center">
+                          
+					              <input type="number" min="1"  class="form-control" ng-model="vm.perPage" ng-change="vm.loadEmployees()"   >
+					             
+                          </div>
+                        
+                          <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.allEmployees" report-fields="vm.labels" style="display:none"  filename="'Employees'"  ></button>
+						            
+                        
+                        
+                        </div>
+                       <!--   <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New Employee"style="margin-left: 68px;" ng-click="vm.add()">   <i class="bi bi-plus-square" ></i></button>
+                        </div> -->
+                    
+                    </div>
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped"
+                            >
+                            <thead>
+                                <tr>
+                                   <th class="text-center">Sr No</th>
+                                            <th class="text-center">Location</th>
+                                            <th class="text-center">Employee Type</th>
+	                                         <th class="text-center">Employee No</th>
+	                                         <th class="text-center">User Name</th>
+                                            <th class="text-center">Name</th>
+                                             <th class="text-center">Mobile No</th>
+                                             <th class="text-center">Email </th>
+                                             <th class="text-center">Team </th>
+                                             
+                                             <th class="text-center">WorkLocation </th>
+                                             <th class="text-center">Business Unit </th>
+                                             <th class="text-center">Manager </th>
+                                             
+                                              <th class="text-center">Hire Date</th>
+                                              <th class="text-center">Department</th>
+                                               <th class="text-center">Added By</th>
+                                              <th class="text-center">Added Date</th>
+                                            <th class="text-center" style="width: 303px;">Action</th>
+                                        
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                           <tr ng-show="vm.allEmployees.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="employee in vm.allEmployees| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                           <td class="text-center rowText">{{(vm.perPage*(vm.pageno-1))+($index+1)}}</td>
+                                           <td class="text-center rowText">{{employee.branch.branchName}}</td>
+                                           <td class="text-center rowText">{{employee.employeeType}}</td>
+                                            <td class="text-center rowText">{{employee.employeeNo}}</td>
+                                             <td class="text-center rowText">{{employee.username}}</td>
+                                            <td class="text-center rowText">{{employee.firstName}} {{employee.lastName}}</td>
+                                         
+                                            <td class="text-center rowText">{{employee.mobileNo}}</td>
+                                            <td class="text-center rowText">{{employee.email}}</td>
+                                            <td class="text-center rowText">{{employee.teams}}</td>
+                                            <td class="text-center rowText">{{employee.workLocation}}</td>
+                                              <td class="text-center rowText">{{employee.bussinessUnit}}</td>
+                                                <td class="text-center rowText">{{employee.manager}}</td>
+                                                <td class="text-center rowText">{{employee.hireDate}}</td>
+                                                 <td class="text-center rowText">{{employee.department.departmentName}}</td>
+                                            <td class="text-center rowText" style="width:60px;">{{employee.addedBy}}</td>
+                                              <td class="text-center rowText">{{employee.addedDate|date:'dd-MM-yyyy'}}</td>
+                                            <td class="text-center">
+                                            	<!-- <button style="width:100px" ng-class="employee.active==1 ? 'btn btn-rounded btn-success':'btn btn-rounded btn-danger'"> -->
+                                            	<md-icon class="fas fa-user-alt " ng-if="employee.active==1" id="tooltip-touch" title="ACTIVE" style="font-size:20px;color:green;padding-top:5px;"></md-icon>
+                                            	<md-icon class="fas fa-user-alt-slash" ng-if="employee.active==0" id="tooltip-touch" title="INACTIVE" style="font-size:20px;color:red;padding-top:5px;"></md-icon>
+                                            		   <!-- <span ng-if="employee.active==1"> Active</span><span ng-if="employee.active==2"> InActive</span> -->
+                                            		<!-- </button> -->
+                                            
+                                         </td>
+                                           
+
+                                           <td class="text-center" style="width:20%;">
+                                             <!-- <button type="button"class="waves-effect waves-light btn-sm"  ></button> -->
+                                             <md-button class="md-icon-button btn-sm" aria-label="Favorite" style="margin:0 0.5px;"><i class='fas fa-edit'   data-toggle="tooltip" data-placement="bottom" title="Edit" ng-click="vm.edit(employee)" style="font-size:20px;color:#2E4053;"></i></md-button>
+                                           	        
+                                           	<md-button class="md-icon-button btn-sm" aria-label="Favorite" ng-disabled="employee.designation.designationName=='Admin'" style="margin:0 0.5px;"> <i class=" mdi mdi-sync"  data-toggle="tooltip" data-placement="bottom" title="Change Status" ng-click="vm.changeStatus(employee)" style="font-size:20px;color:#2E86C1;"></i></md-button>
+                                           	         
+                                           	<md-button class="md-icon-button btn-sm" aria-label="Favorite" ng-if="employee.userCreated==0" style="margin:0 0.5px;"> <i class="fa fa-user-plus"   data-toggle="tooltip" data-placement="bottom" title="Create User" ng-click="vm.createUser(employee)" style="font-size:20px;color:#2E4053;"></i></md-button>
+                                           	<md-button class="md-icon-button btn-sm" aria-label="Favorite" ng-if="employee.userCreated==1" style="margin:0 0.5px;"> <i class='fas fa-user-check'   data-toggle="tooltip" data-placement="bottom" title="User created " disabled style="font-size:20px;color:#85929E;"></i></md-button>
+                                           	<md-button class="md-icon-button btn-sm" aria-label="Favorite" style="margin:0 0.5px;"><i class='fas fa-trash'   data-toggle="tooltip" data-placement="bottom" title="Delet" ng-click="vm.delet(employee)" style="font-size:20px;color:#ff0101;"></i></md-button>
+                                           	           
+										  </td>
+                                       </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

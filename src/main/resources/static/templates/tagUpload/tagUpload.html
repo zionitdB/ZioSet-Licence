@@ -1,0 +1,329 @@
+
+<style>
+<!--
+--> /*Check Box*/
+.c_check {
+	visibility: hidden;
+	position: relative;
+	margin-right: .4em;
+	font-size: 2em;
+	height: .9em;
+	width: .9em;
+}
+
+.c_check:before, .c_check:after {
+	/* default checkbox */
+	box-sizing: border-box;
+	visibility: visible;
+	display: inline-block;
+	content: '';
+	touch-action: manipulation;
+	cursor: pointer;
+	/* position */
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: .9em;
+	height: .9em;
+	/* design */
+	border: .1em solid grey;
+	border-radius: .1em;
+	transition: all .3s ease-in-out;
+}
+
+.c_check:after {
+	transition: all .3s ease-in-out, border-top, border-right;
+	transition-delay: 0s, .3s, .3s;
+	z-index: 2;
+}
+
+.c_check:checked:after {
+	height: .4em;
+	border-top: none;
+	border-right: none;
+	border-width: .15em;
+	border-radius: 0px;
+	border-bottom-left-radius: .05em;
+	border-color: #64c5b1;
+	transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+	box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+</style>
+<div>
+	<uib-tabset active="activeJustified" justified="true"> <uib-tab
+		style="    text-align: left; font-size: 1.7rem;
+    font-weight: 700;"
+		heading="TAG Upload">  <!-- Upload Form Start  -->
+	<div class="material mt-5" ng-show="uploadTab">
+		<legend class="dotted text-center"
+			style="color: #616060; font-size: 18px;">
+			<b>Upload Tags</b>
+		</legend>
+		<hr>
+		<form class="row g-3">
+			<div class="col-md-6">
+				<label for="inputCity" class="col-form-label">Upload (.Xlsx)</label>
+				<input id="uploadTags" class="form-control" type="file"
+					accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+
+				<span ng-show="uploadErr" style="color: red"> * file is
+					mandatory</span> <a href="assets/uploadExcel/Tag.xlsx" type="button"
+					class="btn btn-primary btn-rounded button-style waves-effect waves-light btn-sm"
+					style="margin: 10px; display: inline-block;">Download format</a>
+
+
+			</div>
+
+
+
+
+			<div class="col-12 mt-4 text-center">
+				<button type="submit" class="save" ng-click="vm.uploadSave()"
+					title="Upload" ng-disabled="diabledSaveButton">Upload</button>
+				<button type="submit" class="cancleBtn" title="Cancel"
+					ng-click="vm.cancleUpload()">Cancel</button>
+
+
+			</div>
+		</form>
+	</div>
+	<!-- Upload End   -->
+	<div class="row  mt-3">
+
+
+		<div class="col-md-4" ng-click="totalTag()">
+			<div class="card mb-3 dash-card" style="width: 266px">
+				<div class="card-header">Total no Tag</div>
+				<div class="card-body">
+					<h5 class="card-text card-title"></h5>
+					<h3 class="card-text text-end">{{vm.tagCounts.totalNo}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" ng-click="availableTags()">
+			<div class="card mb-3 dash-card" style="width: 266px">
+				<div class="card-header">Available Tag</div>
+				<div class="card-body">
+					<h5 class="card-text card-title"></h5>
+					<h3 class="card-text text-end">{{vm.tagCounts.available}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" ng-click="assingedTags()">
+			<div class="card mb-3 dash-card" style="width: 266px">
+				<div class="card-header">Assinged Tag</div>
+				<div class="card-body">
+					<h5 class="card-text card-title"></h5>
+					<h3 class="card-text text-end">{{vm.tagCounts.assinged}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" ng-click="puneTags()">
+			<div class="card mb-3 dash-card" style="width: 266px">
+				<div class="card-header">Pune Tags</div>
+				<div class="card-body">
+					<h5 class="card-text card-title"></h5>
+					<h3 class="card-text text-end">{{vm.tagCounts.punesTag}}</h3>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" ng-click="bengaluruTags()">
+			<div class="card mb-3 dash-card" style="width: 266px">
+				<div class="card-header">Bengaluru Tag</div>
+				<div class="card-body">
+					<h5 class="card-text card-title"></h5>
+					<h3 class="card-text text-end">{{vm.tagCounts.bengalurusTag}}
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Add New Form Start  -->
+	<div class="material mt-5" ng-show="addNew">
+		<legend class="dotted text-center"
+			style="color: #616060; font-size: 18px;">
+			<b>Add New Tag</b>
+		</legend>
+		<hr>
+		<form class="row g-3">
+			<div class="col-md-6">
+				<label for="allocto" class="form-label"> Branch<sup
+					style="color: red;">*</sup></label> <select class="form-control"
+					ng-model="vm.tag.branch.branchId"
+					ng-options="branch.branchId as branch.branchName for branch in vm.branches"
+					required>
+					<option value="" disabled selected>Select Branch</option>
+				</select> <span style="color: red" ng-show="branchErr">Branch is
+					Mandatory</span>
+			</div>
+			<div class="col-md-6">
+				<label for="assectcod" class="form-label">Tag Code<small>(EPC)</small><sup
+					style="color: red;">*</sup></label> <input type="text" class="form-control"
+					id="tagCode" " ng-model="vm.tag.tagCode"
+					ng-change="checkTagCode(vm.tag.tagCode)"
+					placeholder="Enter TagCode"> <span style="color: red"
+					ng-show="tagCodeErr">Tag Code is Mandatory</span> <span
+					style="color: red" ng-show="uniqueTagCodeVal">Tag Code
+					Already Exits</span>
+
+			</div>
+			<div class="col-md-6">
+				<label for="assectcod" class="form-label">Hostname<sup
+					style="color: red;">*</sup></label> <input type="text" class="form-control"
+					id="tagCode" " ng-model="vm.tag.hostname"
+					ng-change="checkHostname(vm.tag.hostname)"
+					placeholder="Enter Hostname"> <span style="color: red"
+					ng-show="hostnameErr">Hostname is Mandatory</span> <span
+					style="color: red" ng-show="uniqueHostNameVal">Hostname
+					Already Exits</span>
+
+
+			</div>
+
+
+
+			<div class="col-12 mt-4 text-center">
+				<button type="submit" class="save" ng-click="vm.save(vm.tag)"
+					ng-disabled="diabledSaveButton">Submit</button>
+				<button type="submit" class="cancleBtn" ng-click="vm.cancle()">Cancel</button>
+
+
+			</div>
+		</form>
+	</div>
+	<!-- Add New Form End   --> <!-- List View Star -->
+	<div class="material mt-5">
+		<div class="container-fluid">
+		
+			<div class="row">
+				<div class="col-1 text-center">
+					<button class="addNew" type="submit" data-toggle="tooltip"
+						data-placement="bottom" title="Upload Tag" ng-click="vm.reload()">
+						<i class="bi bi-arrow-repeat"></i>
+					</button>
+				</div>
+				<div class="col-3">
+					<form class="d-flex search">
+						<input class="me-2" type="search" placeholder="Search"
+							aria-label="Search" ng-change="vm.loadTags()"
+							ng-model="vm.serachText">
+						<!--                                 <button class="searchBtn" type="submit"  ng-click="vm.loadTags()">Search</button>
+ -->
+					</form>
+				</div>
+				<div class="col-1 text-center">
+
+					<input type="number" min="1" class="form-control"
+						ng-model="vm.perPage" ng-change="vm.loadTags()">
+				</div>
+				<div class="col-1 text-center">
+					<button class="addNew" type="submit" data-toggle="tooltip"
+						data-placement="bottom" title="Upload Tag" ng-click="vm.upload()">
+						<i class="bi bi-upload" style="margin-right: 10px;"></i>
+					</button>
+				</div>
+				<div class="col-2 text-center">
+					<button class="addNew" type="submit" data-toggle="tooltip"
+						data-placement="bottom" title="Download Tag"
+						ng-click="vm.downloadTags()">
+						<i class="bi bi-download""></i>
+					</button>
+					<button id="btnExport" ng-json-export-excel data="vm.tagsU"
+						report-fields="vm.labels" style="display: none" filename="'Tags'"></button>
+
+
+				</div>
+				<div class="col-2 text-center">
+					<button class="addNew" type="submit" data-toggle="tooltip"
+						data-placement="bottom" title="Print " ng-click="vm.print()">
+						<i class="bi bi-printer-fill"></i>
+					</button>
+				</div>
+				<div class="col-2 text-center">
+					<button class="addNew" type="submit" data-toggle="tooltip"
+						data-placement="bottom" title="Add New Tag"
+						 ng-click="vm.add()">
+						<i class="bi bi-plus-square"></i>
+					</button>
+				</div>
+
+			</div>
+		</div>
+		<div class="material-tbl mt-3">
+		
+			
+			<table id="datatable-buttons"
+				class="text-center align-middle justify-content-center table-striped">
+				<thead>
+					<tr>
+						<th>Sr No</th>
+						<th>Branch</th>
+						<th>Hostname</th>
+
+						<th>Barcode</th>
+
+
+						<th><input class="c_check" type="checkbox"
+							ng-model="vm.selectAllChk" ng-click="selectAllTable()"></th>
+						<th>Status</th>
+						<th>Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-show="vm.tags.length <= 0">
+						<td colspan="8"
+							style="text-align: center; color: #5D6D7E; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data
+							Not Found!!
+					<tr
+						dir-paginate="tag in vm.tags| filter:q |itemsPerPage:vm.perPage"
+						total-items="vm.total_count" current-page="pagination.current">
+
+
+
+						<td>{{(vm.perPage*(vm.pageno-1))+($index+1)}}</td>
+						<td>{{tag.branch.branchName}}</td>
+						<td>{{tag.hostname}}</td>
+
+
+						<td>
+							<div id="print{{$index}}">
+								<div
+									ng-init="config={ name : 'Code 128', type : 'code128', text : tag.tagCode, scale : { x : 2.0, y : 1.0 }, options : 'eclevel=L'}">
+									<td-barcode config="config" id="$index"></td-barcode>
+									</br> {{tag.tagCode}}
+								</div>
+
+							</div>
+
+
+
+
+
+
+						</td>
+
+						<td style="width: 50px"><input class="c_check"
+							type="checkbox" ng-checked="tag.check"
+							ng-click="selectQR($index)"></td>
+
+						<td>
+							<button ng-class="tag.statusBit==1?'save':'cancleBtn'"
+								type="submit">
+								<span ng-if="tag.statusBit==1">Available</span><span
+									ng-if="tag.statusBit!=1">Assigned</span>
+							</button>
+
+						</td>
+						<td><i class="bi bi-trash"
+							ng-if="tag.statusBit==1 && (vm.user.role.roleId==1||vm.user.role.roleId==3)"
+							data-toggle="tooltip" data-placement="bottom" title="Delet"
+							ng-click="vm.delet(tag)" style="margin-right: 10px;"></i></td>
+				</tbody>
+			</table>
+			<dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+
+		</div>
+	</div>
+	<!-- List View Star --> </uib-tab> </uib-tabset>
+</div>

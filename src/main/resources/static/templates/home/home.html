@@ -1,0 +1,787 @@
+
+<style>
+
+/* calender */
+
+.container-calendar {
+   /* background: #ffffff; */
+    padding: 15px;
+    max-width: 404px;
+    margin: 0 auto;
+    overflow: auto;
+    background: #003399;
+    border-radius: 32px;
+}
+.btn-seltab {
+	 background-color: #3226ae;
+  border-color: #3226ae;
+}
+.selTabFont{
+    font-size: 21px;
+    font-weight: 400;
+    color: white;
+
+}
+.unselTabFont{
+    font-size: 21px;
+    font-weight: 400;
+    color: black;
+
+}
+
+.btn-unseltab {
+	 background-color: #ffffff;
+  border-color: #ffffff;
+}
+.button-container-calendar button {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #003399;
+    color: #fff;
+    border: 1px solid #0aa2b5;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.table-calendar {
+    border-collapse: collapse;
+    width: 100%;
+    color: white
+}
+
+.table-calendar td, .table-calendar th {
+    padding: 5px;
+   
+    text-align: center;
+    vertical-align: top;
+}
+
+.date-picker.selected {
+    font-weight: bold;
+    outline: 1px dashed #00BCD4;
+}
+
+.date-picker.selected span {
+    border-bottom: 2px solid currentColor;
+}
+
+/* sunday */
+
+
+/* friday */
+.date-picker:nth-child(7) {
+  color: red;
+}
+
+#monthAndYear {
+    text-align: center;
+    margin-top: 0;
+    color: white;
+}
+
+.button-container-calendar {
+    position: relative;
+    margin-bottom: 1em;
+    overflow: hidden;
+    clear: both;
+    color: white;
+}
+
+#previous {
+    float: left;
+}
+
+#next {
+    float: right;
+}
+
+.footer-container-calendar {
+    margin-top: 1em;
+    border-top: 1px solid #dadada;
+    padding: 10px 0;
+}
+
+.footer-container-calendar select {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #ffffff;
+    color: #585858;
+    border: 1px solid #bfc5c5;
+    border-radius: 3px;
+    padding: 5px 1em;
+}
+
+.footer-container-calendar label { 
+  padding-left: 80px;
+    font-weight: 900;
+}
+    .wrapper1 {
+    margin: 15px auto;
+    max-width: 1100px;
+}
+
+</style>
+    <div style="margin: 10px;height:100%">
+        <uib-tabset active="activeJustified" justified="true">
+            
+
+            <!-- RFID Zone start -->
+            <uib-tab heading="">
+          <div class="row">
+	          <div ng-class="selTab=='home'?'selTabFont col-md-6':'unselTabFont col-md-6'" ng-click="goToAssetDashboard()">
+	            	<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'" style="height:40px;" ><span  >Asset</span></button>
+	          
+	          </div>
+	           <div  ng-class="selTab=='licence'?'selTabFont col-md-6':'unselTabFont col-md-6'" ng-click="goToLicenceDashboard()">
+	           <button type="button" ng-class="selTab=='licence'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"style="height:40px;" > <span  >Licence</span></button>
+	          </div>
+          </div>
+            
+            
+         <!--   <div class="btn-group btn_align">
+  						  											<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'" style="height:40px;width: 50%" ng-click="goToAssetDashboard()"><span ng-class="selTab=='home'?'selTabFont':'unselTabFont'" >Asset</span></button>
+ 											 <button type="button" ng-class="selTab=='licence'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'"style="height:40px;width: 50%;" ng-click="goToLicenceDashboard()"> <span ng-class="selTab=='licence'?'selTabFont':'unselTabFont'" >Licence</span></button>  			
+  	    	</div> -->
+  <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==1">
+                    <div class="row">
+                        <legend class="dotted ml-3" style="color: #616060;"><b>Pune</b></legend>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4" ng-click="allPuneAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total Asset  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"></h5>
+                                    <h3 class="card-text text-end"> {{vm.puneCount.totalAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3 dash-card" style="width: 266px" ng-click="UnRegisterAssetPuneAsset()">
+                                <div class="card-header">UnRegister Asset  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"></h5>
+                                    <h3 class="card-text text-end"> {{vm.puneCount.unRegisterAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" ng-click="unAllocatedPuneAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">UnAllocated Asset </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.puneCount.unAllocatedAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row mt-3">
+                 <!--    <div class="col-md-3">
+                            <div class="card mb-3 dash-card">
+                                <div class="card-header">Total Number of Reader</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> 7</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card mb-3 dash-card">
+                                <div class="card-header">Number of User</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end">7  </h3>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="col-md-4" ng-click="allocatedPuneAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Allocated Asset</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.puneCount.allocatedAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4" ng-click="employeesPune()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Number of Employee</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.empCount.puneCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4" ng-click="eolPune()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">End Of Life</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{eolCount.puneEOL}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                         <div class="col-md-4" ng-click="eolPuneCompleted()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">End Of Life <small>(Completed)</small></div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{eolCount2.puneEOL}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                         <div class="col-md-4" ng-click="assetInOfficePune()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Asset in Office<small></small></div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.assetInOfficce.assetInPune}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <hr>
+
+
+                <hr>
+                  <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==2" >
+                    <div class="row  ml-3">
+                        <legend class="dotted" style="color: #616060;"><b>Bengaluru</b></legend>
+                    </div>
+                    <div class="row  mt-3">
+                        <div class="col-md-4" ng-click="allBengaluruAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total Asset </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"></h5>
+                                    <h3 class="card-text text-end"> {{vm.bangaloreCount.totalAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="UnRegisterAssetBengaluruAsset()">
+                            <div class="card mb-4 dash-card" style="width: 266px">
+                                <div class="card-header">UnRegister Asset </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"></h5>
+                                    <h3 class="card-text text-end"> {{vm.bangaloreCount.unRegisterAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" ng-click="unAllocatedBengaluruAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header"> UnAllocated Asset </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.bangaloreCount.unAllocatedAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                   
+                   <div class="row  mt-3">
+                  <!--    <div class="col-md-3">
+                            <div class="card mb-3 dash-card">
+                                <div class="card-header">Total Number of Reader</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> 7</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card mb-3 dash-card">
+                                <div class="card-header">Number of User</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end">7  </h3>
+                                </div>
+                            </div>
+                        </div>-->
+                        
+                        <div class="col-md-4" ng-click="allocatedBengaluruAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Allocated Asset  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.bangaloreCount.allocatedAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="employeesBengaluru()">
+                            <div class="card mb-3 dash-card"  style="width: 266px">
+                                <div class="card-header">Number of Employee</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.empCount.bengaluruCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="eolBengaluru()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">End Of Life</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{eolCount.bengaluruEOL}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="eolBengaluruCompleted()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">End Of Life  <small>(Completed)</small></div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{eolCount2.bengaluruEOL}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4" ng-click="assetInOfficeBengaluru()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Asset in Office<small></small></div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.assetInOfficce.assetInBengaluru}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+             
+
+
+              
+                
+             
+                <!-- pie chart start -->
+               
+               <div class="row mt-5  ">
+                 <div class="col-md-6 " ng-show="menuBranch==0||menuBranch==1">
+              
+                <div class="panel-body container-fluid">
+        	<section>
+            <div class="card">
+             <h4 class="ml-3 mt-3"><b>Pune</b></h4>
+             <hr>
+            
+                <div class=" box">
+                    <section class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2" style="font-weight: 500;font-size: 1.5rem">Asset By Status</div>
+                        </div>
+                        
+                        <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope" 
+                        chart-data="datasPune" chart-labels="labelsPune" chart-colors="colorsPie"  width="523" height="261" 
+                        style="display: block; width: 523px; height: 261px;border: none"></canvas>
+                        
+                        
+                          
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div>
+    </div>
+                
+                 <div class="col-md-6 "  ng-show="menuBranch==0||menuBranch==2">
+                
+                <div class="panel-body container-fluid">
+        	<section>
+            <div class="card ">
+             <h4 class="ml-3 mt-3"><b>Bengaluru</b></h4>
+             <hr>
+            
+                <div class=" box">
+                    <section class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"  style="font-weight: 500;font-size: 1.5rem">Asset By Status</div>
+                        </div>
+                        
+                         <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope" 
+                        chart-data="datasBengaluru" chart-labels="labelsBengaluru" chart-colors="colorsPie1"  width="523" height="261" 
+                        style="display: block; width: 523px; height: 261px;border: none"></canvas>
+                        
+                        
+                             <!--  -  <canvas id="pie" class=" chart-pie" chart-data="data1" 
+                                        chart-labels="labels1" chart-options="optionsPie1" 
+                                        chart-colors="colorsPie1" chart-options="optionsPie1" 
+                                        chart-click="clickme" chart-hover="hoverme" 
+                                        chart-dataset-override="PieDataSetOverride">
+                                </canvas>-->
+                          
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div>
+   </div>
+       </div>      
+                
+            <!-- pie chart end -->   
+                
+                 <div class="row  mt-5">
+                <div class="col-md-6 " ng-show="menuBranch==0||menuBranch==1">
+                
+              
+               <div class="card">
+                <h4 class="ml-3 mt-3"><b>Pune</b></h4>
+              <hr>
+               <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"  style="font-weight: 500;font-size: 1.5rem">Asset Status By Type </div>
+                        </div>
+                <div class="material-tbl1 overflow-auto mt-3">
+                 <table id="datatable-buttons" class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                          <thead class="tabelhedaer-bg">
+                          <tr>
+                          
+                          <th>Sr.No</th>
+                          <th>Asset Type</th>
+                          <th>Assign</th>
+                          <th>In Stock</th>
+                          <th>Total Count </th>
+                          </tr>
+                          </thead>  
+                          
+                           <tbody>
+                          
+                           <tr ng-repeat="assetCategoryWiseCount in vm.assetCategoryWiseCounts.punes">
+                          <td>{{$index+1}}</td>
+                           <td>{{assetCategoryWiseCount.assetType}}</td>
+                           <td>{{assetCategoryWiseCount.assignedCount}}</td>
+                            <td>{{assetCategoryWiseCount.inStockCount}}</td>
+                           <td>{{assetCategoryWiseCount.totalCount}}</td>
+                           </tr>
+                           
+                          
+                           </tbody>
+                            
+                     </table>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                     
+                      </div>
+                      </div>
+                      </div>      
+                      
+                      
+                       <div class="col-md-6 " ng-show="menuBranch==0||menuBranch==2">
+                     
+                       <div class="card" style="margin-left:13px">
+                       <h4 class="ml-3 mt-3"><b>Bengaluru</b></h4>
+                       <hr>
+                        
+                    
+                       <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"  style="font-weight: 500;font-size: 1.5rem">Asset Status By Type </div>
+                        </div>
+                <div class="material-tbl1 overflow-auto mt-3">
+                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                          <thead class="tabelhedaer-bg">
+                          <tr>
+                           <th>Sr.No</th>
+                          <th>Asset Type</th>
+                          <th>Assign</th>
+                          <th>In Stock</th>
+                          <th>Total Count </th>
+                          </tr>
+                          </thead>  
+                          
+                          
+                           <tbody>
+                          
+                           <tr ng-repeat="assetCategoryWiseCount in vm.assetCategoryWiseCounts.bangulurus">
+                          <td>{{$index+1}}</td>
+                           <td>{{assetCategoryWiseCount.assetType}}</td>
+                           <td>{{assetCategoryWiseCount.assignedCount}}</td>
+                            <td>{{assetCategoryWiseCount.inStockCount}}</td>
+                           <td>{{assetCategoryWiseCount.totalCount}}</td>
+                           </tr>
+                           
+                          
+                         
+                           </tbody>
+                            
+                     </table>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                     
+                      </div>
+                      </div> 
+                      </div>      
+                </div>
+                
+               
+                <div  class="row mt-5">
+      
+        
+        
+        <div class="col-md-12 " style="margin-top: 3px;" ng-show="menuBranch==0||menuBranch==1">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem"> Asset In office Pune</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                            <canvas class="chart chart-line" chart-data="dataAIOPune" chart-labels="labelsAIOPune" 
+								chart-series="series2" chart-click="onClick" style="width: 936px;
+							    height: 318px"></canvas> 
+                           
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+    <div class="col-md-12 " style="margin-top: 3px;" ng-show="menuBranch==0||menuBranch==2">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem"> Asset In office Bengaluru</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                            <canvas class="chart chart-line" chart-data="dataAIOBengaluru" chart-labels="labelsAIOBengaluru" 
+								chart-series="series2" chart-click="onClick" style="width: 936px;
+							    height: 318px"></canvas> 
+                           
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+    
+    
+    </div>  
+    
+    
+    
+    <div class="row" ng-show="menuBranch==0||menuBranch==1">
+    
+    
+    
+        <div class="col-md-12 " style="margin-top: 3px;">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Asset Type  Pune</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                           <canvas class="chart chart-bar " chart-data="assetTypesDataPune" 
+                           chart-labels="assetTypeslabelsPune" chart-colors="colors3" chart-dataset-override="datasetOverride3"
+                            style="display: block; width: 523px; height: 200px;">
+                            </canvas>
+                            
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+    </div>
+        
+    <div class="row" ng-show="menuBranch==0||menuBranch==2">
+    
+    
+    
+        <div class="col-md-12 " style="margin-top: 3px;">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Asset Type  Bengaluru</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                           <canvas class="chart chart-bar " chart-data="assetTypesDataBengaluru" 
+                           chart-labels="assetTypeslabelsBengaluru" chart-colors="colors3" chart-dataset-override="datasetOverride3"
+                            style="display: block; width: 523px; height: 200px;">
+                            </canvas>
+                            
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+    </div>
+    
+      <div class="row" ng-show="menuBranch==0||menuBranch==2">
+    
+    
+    
+        <div class="col-md-12 " style="margin-top: 3px;">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Storage Locations  Bengaluru</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                           <canvas class="chart chart-bar " chart-data="puneCounts" 
+                           chart-labels="puneLocations" chart-colors="colorsLocations" chart-dataset-override="datasetOverride3"
+                            style="display: block; width: 523px; height: 200px;">
+                            </canvas>
+                            
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+    </div>
+        <div class="row" ng-show="menuBranch==0||menuBranch==2">
+    
+    
+    
+        <div class="col-md-12 " style="margin-top: 3px;">
+              <div class="panel-body container-fluid">
+        <section>
+            <div class="card"  style="margin-left:12px">
+                <div class="box ">
+                    <section  class="">
+                        <div class="row lead">
+                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Storage Locations Bengaluru</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            
+                           <canvas class="chart chart-bar " chart-data="bengaluruCounts" 
+                           chart-labels="bengaluruLocations" chart-colors="colorsLocations" chart-dataset-override="datasetOverride3"
+                            style="display: block; width: 523px; height: 200px;">
+                            </canvas>
+                            
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </div> 
+    </div>
+    </div>
+      <div class="chat row mt-5"  style="padding-bottom: 114px">
+      <div  class="col-md-4 col-lg-4">
+     				 <div class="intro-y" style="padding-right: 19px;">
+                            <div class="box p-2">
+                                <div class=" chat__tabs nav nav-tabs justify-center " style="padding-left: 81px">
+                                     
+                                    <a href="#" class="flex-1 py-2 rounded-md text-center active">Asset Alert</a> 
+                                   
+                            </div>
+                        </div>
+                            
+                 </div>
+                        
+                        <div class="tab-content">
+                            
+                           <div class=" intro-y tab-pane active" role="tabpanel" style="padding-right: 19px">
+                           <div class="pr-1">
+                               <div class="box p-3  mt-3">
+                               <div class="relative text-gray-700 dark:text-gray-300">
+                                            <input type="date" class="form-control1 py-3 px-4 border-transparent bg-gray-200 pr-10 placeholder-theme-13" ng-model="selDate" ng-change="getNotificationByDate(selDate)">
+                                            
+                                        </div>
+                               </div>
+                               </div>
+                           </div>
+                           
+                           
+                            <div class="chat__chat-list overflow-y-auto scrollbar-hidden  pt-1 mt-3" style="padding-right: 19px">
+                                    <div class=" intro-y cursor-pointer box relative flex items-center p-3   " id="notify" ng-repeat="notification in vm.notifications|reverse">
+                                        
+                                        <div class="ml-2 overflow-hidden" ng-click="showNotification(notification)">
+                                            <div class="flex items-center">
+                                                <div style="font-weight: 600" class="chatstudent">   {{notification.notificationDatatime|date:'dd-MM-yyyy'}}</div> 
+                                                <div class="text-xs  ml-auto">{{notification.notificationDatatime|date:'h:mma'}}</div>
+                                            </div>
+                                            <div class=" truncate text-gray-600 mt-0.5">{{notification.messsge}}</div>
+                                        </div>
+                                    </div>
+                                 
+                                   
+                         </div>
+                        </div>
+      
+      </div>
+      
+      
+       <div  class="col-md-8 col-lg-8">
+       <div class=" intro-y chart__box box">
+                     <div class="h-full flex flex-col ">
+                         <div class="flex  flex-col sm:flex-row border-b border-gray-200  studentnotify">
+                                    <div class="flex items-center">
+                                        
+                                        <div class="ml-3 mr-auto">
+                                            <div class=" text-base" style="font-weight: 600"> Date: {{selNotificaion.notificationDatatime|date:'dd-MM-yyyy'}}</div>
+                                            
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                         
+                        
+                               <div class=" px-4 py-3 notifystud rounded-r-md rounded-t-md">
+                                            {{selNotificaion.messsge}}
+                                            
+                               </div>
+                         
+                         
+                     </div>
+       
+       
+       </div>
+      
+      </div>
+            </uib-tab>
+
+           
+
+                
+    </div>
+    
+    
+ 
+ 

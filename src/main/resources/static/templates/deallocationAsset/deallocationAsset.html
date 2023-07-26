@@ -1,0 +1,148 @@
+
+<div>
+	<uib-tabset active="activeJustified" justified="true"> <uib-tab
+		style="  font-size: 1.7rem;
+    font-weight: 700;   text-align: left;" heading="Deallocation Asset">
+        <!-- Upload Form Start  -->
+ 				<div class="material mt-5" ng-show="uploadTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Upload Assets Deallocation</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                        <label for="inputCity" class="col-form-label">Upload (.Xlsx)</label> 
+							                                              	 <input id="uploadAssets"  class="form-control"  type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+
+							                                              	 <span ng-show="uploadErr" style="color:red">  * file is mandatory</span>
+						                                             	<a href="assets/uploadExcel/AssetDeallocation.xlsx" type="button"class="btn btn-primary btn-rounded button-style waves-effect waves-light btn-sm"  id="tooltip-touch" title="Upload"  style="margin:10px; display: inline-block;">Download format</a>
+						                                             	
+						             
+                        </div>
+                    
+                       
+                        
+                          
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Upload" ng-click="vm.uploadSave()" ng-disabled="diabledSaveButton">Upload</button>
+                            <button type="submit" class="cancleBtn" title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Upload End   -->
+    	 <div class="row  mt-3">
+              
+                        
+                        <div class="col-md-4" ng-click="totalTag()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header"> Total No.of Deallocation </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.deallocationCounts.totalDeallocationCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="availableTags()">
+                            <div class="card mb-3 dash-card"  style="width: 266px">
+                                <div class="card-header">Total No asset deallocated</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end">{{vm.deallocationCounts.totalDeallocationAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="assingedTags()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total No. Of employee deallocated</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.deallocationCounts.totalDeallocationEmployeeCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                         
+                    </div>
+	<!-- Transfer Start  -->
+	<div class="material mt-5">
+		<legend class="dotted text-center"
+			style="color: #616060; font-size: 18px;">
+			<b>Deallocation Asset</b>
+		</legend>
+		<hr>
+
+		<form class="row g-3">
+
+
+			<div class="col-md-6">
+				<label for="assectcod" class="form-label">Employee Name<sup
+					style="color: red;">*</sup></label> <input type="text" ng-model="employee" ng-blur="check(employee)"
+					uib-typeahead="employee as employee.firstName+' '+employee.lastName for employee in vm.employees | filter:$viewValue | limitTo:20"
+					typeahead-no-results="codes" required
+					class="form-control typeahead-demo mandtry"
+					typeahead-on-select="vm.getAllocatedAsset(employee)" />
+					<span ng-show="invalidEmployee" style="color:red">Invalid Employee</span>
+					
+
+			</div>
+			<div class="col-md-6">
+			 <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Upload Assets" ng-click="vm.upload()">   <i class="bi bi-upload"></i></button>
+                        </div>
+             </div>
+			<div class="col-md-12" ng-if="vm.allocatedAssets.length!=0">
+ <div class="material-tbl mt-3">
+				<table id="datatable-buttons"
+					class="text-center table-striped align-middle justify-content-center ">
+					<thead>
+						<tr>
+							<th>Sr No</th>
+							<th>Asset Type</th>
+							<th>Make</th>
+							<th>Model</th>
+							<th>Serial No</th>
+							<th>Asset Id</th>
+							
+
+							<th>Action</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						
+						<tr
+							ng-repeat="allocatedAsst in vm.allocatedAssets">
+
+
+
+							<th>{{$index+1}}</th>
+							<td>{{allocatedAsst.asset.assetType}}</td>
+							<td>{{allocatedAsst.asset.make}}</td>
+							<td>{{allocatedAsst.asset.model}}</td>
+							<td>{{allocatedAsst.asset.serialNo}}</td>
+							<td>{{allocatedAsst.asset.assetId}}</td>
+							<td>    
+						 <i class="bi bi-trash"   title="Deallocate "  ng-click="vm.deallocate(allocatedAsst)" style="margin-right: 10px;"></i>
+							
+							
+							</td>
+							
+
+
+
+						</tr>
+
+					</tbody>
+				</table>
+
+</div>
+
+			</div>
+
+
+
+		</form>
+	</div>
+	<!-- Transfer End   --> </uib-tab> </uib-tabset>
+</div>

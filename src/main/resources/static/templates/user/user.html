@@ -1,0 +1,242 @@
+  <style>
+<!--
+
+-->
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="User">
+             <div class="row  mt-3">
+              
+                        
+                        <div class="col-md-4" ng-click="totalUser()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total User </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.userCounts.totalUserCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="activeUser()">
+                            <div class="card mb-3 dash-card"  style="width: 266px">
+                                <div class="card-header">Active  User</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end">{{vm.userCounts.activeUserCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4" ng-click="puneUser()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Pune User </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.userCounts.puneUserCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4" ng-click="bengaluruUser()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Bengaluru User </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.userCounts.bengaluruUserCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                     
+                      
+                    </div>
+          
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNew">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New User</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                       <div class="col-md-6">
+                            <label for="allocto" class="form-label"> Role<sup
+                                    style="color: red;">*</sup></label>
+                           <select class="form-control" ng-model="vm.userObj.role.roleId"
+									 ng-options="role.roleId as role.roleName for role in vm.roles"
+									required>
+									 <option value="" disabled selected>Select Role </option>
+							 </select>
+							 <span style="color:red" ng-show="roleErr">Role is Mandatory</span>
+                        </div>
+                        <div class="col-md-6" ng-show="vm.userObj.role.roleId==2">
+                            <label for="allocto" class="form-label"> Branch<sup
+                                    style="color: red;">*</sup></label>
+                           <select class="form-control" ng-model="vm.userObj.branch.branchId"
+									 ng-options="branch.branchId as branch.branchName for branch in vm.branches"
+									required>
+									 <option value="" disabled selected>Select Branch </option>
+							 </select>
+							 <span style="color:red" ng-show="branchErr">Branch is Mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">First Name<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="firstName" ng-model="vm.userObj.firstName" placeholder="First Name">
+                      	   <span style="color:red" ng-show="fnameErr">First Name is Mandatory</span>
+                      	
+                      
+                        </div>
+               
+                        
+                        
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" ng-model="vm.userObj.lastName" placeholder="Last Name">
+                        <span style="color:red" ng-show="lnameErr">Last Name is Mandatory</span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="invoiceNo" ng-model="vm.userObj.email" placeholder="Email">
+                         <span style="color:red" ng-show="emailErr">Email is Mandatory</span>
+                       
+                        </div>
+                        
+                        
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="userna1me" ng-model="vm.userObj.username" ng-change="checkUsername(vm.userObj.username)" placeholder="Username" >
+                        	 <span style="color:red" ng-show="usernameErr">UserName is Mandatory</span>
+                        	  <span style="color:red" ng-show="vm.userRes.code==200">UserName already exits</span>
+                        </div>
+                        
+                             <div class="col-md-6">
+                            <label for="assectcod"   class="form-label">Password <i   ng-show="! viewPasstab" class="bi bi-eye" ng-click="viewPass()"style="margin-right: 10px;"></i> <i  ng-show=" viewPasstab" class="bi bi-eye-slash" ng-click="viewPass()"style="margin-right: 10px;"></i> </label>
+                             <input type="text" ng-show="viewPasstab" class="form-control" id="passwword" ng-model="vm.userObj.password" placeholder="Password">
+                             <input type="password" ng-show="! viewPasstab" class="form-control" id="password" ng-model="vm.userObj.password" placeholder="Password">
+                       		<span style="color:red" ng-show="passwordErr">Password is Mandatory</span>
+                       		<span style="color:red" ng-show="passwordLengthErr">Password is must have 8 digit</span>
+                       		<span style="color:red" ng-show="passwordnumberErr">Password is must have at least 1 number</span>
+                       		<span style="color:red" ng-show="passwordcharErr">Password is must have at least 1 character</span>
+                        </div>
+                       
+                        
+                        
+                          
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Save" ng-click="vm.save(vm.userObj)" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn"  title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- List View Star -->
+                <div class="material mt-5">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-4">
+                            <form class="d-flex search">
+                                <input class="me-2" type="search" placeholder="Search"  ng-change="vm.loadAllUsers()"aria-label="Search" ng-model="vm.serachText" ng-change="searchByPagination(vm.serachText)">
+                            </form>
+                        </div>
+
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New user"style="margin-left: 128px;" ng-click="vm.addNew()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      
+                    </div>
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Branch</th>
+                                     <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>User Name</th>
+                                     <th>Role</th>
+                                      <th>Action</th>
+                                  
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <tr ng-show="vm.users.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="user in vm.users | reverse	| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                        
+                                
+                                    <th>{{$index+1}}</th>
+                                     <td><span ng-show="user.branch!=null||user.branch!='null'">{{user.branch.branchName}}</span>  <span ng-show="user.branch==null||user.branch=='null'">ALL</span></td>
+                                    <td>{{user.firstName}}</td>
+                                    <td>{{user.lastName}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>{{user.username}}</td>
+                                    <td>{{user.role.roleName}}</td>
+                                  <td>
+                                   <i class="bi bi-pencil-square" data-toggle="tooltip" data-placement="bottom"  title="Edit"  ng-click="vm.edit(user)"style="margin-right: 10px;"></i>
+                                  
+                                   <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  title="Delete"   ng-if="vm.user.role.roleId==1||vm.user.role.roleId==3" ng-click="vm.delet(user)" style="margin-right: 10px;"></i>
+                                   
+                               
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

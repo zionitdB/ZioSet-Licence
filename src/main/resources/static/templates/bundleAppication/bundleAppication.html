@@ -1,0 +1,171 @@
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style=" font-size: 1.7rem;
+    font-weight: 700;   text-align: left;"heading="Bundle Appication">
+            
+           
+			
+           	
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNew">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Bundle Appication</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                   
+                         <div class="col-md-6">
+                             <label for="inputState" class="col-form-label">Bundle Name</label> <i style="color:red">*</i>
+						                                                <input type="text" class="form-control" id="bundleName" ng-model="vm.bundle.bundleName"  placeholder="Enter Bundle Name">
+						                                           		<span ng-show="bundleNameErr" style="color:red">  * Bundle Name is mandatory</span>
+						                                           
+                        </div>
+                        <div class="col-md-6">
+                             <label for="inputState" class="col-form-label">Created Date </label> <i style="color:red">*</i>
+						                                                <input type="date" class="form-control" id="createdDate" ng-model="vm.bundle.createdDate" >
+						                                           		<span ng-show="createdDateErr" style="color:red">  * Created Date  is mandatory</span>
+						                                           
+                        </div>
+                         <div class="col-md-6">
+						    
+                        </div>
+                         <div class="col-md-6" style="margin-top: 33px;">
+                               <button type="submit" class="save" title="Add Row" ng-click="vm.addNew()">Add New</button>
+                               	<span ng-show="applicatioErr" style="color:red">  * At Least One Application is mandatory</span>
+                               
+                                                               
+                        </div>
+                         <div class="col-md-12">
+                           <div class="material-tbl mt-3">
+                         			<table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped">
+					                            <thead>
+					                                <tr>
+					                                     <th class="text-center">Sr No</th>
+					                                      <th class="text-center">Application Name</th>
+					                                              <th class="text-center">Version</th>
+					                                                <th class="text-center">Expiry Date</th>
+					                                          
+					                                           
+					                                           <th>Action</th> 
+					
+					                                </tr>
+					                            </thead>
+					                            <tbody>
+															<tr ng-repeat="application in vm.applications">
+												
+					                                           <td class="text-center">{{$index+1}}</td>
+					                                             <td class="text-center"><input type="text" class="form-control" id="application" ng-model="application.applicationName"  placeholder="Enter Application Name">
+					                                                                            	<span ng-show="application.nameErrr" style="color:red">  * Application Name is mandatory</span>
+					                                             
+					                                             
+					                                             </td>
+					                                            <td class="text-center"><input type="text" class="form-control" id="version" ng-model="application.version"  placeholder="Enter Version"></td>
+					                                           <td class="text-center"><input type="date" class="form-control" id="expiryDate" ng-model="application.exprityDate"  ></td>
+					                                             
+					                                                                          
+					                                            <td class="text-center">
+					                                               
+<!-- 					                                               <i class="bi bi-pencil-square"   data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(application)"></i>
+ -->					                                              <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  title="Delete" ng-click="vm.remove(application)"></i>
+					                                              
+					                                            
+					                                         </td>
+					                                           
+					                                        </tr>
+					                               
+					                            </tbody>
+					                        </table>
+					                         
+                         
+                         </div>
+                         
+                         </div>
+                           <div class="col-md-6">
+                           	<span ng-repeat="err in vm.applicationsNames" style="color:red">
+                           			{{err}}<br/>
+                           	</span>
+						    
+                        </div>
+                        
+                       
+                       
+                        
+                       
+                        
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" title="Save" ng-click="vm.save(vm.bundle)">Submit</button>
+                            <button type="submit" class="cancleBtn" title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- List View Star -->
+                <div class="material mt-5" >
+                    <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-1 text-center">
+							<button class="addNew" type="submit" data-toggle="tooltip"
+								data-placement="bottom" title="Upload Tag" ng-click="vm.reload()">
+								<i class="bi bi-arrow-repeat"></i>
+							</button>
+						</div>
+                        <div class="col-3">
+                            <form class="d-flex search">
+                                <input class="me-2" type="search" placeholder="Search" aria-label="Search"  ng-change="vm.loadDevice()"ng-model="vm.serachText">
+                            </form>
+                        </div>
+                          <div class="col-1 text-center">
+                          
+					              <input type="number" min="1" max="100" class="form-control" ng-model="vm.perPage" ng-change="vm.loadAssets()"   >
+                          </div>
+                         
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom"  title="Add New Device"style="margin-left: 128px;" ng-click="vm.add()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      
+                    </div>
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped"
+                            >
+                            <thead>
+                                <tr>
+                                     <th class="text-center">Sr No</th>
+                                      <th class="text-center">Bundle Name</th>
+                                    	<th class="text-center">Created Date</th>
+                                           
+                                           <th>Action</th> 
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-show="vm.devices.length <= 0"><td colspan="11" style="text-align:center;">Data Not Found!!
+										<tr dir-paginate="bundles in vm.bundles| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                           <td class="text-center">{{$index+1}}</td>
+                                             <td class="text-center">{{bundles.bundleName}}</td>
+                                            <td class="text-center">{{bundles.createdDate|date:'dd-MM-yyyy'}}</td>
+                                        
+                                                                 
+                                            <td class="text-center">
+                                               
+                                               <i class="bi bi-pencil-square"   data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(bundles)"></i>
+<!--                                               <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  title="Delete" ng-click="vm.delet(device)"></i>
+ -->                                              
+                                            
+                                         </td>
+                                           
+                                        </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

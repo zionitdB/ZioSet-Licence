@@ -1,0 +1,147 @@
+  <style>
+<!--
+
+-->
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Asset">
+            	
+           
+       
+			<!-- List View Star -->
+                <div class="material mt-5">
+                    <div class="container-fluid">
+                    <div class="row">
+                     
+                         
+                        <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.allAssets" report-fields="vm.labels" style="display:none" filename="'Assets'" ></button>
+						            
+                        
+                        
+                        </div>
+                     
+                      
+                    </div>
+                   
+                       
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                     <th>Serial No</th>
+                                    <th>HostName</th>
+                                    <th>Location Name</th>
+                                    <th>Asset Type</th>
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Purchase Order</th>
+                                    <th>Invoice Number</th>
+                                    <th>Invoice Date</th>
+                                    <th>Age of Assets</th>
+                                    <th>Employee Code</th>
+                                     <th>Employee NTID</th>
+                                    
+                                    <th>Employee Name</th>
+                                     <th>Department</th>
+                                      <th>Reporting Manager</th>
+                                    <th>Employee Type</th>
+                                    <th>Asset Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <tr ng-show="vm.allAssets.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="asset in vm.allAssets| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                        
+                                
+                                    <th>{{asset.srNo}}</th>
+                                    <td>{{asset.serialNo}}</td>
+                                    <td>{{asset.hostName}}</td>
+                                    <td>{{asset.locationName}}</td>
+                                    <td>{{asset.assetType}}</td>
+                                    <td>{{asset.make}}</td>
+                                    <td>{{asset.model}}</td>
+                                    <td>{{asset.purchaseOrder}}</td>
+                                    <td>{{asset.invoiceNo}}</td>
+                                    <td>{{asset.invoiceDate}}</td>
+                                     <td>{{asset.ageOfAsset}}</td>
+                                    <td>{{asset.empCode}}</td>
+                                     <td>{{asset.ntid}}</td>
+                                      <td>{{asset.employeeName}}</td>
+                                  <td>{{asset.departmentName}}</td> 
+                                   
+										
+                                         <td>{{asset.reportingManager}}</td>
+                                      <td>{{asset.employeeType}}</td>
+                                  <td>{{asset.assetStatus}}</td> 
+                                   
+                                   
+                                </tr>
+                               
+                            </tbody>
+                            
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

@@ -1,0 +1,164 @@
+  <style>
+<!--
+
+-->
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Active Licencce Stock Report ">
+  					 <div class="col-md-2">
+                            <label for="allocto" class="form-label"> Assets<sup
+                                    style="color: red;">*</sup></label>                            
+                                    
+                           <select class="form-control" ng-model="vm.licenceFilter.serialNo"
+									 ng-options="assets.serialNo as assets.serialNo+' '+assets.assetId+' '+assets.make+' '+assets.model  for assets in vm.assets" ng-change="vm.getDataAssetSerialNo(vm.licenceFilter.serialNo)"
+									required>
+									 <option value="" disabled selected>Select Assets </option>
+							 </select>
+                        </div>
+                         <div class="col-md-2">
+                            <label for="allocto" class="form-label"> Associate<sup
+                                    style="color: red;">*</sup></label>                            
+                                    
+                           <select class="form-control" ng-model="vm.licenceFilter.associateName"
+									 ng-options="associateName.associateName as associateName.associateName for associateName in vm.associates" ng-change="vm.getDataAssetSerialNoAndAssociate(vm.licenceFilter.serialNo,vm.licenceFilter.associateName)"
+									required>
+									 <option value="" disabled selected>Select Associate </option>
+							 </select>
+                        </div>
+                         <div class="col-md-2">
+                            <label for="allocto" class="form-label"> Product<sup
+                                    style="color: red;">*</sup></label>                            
+                                    
+                           <select class="form-control" ng-model="vm.licenceFilter.productName"
+									 ng-options="productName.productName as productName.productName for productName in vm.products" ng-change="vm.getDataAssetSerialNoAndAssociateAndProduct(vm.licenceFilter.serialNo,vm.licenceFilter.associateName,vm.licenceFilter.productName)"
+									required>
+									 <option value="" disabled selected>Select Product </option>
+							 </select>
+                        </div>
+                       
+  
+                     
+                    </form>
+                </div>
+			<!-- List View Star -->
+                <div class="material mt-5" >
+                    <div class="container-fluid">
+                    <div class="row">
+                      
+                           <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.transactions" report-fields="vm.labels" style="display:none" filename="'Active Licence Stock Report'" ></button>
+						            
+                        
+                        
+                        </div>
+                         
+                      
+                    </div>
+                      
+                       
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                             <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                   
+                                 
+                                  
+                                    <th>Associate</th>
+                                     <th>Product</th>
+                                    <th>Version</th>                                     
+                                    <th>Make</th>
+                                     <th>Model</th>
+                                      <th>Serial No</th>
+                                      <th>Asset Id</th>
+                                        <th>Computer Name</th>
+                                          <th>Install Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+							<tr ng-repeat="transaction in vm.transactions| filter:q ">
+							
+                                        
+                                
+                                    <th>{{$index+1}}</th>
+                                    <td>{{transaction.associate.associateName}}</td>
+                                    <td>{{transaction.product.productName}}</td>
+                                       <td>{{transaction.productVersion}}</td>
+                                    <td>{{transaction.asset.make}}</td>
+                                     <td>{{transaction.asset.model}}</td>
+                                     <td>{{transaction.asset.serialNo}}</td>
+                                      <td>{{transaction.asset.assetId}}</td>
+                                     
+                                      <td>{{transaction.computerName}}</td>
+                                     
+                                     <td>{{transaction.insDate}}</td>
+                                 
+										
+                                       
+                                   
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

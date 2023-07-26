@@ -1,0 +1,177 @@
+ <script src="js/table2excel.js"></script>
+ <script type="text/javascript" src="js/jquery.table2excel.js"></script>
+
+ 
+ <div class="material mt-5" >
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b> Allocation Report </b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                    
+                    
+                    <div class="col-md-6">
+						<label for="allocto" class="form-label"> Branch<sup
+							style="color: red;">*</sup></label> <select class="form-control"
+							ng-model="vm.report.branch.branchId"
+							ng-options="branch.branchId as branch.branchName for branch in vm.branches"
+							required>
+							<option value="" disabled selected>Select Branch</option>
+						</select> <span style="color: red" ng-show="branchErr">Branch is
+							Mandatory</span>
+					</div>
+                    
+                         <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Report Type<sup
+                                    style="color: red;">*</sup></label>
+                            <select id="alloMaterial"  class="form-control"  ng-model="vm.report.reportType" ng-change="vm.callData(vm.report)">
+                               <option value="" disabled selected>Select Report Type</option>
+                                <option value="Asset">Asset</option>
+                                <option value="Employee">Employee</option>
+                             
+                            </select>
+                             <span style="color:red" ng-show="reportTypeErr">Report Type is Mandatory</span>
+                        </div>
+                    
+                          <div class="col-md-6" ng-if="vm.report.reportType=='Employee'">
+                            <label for="assectcod" class="form-label">Employee <sup style="color: red;">*</sup></label>
+                            
+                            
+                            <input  type="text" ng-model="vm.report.spec" uib-typeahead="employee as employee.firstName+' '+employee.lastName for employee in vm.employees | filter:$viewValue | limitTo:20" typeahead-no-results="codes" required 
+																		class="form-control typeahead-demo mandtry"   typeahead-on-select="vm.checkEmployee(supplier)" />
+							                                           
+						                                             
+                       	<span style="color:red" ng-show="empErr">Employee  is Mandatory</span>
+                       	
+                       
+                        </div>
+                           <!-- <div class="col-md-6" ng-if="vm.report.reportType=='Asset'">
+                            <label for="assectcod" class="form-label">Asset <sup style="color: red;">*</sup></label>
+                            
+                            
+                            <input  type="text" ng-model="vm.report.spec"  uib-typeahead="asset as asset.make+'  '+asset.assetId for asset in vm.assets | filter:$viewValue | limitTo:20" typeahead-no-results="codes" required
+																		class="form-control typeahead-demo mandtry"   typeahead-on-select="vm.checkAsset(vm.report.asset)" />
+							                                           
+						                                             
+                       	<span style="color:red" ng-show="assetErr">Asset  is Mandatory</span>
+                       	
+                       
+                        </div>
+                        
+                           -->
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.generateReport(vm.report)" title="Generate Report">Generate Report</button>
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.reports" report-fields="vm.labels" style="display:none" filename="'Allocation Report'" ></button>
+						            
+                        
+						
+                        </div>
+                    </form>
+                </div>
+  <div class="material" id="table2excel">
+   <!--      <div class="row d-flex justify-content-between">
+            <div class="col-4">
+                <img src="images/allstateHR1.png" alt="" srcset="">
+            </div>
+            <div class="col-4 text-center align-self-center">
+            <legend><b> Status Wise Recipt </b></legend>
+            </div>
+            <div class="col-4 text-end">
+                <address>
+                    allstate@gmail.com <br>
+                    All State Private Limited,<br>
+                    Hinjavdi Phase III, Pune. <br>
+                    Pune-411 002
+                </address>
+            </div>
+        </div> -->
+      <hr>
+        <div class="material-tbl mt-3">
+            <table class="text-center justify-content-center table-striped" style="width: 1149px;"  id="zzr2">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Asset Type</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Serial No</th>
+                        <th>Asset Id</th>
+                        <th>PO No</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Date</th>
+                        <th>Age</th>
+                        <th>Employee Name </th>
+                        <th>Employee No</th>
+                         <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Allocate Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-show="vm.reports.length <= 0"><td colspan="16" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+                
+                    <tr ng-repeat="report in vm.reports">
+                        <th>{{$index+1}}</th>
+                        <td>{{report.asset.assetType}}</td>
+                         <td>{{report.asset.make}}</td>
+                            <td>{{report.asset.model}}</td>
+                          <td>{{report.asset.serialNo}}</td>
+                            <td>{{report.asset.assetId}}</td>
+                              <td>{{report.asset.purchaseOrderNo}}</td>
+                                <td>{{report.asset.invoiceNo}}</td>
+                         <td>{{report.asset.invoiceDate }}</td>
+                          <td>{{report.asset.age}}</td>
+                           <td>{{report.employee.firstName}} {{report.employee.lastName}}</td>
+                         <td>{{report.employee.employeeNo }}</td>
+                          <td>{{report.employee.email}}</td>
+                          <td>{{report.employee.mobileNo}}</td>
+                            <td>{{report.mapDateStr}}</td>
+                              
+                       
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+		<script>
+function exportFile(){
+  var wb = XLSX.utils.table_to_book(document.getElementById('zzr2'));
+  XLSX.writeFile(wb, 'Tracation-ZZR2-report.xlsx');
+  return false;
+}
+</script>
+	<script>
+	$('#export_to_excel').click(function() {
+
+		//$("#export_to_excel").hide();
+		//$("#btn_sms").hide();
+		//$("#btn_desc").hide();
+		$("#zzr2").table2excel({
+			exclude : ".action",
+			name : "All Enterprises",
+			filename : "Tracation-ZZR2-report",
+			fileext : ".xls",
+			exclude_img : true,
+			exclude_links : true,
+			exclude_inputs : true,
+		});
+
+	});
+</script>
+<script type="text/javascript">
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script>
+	
