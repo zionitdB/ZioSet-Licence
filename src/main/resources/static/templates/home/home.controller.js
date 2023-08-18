@@ -12,232 +12,259 @@
 			ApiEndpoint, loginFactory, genericFactory, $interval, $location,
 			$http,$rootScope) {
 		var dailyTransactionUrl = ApiEndpoint.url + "dailyTransaction";
-		var assetLifeUrl = ApiEndpoint.url + "assetLife";
-		var assetUrl = ApiEndpoint.url + "asset";
-		var assetRegistationUrl = ApiEndpoint.url + "assetRegistation";
-		var notificationUrl = ApiEndpoint.url + "notification";
-		var dashboardUrl = ApiEndpoint.url + "dasshboard";
-		var notificationUrl = ApiEndpoint.url + "notification";
-		var commonUrl = ApiEndpoint.url + "common";
+		var dashboardUrl = ApiEndpoint.url + "dashboard";
+		var licenceUrl = ApiEndpoint.url + "licence";
+
 		var userDetail = localStorageService.get(ApiEndpoint.userKey);
 
 		$scope.totalAsset = 0;
 		var vm = angular.extend(this, {
 			user : userDetail,
-			branches:[]
-
+			branches:[],
+			bundleWiseSAASPieName:[],
+			bundleWiseSAASPieCount:[],
+			totalBundleSaas:0,
+			bundleWiseInstallPieName:[],
+			bundleWiseIntsallPieCount:[],
+			totalBundleIntsall:0,
+			
+			
+			cateWiseInstallPieName:[],
+			cateWiseIntsallPieCount:[],
+			totalcateIntsall:0,
+			
+			cateWiseSAASPieName:[],
+			cateWiseSAASPieCount:[],
+			totalcateSaas:0,
 		});
 		
 			(function activate() {
 				$scope.selTab="home"
 				$rootScope.branchId=0
-			$scope.day = moment();
-			loadBranches()
-			/*loadRegisterAssetCount()
-			loadUnRegisterAssetCount()
-			loadAllocatedAssetCount()
-			loadUnAllocatedAssetCount()
-			getAllUnSeenNotifications();*/
-			loadBangaloreCount();
-			loadPuneCount()
-			loadAssetCategoryWiseCount()
-		loadAssetTypesPune()
-		loadAssetTypesBengauru()
-			//loadAssetTypesDatePune()
-			//loadDataForGraph()
-			loadAllAssetStatusForPune();
-			loadAllAssetStatussForBangaluru();
-			getAllAssetStatusDataForPune();
-			loadAllAssetStatusDataForBangaluru()
-			loadEOFCount()
-			loadEOFCountCompleted()
-			loadEmployeeCount()
-			loadAssetInOfficeCount()
-			loadNotifications()
-			getDataForAIOPune();
-			getDataForAIOBengaluru()
-				getDataAssetByStoreLocaton()
-			vm.dashBoradbranchId=0
+				loadDashboardCount();
+				loadAllAssetStatus();
+				loadAllAssetTypes();
+				loadBundleWiseInstallLicence();
+				loadCategoryWiseInstallLicence();
+				loadBundleWiseSAASLicence();
+				loadCategoryWiseSAASLicence();
+				
+				loadBundleWiseComparison();
+				loadCategoryWiseComparison();
+				
+				loadLicencePercentage();
+
+				loadBundlePieChartSAASData();
+				loadBundlePieChartInstallData();
+				
+				loadCategoryPieChartSaaSData();
+				loadCategoryPieChartInstallData()
+				saaslicencesByAssociate();
+				installlicencesByAssociate()
+				loadWorkerActivePercrntage()
+				loadDatabaseDetials();
 		})();
-			
-			$scope.goToAssetDashboard=function (){
+
+	
+	
+
+			$scope.goToOverview=function (){
 				$location.path('main/home');
 				//$scope.selTab="home"
 			}
-			$scope.goToLicenceDashboard=function (){
-				$location.path('main/licenceDashboard');
+			$scope.goToSAAS=function (){
+				$location.path('main/saasLicenceDashboard');
 				//$scope.selTab="licence"
 			}
-			function loadBranches() {
-				vm.branches=[]
+			$scope.goToInstalled=function (){
+				$location.path('main/installLicenceDashboard');
+				//$scope.selTab="home"
+			}
+			$scope.goToSystem=function (){
+				$location.path('main/systemDashboard');
+				//$scope.selTab="licence"
+			}
+			
+			$scope.allAsset=function(){
+				$location.path('main/asset');
+			}
+			$scope.gotoEmployee=function(){
+				$location.path('main/employee');
+			}
+			
+			$scope.assingedAsset=function(){
+				$location.path('main/assetEmployeeMapped');
+			}
+			
+			$scope.assingedAsset=function(){
+				$location.path('main/assetEmployeeMapped');
+			}
+			
+			
+			$scope.installLicence=function(){
+				$location.path('main/InstallLicence');
+			}
+			
+			$scope.saasLicence=function(){
+				$location.path('main/licence');
+			}
+			
+			$scope.assingedLicence=function(){
+				$location.path('main/licenceAllocation');
+			}
+			
+			$scope.customerSuppliedSoftware=function(){
+				$location.path('main/customerSuppliedSoftware');
+			}
+			
+			$scope.saasLiceneExpiry=function(){
+				$location.path('main/saasLiceneExpiry');
+			}
+			
+			$scope.eodInstall=function(){
+				$location.path('main/installedLiceneExpiry');
+			}
+			
+			$scope.renewLicence=function(){
+				$location.path('main/renewalLicence');
+			}
+			
+			$scope.todayFetchCount=function(){
+				$location.path('main/todayFetchInstallLicence');
+			}
+			
+			
+			function loadDashboardCount() {
 				var msg = ""
-				var url = commonUrl + "/getAllBranches";
-				console.log("url: " + url)
-				genericFactory.getAll(msg, url).then(function(response) {
-					vm.bras = response.data;
-					console.log("vm.brans : " + JSON.stringify(vm.bras))
-					var branch={}
-					branch.branchId=0
-					branch.branchName="All"
-						vm.branches.push(branch);
-						angular.forEach(vm.bras, function (item) {
-							vm.branches.push(item);
-			            });
+				var url = dashboardUrl + "/getOverviewDashboardCount";
+				genericFactory.getAll(msg, url).then(
+						function(response) {
+							vm.overviewDashBoardCount = response.data;
+
+							
+
+						});
+			}
+			function loadDatabaseDetials() {
+				var msg = ""
+				var url = dashboardUrl + "/getDataBaseDetial";
+				genericFactory.getAll(msg, url).then(
+						function(response) {
+							vm.databaseDetials = response.data;
+
+							
+
+						});
+			}
+			function loadWorkerActivePercrntage(){
+				var msg=""
+					var url = dashboardUrl + "/getWorkerPercentage";
+					genericFactory.getAll(msg, url).then(function(response) {
+						vm.workerActivePercentage= response.data;
 						
-					console.log("branches : " + JSON.stringify(vm.branches))
+						$scope.activeCount=vm.workerActivePercentage.activeCount
+						$scope.inActiveCount=vm.workerActivePercentage.totalCount-vm.workerActivePercentage.activeCount
+						$scope.activePer=((vm.workerActivePercentage.activeCount/vm.workerActivePercentage.totalCount)*100).toFixed(2);
+						$scope.inactivePer=100-$scope.activePer;
+						$scope.fetchDate=vm.workerActivePercentage.date;
+						console.log("workerActivePercentage: " + JSON.stringify(vm.workerActivePercentage))
+						console.log("activePer: " +$scope.activePer)
+						console.log("inactivePer: " +$scope.inactivePer)
+						document.getElementById("activeWorkerPro").setAttribute("style","width: "+$scope.activePer+"%");
+						document.getElementById("inactiveWorkerPro").setAttribute("style","width: "+$scope.inactivePer+"%");
 
-				});
-			}
-			$scope.changeBranch=function(branchId){
-				console.log("vm.brans : " + JSON.stringify(vm.bras))
-				$rootScope.branchId=branchId
-			}
-		
-		//************************************************ Over view tabs***************************************//
-			function loadBangaloreCount() {
-				var msg = ""
-				var url = dashboardUrl + "/getBangaloreCount";
-				genericFactory.getAll(msg, url).then(
-						function(response) {
-							vm.bangaloreCount = response.data;
-							console.log("bangaloreCount: "
-									+ JSON.stringify(vm.bangaloreCount))
+						
 
-						});
+					});
 			}
-			function loadPuneCount() {
-				var msg = ""
-				var url = dashboardUrl + "/getPuneCount";
+			function saaslicencesByAssociate(){
+				var msg=""
+				var url = licenceUrl + "/getlicencesCountsByAssociate";
 				genericFactory.getAll(msg, url).then(function(response) {
-					vm.puneCount = response.data;
-					console.log("Pune: " + JSON.stringify(vm.puneCount))
+					vm.saaslicencesAssociateGraph= response.data;
+					
+					
+					
 
 				});
+				var msg=""
+					var url = dashboardUrl + "/getPublisherWiseSAASLicenceList";
+					genericFactory.getAll(msg, url).then(function(response) {
+						vm.saaslicencesAssociateList= response.data;
+						
+						console.log("saaslicencesAssociateList: " + JSON.stringify(vm.installlicencesAssociateGraph))
+
+						
+
+					});
 			}
-			
-			
-			function loadEOFCount() {
-				var msg = ""
-				var url = assetLifeUrl + "/getEOLCount";
+			function installlicencesByAssociate(){
+				var msg=""
+				var url = dashboardUrl + "/getInstalllicencesByPubslisherForGraph";
 				genericFactory.getAll(msg, url).then(function(response) {
-					$scope.eolCount = response.data;
+					vm.installlicencesAssociateGraph= response.data;
+					
+					//console.log("installlicencesAssociateGraph: " + JSON.stringify(vm.installlicencesAssociateGraph))
 
-					console.log("eolCount : " + JSON.stringify($scope.eolCount))
+					
 
 				});
+				var msg=""
+					var url = dashboardUrl + "/getPublisherWiseInstallLicenceList";
+					genericFactory.getAll(msg, url).then(function(response) {
+						vm.installlicencesAssociateList= response.data;
+						
+						//console.log("installlicencesAssociateList: " + JSON.stringify(vm.installlicencesAssociateList))
 
+						
+
+					});
 			}
-			function loadEOFCountCompleted() {
+			function loadBundlePieChartSAASData() {
 				var msg = ""
-				var url = assetLifeUrl + "/getEOLCount2";
+				var url = dashboardUrl + "/getBundleWiseSAASLicence";
 				genericFactory.getAll(msg, url).then(function(response) {
-					$scope.eolCount2 = response.data;
+					vm.bundlepieSaasChart= response.data;
 
-					console.log("eolCount : " + JSON.stringify($scope.eolCount2))
 
 				});
 
 			}
-			
-			function loadAssetInOfficeCount() {
+			function loadBundlePieChartInstallData() {
 				var msg = ""
-				var url = dailyTransactionUrl + "/getAssetInOfficeCount";
-				genericFactory.getAll(msg, url).then(
-						function(response) {
-							vm.assetInOfficce = response.data;
-
-							console.log("assetInOfficce: "
-									+ JSON.stringify(vm.assetInOfficce))
-
-						});
-			}
-			function loadEmployeeCount() {
-				var msg = ""
-				var url = dashboardUrl + "/getEmployeeCount";
+				var url = dashboardUrl + "/getBundleWiseInstallLicence";
 				genericFactory.getAll(msg, url).then(function(response) {
-					vm.empCount = response.data;
+					vm.bundlepieInstalChart= response.data;
 
-					console.log("empCount: " + JSON.stringify(vm.empCount))
+					//console.log("bundlepieChart: " + JSON.stringify(vm.bundlepieChart))
 
 				});
+
 			}
 			
 			
-			$scope.allPuneAsset = function() {
-				$location.path('main/AllAsset/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
-			$scope.allBengaluruAsset = function() {
-				$location.path('main/AllAsset/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
+			function loadCategoryPieChartSaaSData() {
+				var msg = ""
+				var url = dashboardUrl + "/getCategoryWiseSAASLicence";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.categorySaaspieChart = response.data;
 
-			$scope.UnRegisterAssetPuneAsset = function() {
-				$location.path('main/UnRegisterAsset/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
-			$scope.UnRegisterAssetBengaluruAsset = function() {
-				$location.path('main/UnRegisterAsset/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
+					//console.log("categorypieChart: " + JSON.stringify(vm.categorySaaspieChart))
 
-			$scope.eolPune = function() {
-				$location.path('main/endOfLifeReport/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
+				});
 
-			$scope.eolBengaluru = function() {
-				$location.path('main/endOfLifeReport/' + 2);
-				// $location.path("main/AllAsset/:1")
 			}
+			function loadCategoryPieChartInstallData() {
+				var msg = ""
+				var url = dashboardUrl + "/getCategoryWiseInstallLicence";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.categoryInstallpieChart = response.data;
 
-			$scope.assetInOfficePune = function() {
-				$location.path('main/assetInOfficeReport/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
+					//console.log("categoryInstallpieChart: " + JSON.stringify(vm.categoryInstallpieChart))
 
-			$scope.assetInOfficeBengaluru = function() {
-				$location.path('main/assetInOfficeReport/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
+				});
 
-			$scope.eolPuneCompleted = function() {
-				$location.path('main/eol/' + 1);
-				// $location.path("main/AllAsset/:1")
 			}
-
-			$scope.eolBengaluruCompleted = function() {
-				$location.path('main/eol/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
-
-			$scope.allocatedPuneAsset = function() {
-				$location.path('main/allocatedAsset/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
-			$scope.allocatedBengaluruAsset = function() {
-				$location.path('main/allocatedAsset/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
-
-			$scope.unAllocatedPuneAsset = function() {
-				$location.path('main/unAllocatedAsset/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
-			$scope.unAllocatedBengaluruAsset = function() {
-				$location.path('main/unAllocatedAsset/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
-
-			$scope.employeesPune = function() {
-				$location.path('main/employeeBranchWise/' + 1);
-				// $location.path("main/AllAsset/:1")
-			}
-			$scope.employeesBengaluru = function() {
-				$location.path('main/employeeBranchWise/' + 2);
-				// $location.path("main/AllAsset/:1")
-			}
-
 			
 			
 			
@@ -245,265 +272,211 @@
 			
 			
 			
+			function loadLicencePercentage() {
+				var msg = ""
+				var url = dashboardUrl + "/getLicencePercentage";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.licencePercentage = response.data;
+					$scope.licenceins="50%";
+					$scope.saasLicencePer=((vm.licencePercentage.saasPercentage/vm.licencePercentage.totalCount)*100).toFixed(2);
+					$scope.installLicencePer=((vm.licencePercentage.instalPercentage/vm.licencePercentage.totalCount)*100).toFixed(2);
+
+					document.getElementById("saasPercentagePro").setAttribute("style","width: "+$scope.saasLicencePer+"%");
+					document.getElementById("installPercentagePro").setAttribute("style","width: "+$scope.installLicencePer+"%");
+
+					console.log("licencePercentage: " + JSON.stringify(vm.licencePercentage))
+
+				});
+
+			}
+			
+			
+			
+			function loadBundleWiseComparison() {
+				var msg = ""
+				var url = dashboardUrl + "/getBundleWiseComparision";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.bundleWiseComparisons = response.data;
+					$scope.labelsBundle = vm.bundleWiseComparisons.names
+					  $scope.seriesBundle  = ['Installed', 'SAAS'];
+					  $scope.dataBundle  = [
+						  vm.bundleWiseComparisons.installed,
+						  vm.bundleWiseComparisons.saas
+					  ];
+					//console.log("bundleWiseComparisons: " + JSON.stringify(vm.bundleWiseComparisons))
+
+				});
+
+			}
+			
+			
+			
+			function loadCategoryWiseComparison() {
+				var msg = ""
+				var url = dashboardUrl + "/getCategoryWiseComparision";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.categoryWiseComparisons = response.data;
+					$scope.labelsCategory = vm.categoryWiseComparisons.names
+					  $scope.seriesCategory  = ['Installed', 'SAAS'];
+					  $scope.dataCategory  = [
+						  vm.categoryWiseComparisons.installed,
+						  vm.categoryWiseComparisons.saas
+					  ];
+					//console.log("categoryWiseComparisons: " + JSON.stringify(vm.categoryWiseComparisons))
+
+				});
+
+			}
+			
+			function loadBundleWiseInstallLicence() {
+				var msg = ""
+				var url = dashboardUrl + "/getBundleWiseInstallLicenceList";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.bundleWiseInstallLicences = response.data;
+					
+					angular.forEach(vm.bundleWiseInstallLicences, function (item) {
+						if(item.count!=0){
+							vm.totalBundleIntsall+=item.count;
+						}
+
+		            });
+					angular.forEach(vm.bundleWiseInstallLicences, function (item) {
+						if(item.count!=0){
+							var percentage=((item.count/vm.totalBundleIntsall)*100).toFixed(2);
+							vm.bundleWiseIntsallPieCount.push(percentage)
+							vm.bundleWiseInstallPieName.push(item.name)
+
+						}
+
+		            });
+					
+					
+					//console.log("bundleWiseInstallLicences: " + JSON.stringify(vm.bundleWiseInstallLicences))
+
+				});
+
+			}
+			function loadCategoryWiseInstallLicence() {
+				var msg = ""
+				var url = dashboardUrl + "/getCategoryWiseInstallLicenceList";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.categoryWiseInstallLicences = response.data;
+					/*cateWiseInstallPieName:[],
+					cateWiseIntsallPieCount:[],
+					totalcateIntsall:0,*/
+					//console.log("categoryWiseInstallLicences: " + JSON.stringify(vm.categoryWiseInstallLicences))
+					angular.forEach(vm.categoryWiseInstallLicences, function (item) {
+						if(item.count!=0){
+							vm.totalcateIntsall+=item.count;
+						}
+
+		            });
+					
+					angular.forEach(vm.categoryWiseInstallLicences, function (item) {
+						if(item.count!=0){
+							var percentage=((item.count/vm.totalcateIntsall)*100).toFixed(2);
+							vm.cateWiseIntsallPieCount.push(percentage)
+							vm.cateWiseInstallPieName.push(item.name)
+
+						}
+
+		            });
+
+				});
+
+			}
+			
+			function loadBundleWiseSAASLicence() {
+				var msg = ""
+				var url = dashboardUrl + "/getBundleWiseSAASLicenceList";
+				genericFactory.getAll(msg, url).then(function(response) {
+					var bundleWiseSAASLicence=[];
+					vm.bundleWiseSAASLicences = response.data;
+					angular.forEach(vm.bundleWiseSAASLicences, function (item) {
+						if(item.count!=0){
+							vm.totalBundleSaas+=item.count;
+						}
+
+		            });
+					
+					angular.forEach(vm.bundleWiseSAASLicences, function (item) {
+						if(item.count!=0){
+							var percentage=((item.count/vm.totalBundleSaas)*100).toFixed(2);
+							vm.bundleWiseSAASPieCount.push(percentage)
+							vm.bundleWiseSAASPieName.push(item.name)
+
+						}
+
+		            });
+
+
+				});
+
+			}
+			function loadCategoryWiseSAASLicence() {
+				var msg = ""
+				var url = dashboardUrl + "/getCategoryWiseSAASLicenceList";
+				genericFactory.getAll(msg, url).then(function(response) {
+					vm.categoryWiseSAASLicences = response.data;
+
+					/*cateWiseSAASPieName:[],
+					cateWiseSAASPieCount:[],
+					totalcateSaas:0,*/
+					//console.log("categoryWiseSAASLicences: " + JSON.stringify(vm.categoryWiseSAASLicences))
+					angular.forEach(vm.categoryWiseSAASLicences, function (item) {
+						if(item.count!=0){
+							vm.totalcateSaas+=item.count;
+						}
+
+		            });
+					
+					angular.forEach(vm.categoryWiseSAASLicences, function (item) {
+						if(item.count!=0){
+							var percentage=((item.count/vm.totalcateSaas)*100).toFixed(2);
+							vm.cateWiseSAASPieCount.push(percentage)
+							vm.cateWiseSAASPieName.push(item.name)
+
+						}
+
+		            });
+				});
+
+			}
 			
 			//************************************* PAI CHART  START *******************************//	
 			$scope.colorsPie = [ '#90EE90', '#FF6600', '#8080FF' ];
 
-			function loadAllAssetStatusForPune() {
+			function loadAllAssetStatus() {
 				var msg = ""
-				var url = dashboardUrl + "/getAllAssetStatusForPune";
+				var url = dashboardUrl + "/getStatusWiseAsset";
 				genericFactory.getAll(msg, url).then(function(response) {
-					$scope.labelsPune = response.data;
+					vm.statusWiseAsset = response.data;
 
-					console.log("AssetTypes: " + JSON.stringify($scope.labelsPune))
+					//console.log("statusWiseAsset: " + JSON.stringify(vm.statusWiseAsset))
 
 				});
 
 			}
-			
-			function getAllAssetStatusDataForPune() {
+			function loadAllAssetTypes() {
 				var msg = ""
-				var url = dashboardUrl + "/getAllAssetStatusDataForPune";
+				var url = dashboardUrl + "/getTypeWiseAsset";
 				genericFactory.getAll(msg, url).then(function(response) {
-					$scope.datasPune = response.data;
+					vm.typesWiseAsset = response.data;
 
-					console.log("data: " + JSON.stringify($scope.datasPune))
-
-				});
-
-			}
-			
-			//PieDataSetOverride is used to draw lines to display the labels
-
-			// $scope.PieDataSetOverride = [{ yAxisID: 'y-axis-1' }]; //y-axis-1 is the ID defined in scales under options.
-			$scope.optionsPie = {
-				legend : {
-					display : true
-				},
-				responsive : true, // set to false to remove responsiveness. Default responsive value is true.
-			/*scales: {
-			    yAxes: [
-			      {
-			          id: 'y-axis-1',
-			          type: 'linear',
-			          display: true,
-			          position: 'left'
-			      }]
-			} */
-			}
-			
-			function loadAllAssetStatussForBangaluru() {
-				var msg = ""
-				var url = dashboardUrl + "/getAllAssetStatusForBangaluru";
-				genericFactory.getAll(msg, url).then(function(response) {
-					$scope.labelsBengaluru= response.data;
-
-					console.log("labels1: " + JSON.stringify($scope.labelsBengaluru))
+					//console.log("typesWiseAsset: " + JSON.stringify(vm.typesWiseAsset))
 
 				});
 
 			}
-			function loadAllAssetStatusDataForBangaluru() {
-				var msg = ""
-				var url = dashboardUrl + "/getAllAssetStatusDataForBangaluru";
-				genericFactory.getAll(msg, url).then(function(response) {
-					$scope.datasBengaluru = response.data;
-
-					console.log("data1: " + JSON.stringify($scope.labelsBengaluru))
-
-				});
-
-			}
-			//************************************* PAI CHART  END *******************************//		
-			
-			//************************************* Asset Status BY type ******************//
-			function loadAssetCategoryWiseCount() {
-				var msg = ""
-				var url = dashboardUrl + "/getAssetCategoryWiseCount";
-				genericFactory.getAll(msg, url).then(
-						function(response) {
-							vm.assetCategoryWiseCounts = response.data;
-							console.log("AssetCategoryWiseCount: "
-									+ JSON.stringify(vm.assetCategoryWiseCounts))
-
-						});
-			}
-			
-			
-			//************************************* Asset In Officce Graph ******************//
 			
 			
 			
 
-			function getDataForAIOPune() {
-				var msg = ""
-				var url = dailyTransactionUrl + "/getlast7DysTranacstionCountForBranch?branchId="+1;
-				console.log("url : " + url)
-				genericFactory.getAll(msg, url).then(
-						function(response) {
-							vm.dataAIOPunes = response.data;
-							console.log("dataAIOPunes: "
-									+ JSON.stringify(vm.dataAIOPunes))
-									 
-									$scope.labelsAIOPune =vm.dataAIOPunes.dates
-									$scope.dataAIOPune =vm.dataAIOPunes.datas
-						});
-			}
-			function getDataForAIOBengaluru() {
-				var msg = ""
-				var url = dailyTransactionUrl + "/getlast7DysTranacstionCountForBranch?branchId="+2;
-				console.log("url : " + url)
-				genericFactory.getAll(msg, url).then(
-						function(response) {
-							vm.dataAIOBengaluru = response.data;
-							console.log("dataAIOBengaluru: "
-									+ JSON.stringify(vm.dataAIOBengaluru))
-									 
-									$scope.labelsAIOBengaluru =vm.dataAIOBengaluru.dates
-									$scope.dataAIOBengaluru =vm.dataAIOBengaluru.datas
-						});
-			}
-			
-
-			/*$scope.labelsAIOPune = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-					'Friday', 'Saturday', 'Sunday' ];
-			$scope.dataAIOPune = [ 
-					[ 28, 48, 40, 19, 86, 27, 90 ] ];*/
-
-			/*$scope.datasetOverride2 = [ {
-				label : "Bar chart",
-				borderWidth : 1,
-				type : 'bar'
-			}, {
-				label : "Line chart",
-				borderWidth : 3,
-				hoverBackgroundColor : "rgba(255,99,112,0.4)",
-				hoverBorderColor : "rgba(25,112,132,1)",
-				type : 'line'
-			} ];
-
-			$scope.SelectedEvent = null;
-			var isFirstTime = true;
-
-			$scope.events = [];
-			$scope.eventSources = [ $scope.events ];
-
-			//Load events from server
-			$http.get('/home/getevents', {
-				cache : true,
-				params : {}
-			}).then(function(data) {
-				$scope.events.slice(0, $scope.events.length);
-				angular.forEach(data.data, function(value) {
-					$scope.events.push({
-						title : value.Title,
-						description : value.Description,
-						start : new Date(parseInt(value.StartAt.substr(6))),
-						end : new Date(parseInt(value.EndAt.substr(6))),
-						allDay : value.IsFullDay
-					});
-				});
-			});
-
-			//configure calendar
-			$scope.uiConfig = {
-				calendar : {
-					height : 450,
-					editable : true,
-					displayEventTime : false,
-					header : {
-						left : 'month basicWeek basicDay agendaWeek agendaDay',
-						center : 'title',
-						right : 'today prev,next'
-					},
-					eventClick : function(event) {
-						$scope.SelectedEvent = event;
-					},
-					eventAfterAllRender : function() {
-						if ($scope.events.length > 0 && isFirstTime) {
-							//Focus first event
-							uiCalendarConfig.calendars.myCalendar.fullCalendar(
-									'gotoDate', $scope.events[0].start);
-						}
-					}
-				}
-			};*/
 
 		//*******************************************************************8
 			
 			
 			
-			function loadAssetTypesPune(){
-				var msg = ""
-					var url = assetUrl + "/loadAssetTypesDateByBranch?branchId="+1;
-					genericFactory.getAll(msg, url).then(
-							function(response) {
-								$scope.assetTypesDataPune=response.data.data;
-								$scope.assetTypeslabelsPune=response.data.types;
-
-							});
-			}
-			function loadAssetTypesBengauru(){
-				var msg = ""
-					var url = assetUrl + "/loadAssetTypesDateByBranch?branchId="+2;
-					genericFactory.getAll(msg, url).then(
-							function(response) {
-								vm.assetTypesBengauru = response.data;
-								$scope.assetTypesDataBengaluru=response.data.data;
-								$scope.assetTypeslabelsBengaluru=response.data.types;
-								console.log("assetTypesBengauru: "
-										+ JSON.stringify(vm.assetTypesBengauru))
-
-							});
-			}
-			$scope.colorsLocations = [ '#3226ae', '#3226aeb0', '#3226aeb10','#3226ae2e', '#ff1e72' ];
-			function getDataAssetByStoreLocaton(){
-				var msg = ""
-					var url = assetUrl + "/loadAssetByStoreLocation";
-					genericFactory.getAll(msg, url).then(
-							function(response) {
-								vm.assetStoreLocationwise = response.data;
-							/*	$scope.assetTypesDataBengaluru=response.data.data;
-								$scope.assetTypeslabelsBengaluru=response.data.types;
-							*/	console.log("assetStoreLocationwise: "
-										+ JSON.stringify(vm.assetStoreLocationwise))
-										$scope.puneLocations=vm.assetStoreLocationwise.puneData.types;
-										$scope.puneCounts=vm.assetStoreLocationwise.puneData.data;
-										$scope.bengaluruLocations=vm.assetStoreLocationwise.bengaluruDate.types;
-										$scope.bengaluruCounts=vm.assetStoreLocationwise.bengaluruDate.data;
-										console.log("$scope.puneLocations: "+ JSON.stringify($scope.puneLocations))
-											console.log("$scope.puneCounts: "+ JSON.stringify($scope.puneCounts))
-												console.log("$scope.bengaluruLocations: "+ JSON.stringify($scope.bengaluruLocations))
-													console.log("$scope.bengaluruCounts: "+ JSON.stringify($scope.bengaluruCounts))
-
-							});
-			}
-			
-		
-			
-
-		$scope.colors3 = [ '#45b7cd', '#ff6384', '#ff8e72','#45b7cd', '#ff1e72' ];
-
-		$scope.labels3 = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-				'Friday', 'Saturday', 'Sunday' ];
-		$scope.data3 = [ [ 65, 59, 80, 81,256, 55, 40 ]];
-
-		$scope.datasetOverride3 = [ {
-			label : "Bar chart",
-			borderWidth : 1,
-			type : 'bar'
-		}, {
-			label : "Line chart",
-			borderWidth : 3,
-			hoverBackgroundColor : "rgba(255,99,132,0.4)",
-			hoverBorderColor : "rgba(255,99,132,1)",
-			type : 'line'
-		} ];
-
-		//***********************************************//
-
-
-		
 
 		
 		
@@ -517,82 +490,6 @@
 		
 
 	
-
-		//****************************** NOTIFICATION **********************//
-		function loadNotifications() {
-
-			var msg = ""
-			var url = notificationUrl + "/getNotificationLast10";
-			genericFactory.getAll(msg, url).then(
-					function(response) {
-						vm.notifications = response.data;
-						console.log("notification: "
-								+ JSON.stringify(vm.notifications))
-
-					});
-		}
-		function loadNotificationsBySearch() {
-
-			var msg = ""
-			var url = notificationUrl
-					+ "/getNotificationListBySearch?serachText="
-					+ vm.serachText;
-			genericFactory.getAll(msg, url).then(
-					function(response) {
-						vm.notifications = response.data;
-						console.log("notification: "
-								+ JSON.stringify(vm.notifications))
-
-					});
-		}
-		function read(notification) {
-			notification.view_bit = 1
-			var msg = "Notification updated"
-			var url = notificationUrl + "/updateNotification";
-			genericFactory.add(msg, url, notification).then(function(response) {
-				loadNotificationCount();
-				loadNotifications()
-
-			});
-		}
-
-		$scope.showNotification = function(notification) {
-			$scope.selNotificaion = notification
-		}
-		$scope.getNotificationByDate = function(selDate) {
-			var obj = {}
-			obj.date = selDate
-			var msg = ""
-			var url = notificationUrl + "/getNotificationListByDate";
-			genericFactory.add(msg, url, obj).then(
-					function(response) {
-						vm.notifications = response.data;
-
-						console.log("notificationBYDate: "
-								+ JSON.stringify(vm.notifications))
-
-					});
-		}
-		$scope.viewNotification = function(notification) {
-			notification.view_bit = 1
-			var msg = "Notification updated"
-			var url = notificationUrl + "/updateNotification";
-			genericFactory.add(msg, url, notification).then(function(response) {
-				getAllUnSeenNotifications();
-				loadNotifications()
-
-			});
-		}
-		function loadNotificationCount() {
-			var msg = ""
-			var url = notificationUrl + "/getNotificationCount";
-			genericFactory.getAll(msg, url).then(
-					function(response) {
-						$rootScope.notificationCount = response.data;
-						console.log("notification Count: "
-								+ JSON.stringify($rootScope.notificationCount))
-
-					});
-		}
+		
 	}
 })();

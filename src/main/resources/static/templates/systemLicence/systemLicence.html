@@ -1,0 +1,472 @@
+  <style>
+
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Licence Master">
+            	 <div class="row  mt-3">
+              
+                        
+                        <div class="col-md-4" ng-repeat="licaenceCount in vm.licaenceCounts">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">{{licaenceCount.licenceType}}  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{licaenceCount.count}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                         
+                         <div class="col-md-2">
+                            <label for="allocto" class="form-label"> Associate<sup
+                                    style="color: red;">*</sup></label>                            
+                                    
+                           <select class="form-control" ng-model="vm.licenceFilter.associateid"
+									 ng-options="associate.id as associate.associateName for associate in vm.associates" ng-change="vm.getDataByTypeAndAssociate(vm.licenceFilter.type,vm.licenceFilter.associateName)"
+									required>
+									 <option value="" disabled selected>Select Associate </option>
+							 </select>
+                        </div>
+                         <div class="col-md-2">
+                            <label for="allocto" class="form-label"> Product<sup
+                                    style="color: red;">*</sup></label>                            
+                                    
+                           <select class="form-control" ng-model="vm.licenceFilter.productid"
+									 ng-options="product.id as product.productName for product in vm.products" ng-change="vm.getDataByTypeAndAssociateAndProductName(vm.licenceFilter.type,vm.licenceFilter.associateName,vm.licenceFilter.productName)"
+									required>
+									 <option value="" disabled selected>Select Product </option>
+							 </select>
+                        </div>
+                        
+                       
+                    </div>
+          
+             <!-- Upload Form Start  -->
+ 				<div class="material mt-5" ng-show="uploadTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Upload Licence</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                        <label for="inputCity" class="col-form-label">Upload (.Xlsx)</label> 
+							                                              	 <input id="uploadAssets"  class="form-control"  type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+
+							                                              	 <span ng-show="uploadErr" style="color:red">  * file is mandatory</span>
+						                                             	<a href="assets/uploadExcel/LicenceMaster.xlsx" type="button"class="btn btn-primary btn-rounded button-style waves-effect waves-light btn-sm"  id="tooltip-touch" title="Upload"  style="margin:10px; display: inline-block;">Download format</a>
+						                                             	
+						             
+                        </div>
+                    
+                       
+                        
+                          
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Upload" ng-click="vm.uploadSave()" ng-disabled="diabledSaveButton">Upload</button>
+                            <button type="submit" class="cancleBtn" title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Upload End   -->
+			 <!-- Add New Form Start  -->
+			 	<div class="material mt-5" ng-show="addNewType">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Type</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                 
+                      
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Type </label>
+                            <input type="text" class="form-control" id="productName" ng-model="vm.type.typeName" placeholder="Enter Product Name">
+                         <span style="color:red" ng-show="typeNameErr">Type is Mandatory</span>
+                        </div> 
+                        
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.saveType(vm.type)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+ 				<div class="material mt-5" ng-show="addNewProduct">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Product</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                 
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Product Id</label>
+                            <input type="text" class="form-control" id="productId" ng-model="vm.product.productId" placeholder="Enter Product Id">
+                          <span style="color:red" ng-show="productIdErr">Product Id is Mandatory</span>
+                        </div> 
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" ng-model="vm.product.productName" placeholder="Enter Product Name">
+                         <span style="color:red" ng-show="productNameErr">Product Name is Mandatory</span>
+                        </div> 
+                        
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.saveProduct(vm.product)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNewAssociate">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Associate</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                 
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Associate Id</label>
+                            <input type="text" class="form-control" id="associateId" ng-model="vm.associate.associateId" placeholder="Enter Associate Id">
+                          <span style="color:red" ng-show="associateIdErr">Associate Id is Mandatory</span>
+                        </div> 
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Associate Name</label>
+                            <input type="text" class="form-control" id="associateName" ng-model="vm.associate.associateName" placeholder="Enter Associate Name">
+                         <span style="color:red" ng-show="associateNameErr">Associate Name is Mandatory</span>
+                        </div> 
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Associate Contact</label>
+                            <input type="text" class="form-control" id="associateContact" ng-model="vm.associate.associateContact" placeholder="Enter Associate Contact">
+                        </div> 
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Associate Mail</label>
+                            <input type="text" class="form-control" id="associateMail" ng-model="vm.associate.associateMail" placeholder="Enter Associate Mail">
+                        </div> 
+                        
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.saveAssociate(vm.associate)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNew">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Licence</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="allocto" class="form-label"> Branch<sup
+                                    style="color: red;">*</sup></label>
+                           <select class="form-control" ng-model="vm.licence.branch.branchId"
+									 ng-options="branch.branchId as branch.branchName for branch in vm.branches"
+									required>
+									 <option value="" disabled selected>Select Branch </option>
+							 </select>
+							 <span style="color:red" ng-show="branchErr">Branch is Mandatory</span>
+                        </div>
+                      <!--   <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Licence Type<sup
+                                    style="color: red;">*</sup></label><button type="submit" class="save" ng-click="vm.addType()" title="Add New Type" ng-disabled="diabledSaveButton"><i class="bi bi-plus"></i></button>
+                                    
+                            <select id="selAssetType" class="form-control" ng-model="vm.licence.licenceType">
+                               <option value="" disabled selected>Select Licence Type</option>
+                                <option value="OS">OS</option>
+                                <option value="Antivirus">Laptop</option>
+                                  <option value="Office">MacBook</option>
+                                 
+                             
+                             
+                            </select>
+                             <span style="color:red" ng-show="licenceTypeErr">Licence Type is Mandatory</span>
+                        </div> -->
+                        <div class="col-md-6">
+                            <label for="allocto" class="form-label"> Licence Type<sup
+                                    style="color: red;">*</sup></label><button type="submit" class="save" ng-click="vm.addType()" title="Add New Type" ng-disabled="diabledSaveButton"><i class="bi bi-plus"></i></button>
+                                    
+                           <select class="form-control" ng-model="vm.licence.licenceType"
+									 ng-options="type.typeName as type.typeName for type in vm.types"
+									required>
+									 <option value="" disabled selected>Select Type </option>
+							 </select>
+                             <span style="color:red" ng-show="licenceTypeErr">Licence Type is Mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="allocto" class="form-label"> Associate<sup
+                                    style="color: red;">*</sup></label>                            <button type="submit" class="save" ng-click="vm.addAssociate()" title="Add New Associate" ng-disabled="diabledSaveButton"><i class="bi bi-plus"></i></button>
+                                    
+                           <select class="form-control" ng-model="vm.licence.associate.id"
+									 ng-options="associate.id as associate.associateName for associate in vm.associates"
+									required>
+									 <option value="" disabled selected>Select Associate </option>
+							 </select>
+							 <span style="color:red" ng-show="associateErr">Associate is Mandatory</span>
+                        </div>
+                        
+                        
+                          <div class="col-md-6">
+                            <label for="allocto" class="form-label"> Product<sup
+                                    style="color: red;">*</sup></label><button type="submit" class="save" ng-click="vm.addProduct()" title="Add New Product" ng-disabled="diabledSaveButton"><i class="bi bi-plus"></i></button>
+                           <select class="form-control" ng-model="vm.licence.product.id"
+									 ng-options="product.id as product.productName for product in vm.products"
+									required>
+									 <option value="" disabled selected>Select  Product </option>
+							 </select>
+							 <span style="color:red" ng-show="productErr"> Product is Mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Project Name</label>
+                            <input type="text" class="form-control" id="projectName" ng-model="vm.licence.projectName" placeholder="Enter Project Name">
+                                                  <span style="color:red" ng-show="projectNameErr">Project Name  is Mandatory</span>
+                      
+                      
+                        </div>
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Licence Version</label>
+                            <input type="text" class="form-control" id="licenceVersion" ng-model="vm.licence.licenceVersion" placeholder="Enter Licence Version">
+                          <span style="color:red" ng-show="licenceVersionErr">Licence Version  is Mandatory</span>
+                        </div> 
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Licence Key</label>
+                            <input type="text" class="form-control" id="licenceKey" ng-model="vm.licence.licenceKey" placeholder="Enter Licence Key">
+                         <span style="color:red" ng-show="licenceKeyErr">Licence Key  is Mandatory</span>
+                        </div> 
+                        
+                        
+                        
+                        
+                          <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Licence Period</label>
+                            <input type="text" class="form-control" id="licencePeriod" ng-model="vm.licence.licencePeriod" placeholder="Enter licencePeriod">
+                                                  <span style="color:red" ng-show="licencePeriodErr">Period  is Mandatory</span>
+                      
+                      
+                        </div>
+                           <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Licence Period Unit<sup
+                                    style="color: red;">*</sup></label>
+                            <select id="selAssetType" class="form-control" ng-model="vm.licence.licencePeriodUnit">
+                               <option value="" disabled selected>Select Licence Period Unit</option>
+                                <option value="Year">Year</option>
+                                <option value="Month">Month</option>
+                                  <option value="Day">Day</option>
+                                  
+                             
+                             
+                            </select>
+                             <span style="color:red" ng-show="licencePeriodUnitErr">Licence Type is Mandatory</span>
+                        </div>
+ 
+                        
+                        
+                    
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Cost</label>
+                            <input type="text" class="form-control" id="cost" ng-model="vm.licence.cost" placeholder="Enter Cost">
+                            <span style="color:red" ng-show="costErr">Status is Mandatory</span>
+                       
+                       
+                       
+                        </div>
+                        
+                      <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Status<sup
+                                    style="color: red;">*</sup></label>
+                            <select id="alloMaterial" class="form-control"  ng-model="vm.licence.licenceStatus">
+                               <option value="" disabled selected>Select Status</option>
+                                <option value="In-Stock">In-Stock</option>
+<!--                                 <option value="Assigned">Assigned</option>
+ -->                             
+                            </select>
+                            <span style="color:red" ng-show="statusErr">Status is Mandatory</span>
+                        </div>
+                        
+                        
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Purchase Date</label>
+                            <input type="date" class="form-control" id="purchaseDate" ng-model="vm.licence.purchaseDate" >
+                                                   <span style="color:red" ng-show="purchaseDateErr">Status is Mandatory</span>
+                       
+                        </div>
+                       <!--   <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Installation Date</label>
+                            <input type="date" class="form-control" id="installlationDate" ng-model="vm.licence.installlationDate" >
+                        </div>
+                        
+                      
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Expiry Date</label>
+                            <input type="date" class="form-control" id="licenceExpiryDate" ng-model="vm.licence.licenceExpiryDate" >
+                        </div>
+                        
+                         -->
+                       
+                        
+                        
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.save(vm.licence)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			
+			<!-- List View Star -->
+                <div class="material mt-5">
+                    <div class="container-fluid">
+                    <div class="row">
+                   
+                        <div class="col-3">
+                            <form class="d-flex search">
+                                <input class="me-2" type="search" placeholder="Search" aria-label="Search" ng-change="vm.loadLicence()" ng-model="vm.serachText" ng-change="searchByPagination(vm.serachText)">
+<!--                                 <button class="searchBtn" type="submit"  ng-click="vm.loadAssets()">Search</button>
+ -->                            </form>
+                        </div>
+                          <div class="col-1 text-center">
+                          
+					              <input type="number" min="1"  class="form-control" ng-model="vm.perPage" ng-change="vm.loadAssets()"   >
+                          </div>
+                          <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Upload Assets" ng-click="vm.upload()">   <i class="bi bi-upload"></i></button>
+                        </div>
+                        <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.allAssets" report-fields="vm.labels" style="display:none" filename="'Assets'" ></button>
+						            
+                        
+                        
+                        </div>
+                     
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New Asset" ng-click="vm.addNew()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      
+                    </div>
+                     
+                       
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                   
+                                 
+                                     <th>Branch</th>
+                                       <th>Type</th>
+                                    
+                                    <th>Associate</th>
+                                     <th>Product</th>
+                                    <th>Version</th>
+                                    <th>System Name</th>
+                                    <th>Serial No</th>
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Installation Date</th>
+                                    
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <tr ng-show="vm.licences .length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="licence in vm.licences | filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                        
+                                
+                                    <th>{{(vm.perPage*(vm.pageno-1))+($index+1)}}</th>
+                                    <td>{{licence.branch.branchName}}</td>
+                                     <td>{{licence.licenceType}}</td>
+                                      <td>{{licence.associate.associateId}} {{licence.associate.associateName}}</td>
+                                      <td>{{licence.product.productId}} {{licence.product.productName}}</td>
+                                   
+                                    <td>{{licence.productVersion}}</td>
+                                    <td>{{licence.computerName}}</td>
+                                    <td>{{licence.asset.serialNo}}</td>
+                                    <td>{{licence.asset.make}}</td>
+                                    <td>{{licence.asset.model}}</td>
+                                      <td>{{licence.licenceExpiryDate|date:'dd-MM-yyyy'}}</td>
+                                   
+                                       
+                                    <td>
+                                       <i class="bi bi-pencil-square"  data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(licence)"style="margin-right: 10px;"></i>
+                                       <i class="bi bi-trash"  data-toggle="tooltip" data-placement="bottom"  title="Delete"   ng-if="asset.availableStatus==1 && (vm.user.role.roleId==1||vm.user.role.roleId==3)" ng-click="vm.delet(asset)" style="margin-right: 10px;"></i>
+                                       
+                                   	
+                                   
+                                   
+                                    </td>
+                                </tr>
+                               
+                            </tbody>
+                            
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

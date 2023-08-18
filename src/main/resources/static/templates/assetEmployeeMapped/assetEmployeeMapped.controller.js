@@ -187,7 +187,7 @@ $scope.newExcel= function(){
 		
 			function loadEmployees(){
 				var msg=""
-					 var url =employeeUrl+"/getAllEmployees2";
+					 var url =employeeUrl+"/getAllEmployees";
 					genericFactory.getAll(msg,url).then(function(response) {
 					vm.employees = response.data;
 					console.log("employees: "+JSON.stringify(vm.employees))

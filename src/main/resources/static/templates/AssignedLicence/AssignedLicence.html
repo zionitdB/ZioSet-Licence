@@ -108,11 +108,11 @@
                             </thead>
                             <tbody>
                              <tr ng-show="vm.allLicences.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
-							<tr dir-paginate="licence in vm.allLicences| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							<tr ng-repeat="licence in vm.allLicences">
 							
                                         
                                 
-                                    <th>{{(vm.perPage*(vm.pageno-1))+($index+1)}}</th>
+                                    <th>{{$index+1}}</th>
                                     <td>{{licence.branch.branchName}}</td>
                                      <td>{{licence.licenceType}}</td>
                                       <td>{{licence.associate.associateId}} {{licence.associate.associateName}}</td>
@@ -131,8 +131,8 @@
                                
                             </tbody>
                         </table>
-                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
-
+<!--                   <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+ -->
                     </div>
                 </div>
 		<!-- List View Star -->

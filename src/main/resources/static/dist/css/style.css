@@ -1,4 +1,145 @@
 
+.login-page-new__main-form-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 46px;
+    color: #292d34;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-page-new__main-form-row input {
+  background: transparent;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    width: 100%;
+    border: 1px solid #d6d9de;
+    box-sizing: border-box;
+    border-radius: 9px;
+    padding: 0 20px 0 36px;
+    height: 40px;
+    outline: none;
+        -webkit-text-fill-color: rgba(34,34,34,.6);
+
+  
+}
+
+.login-page-new__main-form-row  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.login-page-new__main-form-row-icon {
+    position: absolute;
+    left: 10px;
+    top: 29px;
+    width: 20px;
+    height: 20px;
+    fill: #b9bec7;
+}
+
+.login-page-new__main-form {
+    width: 480px;
+    padding: 30px 60px;
+    position: relative;
+}
+
+.login-page-new__main-form-row {
+    
+    position: relative;
+    margin-bottom: 26px;
+}
+
+.login-page-new__main-form-row-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 11px;
+    display: block;
+    color: #292d34;
+    padding: 0 0 8px 2px;
+    margin-bottom: auto;
+}
+
+.login-page-new__main-form-button {
+   
+    height: 50px;
+   
+    background-color: #7b68ee;
+    
+    border: 0;
+    border-radius: 9px;
+    width: 100%;
+    margin-bottom: 22px;
+    box-shadow: 0 10px 25px #7b68ee80;
+}
+
+.login-page-new__main-form-button-text {
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    color: #fff;
+}
+
+.login-page-new__main-form-sso {
+    /* transition: color .2s cubic-bezier(.785,.135,.15,.86) 0s; */
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    color: #7b68ee;
+    text-align: center;
+}
+
+.login-page-new__main-form-sso a {
+    border-bottom: 1px dashed transparent;
+}
+
+.login-page-new__main-froget {
+    width: 480px;
+    background: #fff;
+    box-shadow: 0 24px 64px #26214a1a;
+    border-radius: 12px;
+    padding: 30px 60px;
+    position: relative;
+}
+
+
+.login-page-new__top-right-button {
+    display: flex;
+    align-items: center;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+   color: #fff !important;
+    letter-spacing: .4px;
+    padding: 0 20px;
+    height: 40px;
+   background-color: #7b68ee;
+    border-radius: 9px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px #7b68ee80;
+}
+
+.login-page-new__main-top-divider {
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.cards_text-axiforma_with-diamonds .section-v2__header:after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 5px;
+    border-radius: 7px;
+    position: static;
+    margin-top: 30px;
+    background: linear-gradient(90deg,#9f8fff 100%,#7b68ee 0);
+}
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;

@@ -12,5 +12,11 @@ public interface AssetCustomeRepo {
 	int getAssetsCount();
 
 	int getAssetCountAndSearch(String searchText);
+	
+	List<Asset> getAssignedAssetsByLimit(int page_no, int item_per_page);
+	List<Asset> getAssinedAssetsByLimitAndSearch(String searchText, int pageNo, int perPage);
+	int getAssingedAssetsCount();
+	int getAssingedAssetCountAndSearch(String searchText);
+
 
 }

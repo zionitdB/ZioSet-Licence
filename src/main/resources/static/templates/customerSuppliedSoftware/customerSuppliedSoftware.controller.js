@@ -145,6 +145,7 @@
 			
 			
 			console.log("url :: "+url)
+			console.log("urlCount :: "+urlCount)
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.suppliedSoftwares = response.data;
 				
@@ -154,7 +155,7 @@
 			
 			genericFactory.getAll(msg,urlCount).then(function(response) {
 				vm.total_count= response.data;
-				console.log("assetCount: "+JSON.stringify(vm.assetCount))
+				console.log("total_count: "+JSON.stringify(vm.total_count))
 								
 			});
 		}

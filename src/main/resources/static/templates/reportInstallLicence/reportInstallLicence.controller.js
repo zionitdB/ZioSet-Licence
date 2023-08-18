@@ -121,64 +121,24 @@
 		}
 		
 		function getData(report){
-			if(report==undefined||report.reportBy==undefined||report.reportBy==""){
-				$scope.reportByErr=true;
+			if(report.detectedDate==""||report.detectedDate==undefined){
+				$scope.dateErr=true;
 				return;
 			}else{
-				$scope.reportByErr=false;
+				$scope.dateErr=false;
 			}
-			if(vm.report.reportBy=="Publisher"){
-				if(report.publisher==""||report.publisher==undefined){
-					$scope.publisherErr=true;
-					return;
-				}else{
-					$scope.publisherErr=false;
-				}
-				var url =softwareUrl+"/getInstallApplicationByPublisher?publisher="+report.publisher;
-				var msg=""
-				genericFactory.getAll(msg,url).then(function(response) {
-					vm.transactions= response.data;
-					console.log("transactions: "+JSON.stringify(vm.transactions))
-					
-									
-				});
-			}
-			if(vm.report.reportBy=="Detection Date"){
-				if(report.detectedDate==""||report.detectedDate==undefined){
-					$scope.dateErr=true;
-					return;
-				}else{
-					$scope.dateErr=false;
-				}
+			
+			
+			var url =softwareUrl+"/getInstallLiceneceByDate";
+			var msg=""
+				var obj={}
+			obj.date=report.detectedDate;
+			genericFactory.add(msg,url,obj).then(function(response) {
+				vm.reports= response.data;
+				console.log("reports: "+JSON.stringify(vm.reports[0]))
 				
-				
-				var url =softwareUrl+"/getInstallApplicationByApplicationName";
-				var msg=""
-					var obj={}
-				obj.iDate=report.detectedDate;
-				genericFactory.add(msg,url,obj).then(function(response) {
-					vm.transactions= response.data;
-					console.log("transactions: "+JSON.stringify(vm.transactions))
-					
-									
-				});
-			}
-			if(vm.report.reportBy=="Licencce Name"){
-				if(report.licenceName==""||report.licenceName==undefined){
-					$scope.licenceNameErr=true;
-					return;
-				}else{
-					$scope.licenceNameErr=false;
-				}
-				var url =softwareUrl+"/getInstallApplicationByApplicationName?applicationName"+report.licenceName;
-				var msg=""
-				genericFactory.getAll(msg,url).then(function(response) {
-					vm.reports= response.data;
-					console.log("reports: "+JSON.stringify(vm.reports))
-					
-									
-				});
-			}
+								
+			})
 
 			
 			
@@ -188,7 +148,7 @@
 		}
 		
 		$scope.file="Customer"
-			vm.labels={'srNo':'Sr No','associate.associateName':'Associate Name','product.productName': 'Product  Name','productVersion': 'Version','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','asset.assetId':'Asset Id','insDate':'Install Date'}
+			vm.labels={'srNo':'Sr No','publisher':'Associate Name','applicationName': 'Product  Name','version': 'Version','edition': 'Edition','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','computeName':'Computer Name','insDate':'Install Date'}
 		
 		
 		

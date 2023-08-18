@@ -54,11 +54,11 @@
             <uib-tab style="    text-align: left;font-size: 1.7rem;
     font-weight: 700;"heading="Install licenece Report ">
            
-     <!--      <div class="material mt-5" >
+         <div class="material mt-5" >
                     
             
                     <form class="row g-3">
-                     <div class="col-md-6">
+                 <!--     <div class="col-md-6">
                             <label for="alloMaterial" class="form-label">Report By<sup
                                     style="color: red;">*</sup></label>
                             <select id="alloMaterial"  class="form-control"  ng-model="vm.report.reportBy" ng-change="vm.callData(vm.report)">
@@ -69,9 +69,9 @@
                              
                             </select>
                              <span style="color:red" ng-show="reportByErr">Report By is Mandatory</span>
-                        </div>
+                        </div> -->
                      
-                        <div class="col-md-6" ng-show="vm.report.reportBy=='Detection Date'">
+                        <div class="col-md-6" >
                       <label for="name13">Date: </label> <input  type="date" ng-model="vm.report.detectedDate" name="code" 
 																		class="form-control typeahead-demo mandtry"   />
 							
@@ -109,28 +109,9 @@
                            
                         </div>
                     </form>
-                </div> -->
+                </div> 
             
-                         <div class="col-md-2">
-                            <label for="allocto" class="form-label"> Associate<sup
-                                    style="color: red;">*</sup></label>                            
-                                    
-                           <select class="form-control" ng-model="vm.licenceFilter.associateName"
-									 ng-options="associate.associateName as associate.associateName for associate in vm.associateNames" ng-change="vm.getDataByAssociate(vm.licenceFilter.associateName)"
-									required>
-									 <option value="" disabled selected>Select Associate </option>
-							 </select>
-                        </div>
-                         <div class="col-md-2">
-                            <label for="allocto" class="form-label"> Product<sup
-                                    style="color: red;">*</sup></label>                            
-                                    
-                           <select class="form-control" ng-model="vm.licenceFilter.productName"
-									 ng-options="product.productName as product.productName for product in vm.productNames" ng-change="vm.getDataAssociateAndProductName(vm.licenceFilter.associateName,vm.licenceFilter.productName)"
-									required>
-									 <option value="" disabled selected>Select Product </option>
-							 </select>
-                        </div>
+                      
                         
 			<!-- List View Star -->
                 <div class="material mt-5" >
@@ -163,10 +144,11 @@
                                    
                                     <th>Product</th>
                                        <th>Version</th>
+                                        <th>Edition</th>
                                     <th>Make</th>
                                     <th>Model</th>
                                     <th>Serial NO</th>
-                                    <th>Asset Id</th>
+                                  
                                      <th>Computer Name</th>
                                      <th>Install Date</th>
                                    
@@ -178,15 +160,16 @@
 							
                                         
                                 
-                                    <th>{{$index+1}}</th>
-                                    <td>{{report.associate.associateName}}</td>
-                                    <td>{{report.product.productName}}</td>
-                                     <td>{{report.productVersion}}</td>
-                                    <td>{{report.asse.maket}}</td>
+                                    <th>{{$index+1}} </th>
+                                    <td>{{report.publisher}}</td>
+                                    <td>{{report.applicationName}}</td>
+                                     <td>{{report.version}}</td>
+                                      <td>{{report.edition}}</td>
+                                    <td>{{report.asset.make}}</td>
                                     <td>{{report.asset.model}}</td>
                                      <td>{{report.asset.serialNo}}</td>
-                                      <td>{{report.asset.assetId}}</td>
-                                         <td>{{report.computerName}}</td>
+                                   
+                                         <td>{{report.computeName}}</td>
                                       <td>{{report.insDate}}</td>
                                     
                                        

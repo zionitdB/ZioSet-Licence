@@ -105,6 +105,25 @@ public class Asset {
 	@Transient
 	private String detectedDate;
 	@Transient
+	private String allocatedToNo;
+	@Transient
+	private String allocatedToName;
+	
+	@Transient
+	private String workerStatus;
+	
+	@Transient
+	private String workerStatusDate;
+	
+	public String getWorkerStatus() {
+		return workerStatus;
+	}
+
+	public void setWorkerStatus(String workerStatus) {
+		this.workerStatus = workerStatus;
+	}
+
+	@Transient
 	private String detectedTime;
 	
 	public String getDetectedDate() {
@@ -237,6 +256,8 @@ public class Asset {
 	@Transient
 	private int currentAge;
 	
+	@Transient
+	private Employee employee;
 	
 	public int getAvailableStatus() {
 		return availableStatus;
@@ -402,6 +423,38 @@ public class Asset {
 
 	public void setTagAlllocationStatus(int tagAlllocationStatus) {
 		this.tagAlllocationStatus = tagAlllocationStatus;
+	}
+
+	public String getAllocatedToNo() {
+		return allocatedToNo;
+	}
+
+	public void setAllocatedToNo(String allocatedToNo) {
+		this.allocatedToNo = allocatedToNo;
+	}
+
+	public String getAllocatedToName() {
+		return allocatedToName;
+	}
+
+	public void setAllocatedToName(String allocatedToName) {
+		this.allocatedToName = allocatedToName;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public String getWorkerStatusDate() {
+		return workerStatusDate;
+	}
+
+	public void setWorkerStatusDate(String workerStatusDate) {
+		this.workerStatusDate = workerStatusDate;
 	}
 	
 	

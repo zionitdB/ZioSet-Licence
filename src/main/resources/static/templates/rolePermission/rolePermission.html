@@ -1,0 +1,218 @@
+ 
+<div>
+	<uib-tabset active="activeJustified" justified="true"> <uib-tab
+		style="  font-size: 1.7rem;
+    font-weight: 700;   text-align: left;" heading="RolePermission">
+      <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addPermissionTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Permission</b>
+                    </legend>
+                    
+                    <form class="row g-3">
+                       
+                        <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Category<sup
+                                    style="color: red;">*</sup></label>
+                            <select id="selAssetType" class="form-control" ng-model="vm.permissionObj.category">
+                               <option value="" disabled selected>Select Category</option>
+                                <option value="Master">Master</option>
+                                <option value="Transaction">Transaction</option>
+                                  <option value="Report">Report</option>
+                                  <option value="Dashboard">Dashboard</option>
+                                   <option value="Router">Router</option>
+                                   
+                             
+                            </select>
+                             <span style="color:red" ng-show="catErr">Category is Mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Permissions Name<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="serialNo" ng-model="vm.permissionObj.permissionsName"  ng-change="checkPermissionName(vm.permissionObj.permissionsName)"placeholder="Enter Permission Name">
+                      	   <span style="color:red" ng-show="perNameErr">Permissions Name is Mandatory</span>
+                      	<span ng-show="vm.serialRes.code==500" style="color:red" >Permissions Name is already Exit</span>
+                      
+                        </div>
+                    
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.savePermission(vm.permissionObj)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+    <div class="material mt-5" ng-show="addRoleTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Role</b>
+                    </legend>
+                    
+                    <form class="row g-3">
+                       
+                       
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Role Name<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="serialNo" ng-model="vm.roleObj.roleName"  ng-change="checkRoleName(vm.roleObj.roleName)"placeholder="Enter Role Name">
+                      	   <span style="color:red" ng-show="roleErr">Role Name is Mandatory</span>
+                      	<span ng-show="vm.serialRole.code==500" style="color:red" >Role Name is already Exit</span>
+                      
+                        </div>
+                    
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.saveRole(vm.roleObj)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+	<div class="material mt-5">
+		
+		
+
+		<form class="row g-3">
+
+
+			
+			
+			<div class="col-md-12" >
+ 		<div class="material-tbl mt-3">
+ 		 <div class="container-fluid">
+                    <div class="row">
+                  
+                       
+                        
+                        
+                        
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New Role" ng-click="vm.addRole()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New Permission" ng-click="vm.addPermission()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                    </div>
+                     
+                       
+                </div>
+				<table id="datatable-buttons"
+					class="text-center table-striped align-middle justify-content-center ">
+					<thead>
+						 <tr>
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600">Serial No. </th>
+		                   
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600">Role</th>
+		                  
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600" colspan="{{vm.permissionCount}}">Permission </th>
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600">Action </th>
+		                </tr>
+					</thead>
+					<tbody>
+						
+						    <tr ng-repeat="roleObj in vm.rolePermissions">
+			                    <td class="text-center">{{$index+1}}</td>
+			                  
+			                    <td class="tabel-center">{{roleObj.role.roleName}}</td>
+			                   
+			                  
+			                    <td class="tabel-center" ng-repeat="permis in roleObj.permissions" style="background-color: 3226ae00">
+			                    <input type="checkbox" class="c_check" ng-checked="permis.permissionAvailable"  ng-disabled="!permis.editTab" ng-model ="permis.permissionAvailable" ng-click="checkPermission(permis,$parent.$index,$index)" >
+			                    
+			                    	<span>{{permis.permissionName}}</span>
+			                    
+			                   
+			                    </td>
+			                     <td class="tabel-center">
+			                        <i class="fa fa-edit pr-2" data-toggle="tooltip" data-placement="bottom" ng-show="!roleObj.editTabButtom" title="Edit Form" ng-click="editPermission($index)"
+			                           ></i>
+			                            <i class="fa fa-save pr-2" data-toggle="tooltip" ng-show="roleObj.editTabButtom"data-placement="bottom" title="Save"
+			                            ng-click="vm.save(roleObj,$index)"></i>                
+			                                        
+			                             <i class="fa fa-eye pr-2" data-toggle="tooltip" data-placement="bottom"  title="View Action" ng-click="vm.viewActions(roleObj)"></i>             
+			                     </td>
+			                    
+			                    
+			                </tr>
+
+					</tbody>
+				</table>
+
+</div>
+
+			</div>
+
+
+
+		</form>
+		
+		
+	</div>
+		<div class="material mt-5" ng-show="actionTab" >
+		
+		
+
+		<form class="row g-3">
+
+
+			
+			
+			<div class="col-md-12" >
+			   <div class="row">
+                  
+                       
+                        
+                        
+                        
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Cancel" ng-click="vm.cancle()"> Cancel</button>
+                        </div>
+                     
+                    </div>
+ 		<div class="material-tbl mt-3">
+ 		 
+				<table id="datatable-buttons"
+					class="text-center table-striped align-middle justify-content-center ">
+					<thead>
+						 <tr>
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600">Serial No. </th>
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600">Role</th>
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600">Permission</th>
+		                  
+		                    <th class="text-center whitespace-nowrap" style="font-weight: 600" colspan="5">Actions</th>
+		                </tr>
+					</thead>
+					<tbody>
+						
+						    <tr ng-repeat="roleObj in vm.selPermission">
+			                    <td class="text-center">{{$index+1}}</td>
+			                   <td class="tabel-center">{{roleObj.role.roleName}}</td>
+			                    <td class="tabel-center">{{roleObj.permissions.permissionsName}}</td>
+			                   
+			                  
+			                    <td class="tabel-center" ng-repeat="permis in roleObj.actions">
+<!-- 			                    <input type="checkbox" class="c_check" ng-checked="permis.isAvailable"  ng-disabled="!permis.editTab" ng-model ="permis.isAvailable" ng-click="checkPermission(permis,$parent.$index,$index)" >
+ -->			                   <input type="checkbox" class="c_check" ng-checked="permis.available"  ng-model ="permis.available" ng-click="upadateAction(permis)" >
+			                    
+			                    	<span>{{permis.actionName}}</span>
+			                    
+			                   
+			                    </td>
+			                   
+			                    
+			                    
+			                </tr>
+
+					</tbody>
+				</table>
+
+</div>
+
+			</div>
+
+
+
+		</form>
+		
+		
+	</div>
+	<!-- Transfer End   --> </uib-tab> </uib-tabset>
+</div>

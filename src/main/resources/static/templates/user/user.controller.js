@@ -22,68 +22,19 @@
 			total_count:100,
 			pageno:1,
 			serachText:"",
-			loadAllUsers:loadAllUsers,
 		
 		});
 
 		(function activate() {
-			if($rootScope.menuBranch==0){
-				$scope.type="all"
-			}
-			if($rootScope.menuBranch==1){
-				$scope.type="pune"
-			}
-			if($rootScope.menuBranch==2){
-				$scope.type="bengaluru"
-			}
+			
+			loadAllUsers();
 			$scope.viewPasstab=false
-			loadAllUsers();
-			loadAllUserCounts();
-		
+			$scope.editOp=false
 		})();
-		$rootScope.changeBranch=function(branchId){
-			console.log("vm.brans : " + JSON.stringify(branchId))
-			$rootScope.menuBranch=branchId
-			reload()
-		}
-		function reload(){
-			if($rootScope.menuBranch==0){
-				$scope.type="all"
-			}
-			if($rootScope.menuBranch==1){
-				$scope.type="pune"
-			}
-			if($rootScope.menuBranch==2){
-				$scope.type="bengaluru"
-			}
-			loadAllUsers();
-		}
-		$scope.totalUser=function (){
-			$scope.type="all"
-				loadAllUsers();
-		}
-		$scope.activeUser=function (){
-			$scope.type="active"
-				loadAllUsers();
-		}
-		$scope.puneUser=function (){
-			$scope.type="pune"
-				loadAllUsers();
-		}
-		$scope.bengaluruUser=function (){
-			$scope.type="bengaluru"
-				loadAllUsers();
-		}
 		
-		function loadAllUserCounts(){
-			var msg=""
-				 var url =userUrl+"/getAllAllUserCounts";
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.userCounts = response.data;
-				console.log("userCounts: "+JSON.stringify(vm.userCounts))
-								
-			});
-		}
+		
+		
+		
 		$scope.pagination = {
 		        current: 1
 		    };
@@ -108,11 +59,14 @@
 		}
 		function addNew(){
 			$scope.addNew=true;
+			$scope.viewPasstab=false
+			$scope.editOp=false
 			loadRoles();
 			loadBranch();
 		}
 		function cancle(){
 			$scope.addNew=false;
+			$scope.editOp=false
 			
 		}
 		function loadBranch(){
@@ -126,7 +80,9 @@
 		}
 		function edit(user){
 			$scope.addNew=true;
+			$scope.editOp=true
 			vm.userObj=user;
+			$scope.viewPasstab=false
 			loadRoles() ;
 			loadBranch();
 		}
@@ -157,18 +113,36 @@
 									
 				});
 		}
-		
+		$scope.checkPassword=function (password){
+			console.log("password: "+JSON.stringify(password))
+
+			/*var msg=""
+				 var url =userUrl+"/checkUserName?userName="+userName;
+					genericFactory.getAll(msg,url).then(function(response) {
+					vm.userRes = response.data;
+					console.log("userRes: "+JSON.stringify(vm.userRes))
+									
+				});*/
+					
+			
+					
+					
+					
+					
+					
+					
+		}	
 		//list users by limit 
 		function loadAllUsers() {
 			var url=""
 				var urlCount=""
 					var msg=""
 					if(vm.serachText==""||vm.serachText==undefined){
-						url=userUrl+"/getUserByLimit/"+vm.pageno+"/"+vm.perPage+"/"+$scope.type;
-						urlCount=userUrl+"/getUserCount/"+$scope.type
+						url=userUrl+"/getUserByLimit/"+vm.pageno+"/"+vm.perPage;
+						urlCount=userUrl+"/getUserCount"
 					}else{
-						url=userUrl+"/getUserByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage+"&type="+$scope.type;
-						urlCount=userUrl+"/getUserCountAndSearch?searchText="+vm.serachText+"&type="+$scope.type;
+						url=userUrl+"/getUserByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage;
+						urlCount=userUrl+"/getUserCountAndSearch?searchText="+vm.serachText;
 					}
 					genericFactory.getAll(msg,url).then(function(response) {
 						vm.users = response.data;
@@ -208,7 +182,9 @@
 			  return false;
 			}
 		
-		
+		function onlyCapitalLetters (str) {
+		    return str.replace(/[^A-Z]+/g, "");
+		}
 		function save(user){
 			
 			var regExp = /[a-zA-Z]/g;
@@ -273,6 +249,7 @@
 						$scope.passwordnumberErr=true;
 						return;
 					}
+					
 
 					if(regExp.test(user.password)){
 						$scope.passwordcharErr=false;
@@ -281,13 +258,40 @@
 						$scope.passwordcharErr=true;
 						return;
 					}
+					var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+					if(format.test(user.password)){
+						console.log("Password  Contain Special Character")
+						$scope.passwordSpeErr=false;
+						
+					}else{
+						$scope.passwordSpeErr=true;
+						return;
+						console.log("Password  NOT HAVE ANY Special Character")
+
+					}
+					var test1=onlyCapitalLetters (user.password)
+
+					if(test1.length==0){
+						$scope.passwordCapErr=true;
+						return;
+						console.log("Must have one Capital ")
+
+					}else{
+						$scope.passwordCapErr=false;
+
+						console.log("Capital is Present")
+
+					}
 				}
 			}
 			
 			var msg="";
-			if(vm.userRes.code==200)
-			{
-				return;
+			if(!$scope.editOp){
+				if(vm.userRes.code==200)
+				{
+					return;
+				}
 			}
 			
 			var url =userUrl+"/updateUser";

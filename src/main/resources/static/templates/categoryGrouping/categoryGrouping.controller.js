@@ -24,7 +24,7 @@
 			pageno:1,
 			serachText:"",
 			addNew:addNew,
-			category:[],
+		
 			applications:[],
 			remove:remove
 			
@@ -38,7 +38,7 @@
 		
 		function getAllApplicationName(){
 			var msg=""
-				 var url =licenceUrl+"/getAllInstalledLicenceName";
+				 var url =licenceUrl+"/getProducts";
 				genericFactory.getAll(msg,url).then(function(response) {
 				vm.licencesNames = response.data;
 				console.log("licencesName: "+JSON.stringify(vm.licencesNames))
@@ -56,23 +56,23 @@
 		function remove(application){
 			vm.applications.splice(application,1);
 		}
-		function edit(bundle){
-			vm.bundle=bundle
-			vm.bundle.createdDate=new Date(bundle.createdDate)
-			console.log("bundles "+JSON.stringify(bundle))
-			getApplicationByBundles(bundle);
+		function edit(category){
+			getAllApplicationName()
+			vm.category=category
+			$scope.createdDate=new Date(category.createdDate)
+			console.log("bundles "+JSON.stringify(category))
+			getApplicationByCategory(category);
 
 			$scope.addNew=true;
 		}
 		
-		function getApplicationByBundles(bundle){
+		function getApplicationByCategory(category){
 			var msg=""
-				 var url =bundleUrl+"/getApplicationByBundleId?bundleId="+bundle.bundleId;
+				 var url =bundleUrl+"/getCategoryApplicationsByCategory?categoryId="+category.categorId;
 				genericFactory.getAll(msg,url).then(function(response) {
 				vm.applications = response.data;
-				angular.forEach(vm.applications, function(application) {
-					application.exprityDate=new Date(application.exprityDate)
-					});
+				console.log("applications "+JSON.stringify(vm.applications))
+
 								
 			});
 		}
@@ -97,18 +97,18 @@
 		    	 var url=""
 		    		 var urlCount=""
 		    	 if(vm.serachText==""||vm.serachText==undefined){
-						url=bundleUrl+"/getBundlePagination/"+vm.pageno+"/"+vm.perPage;
-						urlCount=bundleUrl+"/getBundleTotalCount";
+						url=bundleUrl+"/getCategoryPagination/"+vm.pageno+"/"+vm.perPage;
+						urlCount=bundleUrl+"/getCategoryTotalCount";
 					}else{
-						url=bundleUrl+"/getBundleByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage;
-						urlCount=bundleUrl+"/getBundleCountbySearch?searchText="+vm.serachText;
+						url=bundleUrl+"/getCategoryByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage;
+						urlCount=bundleUrl+"/getCategoryCountbySearch?searchText="+vm.serachText;
 					}
 					
 					
 		/*	 var url =zonedeviceUrl+"/getAllDevice";*/
 				genericFactory.getAll(msg,url).then(function(response) {
-						vm.bundles = response.data;
-						console.log("bundles: "+JSON.stringify(vm.bundles))
+						vm.categories = response.data;
+						console.log("categories: "+JSON.stringify(vm.categories))
 				});
 			
 				genericFactory.getAll(msg,urlCount).then(function(response) {
@@ -120,8 +120,7 @@
 		
 		function add(){
 			$scope.addNew=true;
-			vm.category.createdDate=new Date();
-			vm.category.categoryName=""
+			$scope.createdDate=new Date();
 			getAllApplicationName();
 			
 		}
@@ -187,16 +186,16 @@
 				return;
 			}else{
 
-				vm.bundle.applications=vm.applications;
+				vm.category.applications=vm.applications;
 				
-				console.log("bundle: "+JSON.stringify(vm.bundle))
+				console.log("bundle: "+JSON.stringify(vm.category))
 
 				var msg=""
-					 var url =bundleUrl+"/addBundle";
-					genericFactory.add(msg,url,vm.bundle).then(function(response) {
+					 var url =bundleUrl+"/addCategory";
+					genericFactory.add(msg,url,vm.category).then(function(response) {
 						console.log("response: "+JSON.stringify(response))
 
-					vm.device={}
+					vm.category={}
 					$scope.addNew=false;
 					if(response.data.code==200){
 						toastr.success(response.data.message);

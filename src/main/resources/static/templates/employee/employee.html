@@ -60,13 +60,13 @@
                                 <div class="card-header">Total no Employee  </div>
                                 <div class="card-body">
                                     <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.employeesCount.totalEmpCount}} </h3>
+                                    <h3 class="card-text text-end"> {{vm.total_count}} </h3>
                                 </div>
                             </div>
                         </div>
                        
                        
-                        <div class="col-md-4" ng-click="puneEmployee()">
+                        <!-- <div class="col-md-4" ng-click="puneEmployee()">
                             <div class="card mb-3 dash-card" style="width: 266px">
                                 <div class="card-header">Punes Employee </div>
                                 <div class="card-body">
@@ -83,7 +83,7 @@
                                     <h3 class="card-text text-end">{{vm.employeesCount.bengaluruEmpCount}} </h3>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
              <!-- Upload Form Start  -->
  				<div class="material mt-5" ng-show="uploadtab">
@@ -259,6 +259,11 @@
                            <input type="text" class="form-control mandtry" id="workLoc" ng-model="employee.bussinessUnit"  placeholder="Enter Bussiness Unit">
 						                                           
                         </div>
+                          <div class="col-md-6">
+                            <label for="inputCity" class="form-label">Cost Center</label>
+                           <input type="text" class="form-control mandtry" id="costCenter" ng-model="employee.costCenter"  placeholder="Enter Cost Center">
+						                                           
+                        </div>
                         
                          <div class="col-md-6">
                             <label for="inputCity" class="form-label">Teams</label>
@@ -290,12 +295,7 @@
                 <div class="material mt-5" >
                     <div class="container-fluid">
                     <div class="row">
-                    <div class="col-1 text-center">
-					<button class="addNew" type="submit" data-toggle="tooltip"
-						data-placement="bottom" title="Upload Tag" ng-click="vm.reload()">
-						<i class="bi bi-arrow-repeat"></i>
-					</button>
-				</div>
+                   
                         <div class="col-3">
                             <form class="d-flex search">
                             <input class="me-2" type="search" placeholder="Search" aria-label="Search"  ng-change="vm.loadEmployees()"ng-model="vm.serachText">
@@ -342,8 +342,9 @@
                                              
                                              
                                               <th >Department</th>
-                                               <th >Added By</th>
-                                              <th>Added Date</th>
+                                               <th >Cost Center</th>
+                                              <!--  <th >Added By</th>
+                                              <th>Added Date</th> -->
                                             <th>Action</th>
                                         
 
@@ -364,9 +365,10 @@
                                             <td >{{employee.email}}</td>
                                             
                                                 <td >{{employee.department.departmentName}}</td>
-                                            <td  >{{employee.addedBy.firstName}} {{employee.addedBy.lastName}}</td>
+                                                 <td >{{employee.costCenter}}</td>
+                                          <!--   <td  >{{employee.addedBy.firstName}} {{employee.addedBy.lastName}}</td>
                                               <td  >{{employee.addedDate|date:'dd-MM-yyyy'}}</td>
-                                           <!--   <td  >
+                                          -->  <!--   <td  >
                                             	 <button style="width:100px" ng-class="employee.active==1 ? 'btn btn-rounded btn-success':'btn btn-rounded btn-danger'"> 
                                             	<md-icon class="fas fa-user-alt " ng-if="employee.active==1" id="tooltip-touch" title="ACTIVE" style="font-size:20px;color:green;padding-top:5px;"></md-icon>
                                             	<md-icon class="fas fa-user-alt-slash" ng-if="employee.active==0" id="tooltip-touch" title="INACTIVE" style="font-size:20px;color:red;padding-top:5px;"></md-icon>

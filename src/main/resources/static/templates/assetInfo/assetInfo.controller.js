@@ -11,6 +11,7 @@
 		var commonUrl = ApiEndpoint.url+"common";
 		var assetEmpMappedUrl = ApiEndpoint.url+"assetEmpMapped";
 		var assetUrl = ApiEndpoint.url+"asset";
+		var workerSyncUrl = ApiEndpoint.url+"workerSync";
 		var licenceUrl = ApiEndpoint.url+"licence";
 
 		var dailyTransactionUrl = ApiEndpoint.url+"dailyTransaction";
@@ -24,19 +25,19 @@
 		(function activate() {
 			loadBranch()
 			getAsset();
-			getAllocationDetials();
-			getAllocationHistory()
-			getLast7Location()
+/*			getAllocationDetials();
+*/			getAllocationHistory()
+		/*	getLast7Location()*/
 			getAllocatedLices()
 		})();
 		function getAllocatedLices(){
 			
 			var url =licenceUrl+"/getAssetLicenceByAssetId?id="+sId;
 			var msg=""
-				console.log("url: "+url)
+				//console.log("url: "+url)
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.licences= response.data;
-				console.log("licences: "+JSON.stringify(vm.licences))
+				//console.log("licences: "+JSON.stringify(vm.licences))
 				if(vm.licences.length!=0){
 					$scope.licencesTab=true
 				}
@@ -47,12 +48,80 @@
 		function getAsset(){
 			var msg=""
 				 var url =assetUrl+"/getAssetById?id="+sId;
+			console.log("url: "+JSON.stringify(url))
+
 				genericFactory.getAll(msg,url).then(function(response) {
 					vm.asset = response.data;
+					vm.asset.invoiceDate= new Date(vm.asset.invoiceDate)
+					getMemoryDetials(vm.asset.serialNo)
+					getOSDetials(vm.asset.serialNo)
+					getCPUDetials(vm.asset.serialNo)
+				
 				console.log("asset: "+JSON.stringify(vm.asset))
 								
 			});
 		}
+		function getOSDetials(serialNo){
+			var msg=""
+				 var url =workerSyncUrl+"/getOSDetialsByAssetId?serialNo="+serialNo;
+			console.log("url: "+JSON.stringify(url))
+
+				genericFactory.getAll(msg,url).then(function(response) {
+					vm.oSDetials= response.data;
+					vm.oSDetials.syncUpdatedDate=new Date(vm.oSDetials.syncUpdatedDate)
+				console.log("oSDetials: "+JSON.stringify(vm.oSDetials))
+								
+			});
+		}
+		function getCPUDetials(serialNo){
+			var msg=""
+				 var url =workerSyncUrl+"/getCPUDetialsByAssetId?serialNo="+serialNo;
+			console.log("url: "+JSON.stringify(url))
+
+				genericFactory.getAll(msg,url).then(function(response) {
+					vm.cpUDetials= response.data;
+					vm.cpUDetials.syncUpdatedDate=new Date(vm.cpUDetials.syncUpdatedDate)
+				console.log("cpUDetials"+JSON.stringify(vm.cpUDetials))
+								
+			});
+			var msg=""
+				 var url =workerSyncUrl+"/getMemoryDetailsDetialsByAssetId?serialNo="+serialNo;
+			console.log("url: "+JSON.stringify(url))
+
+				genericFactory.getAll(msg,url).then(function(response) {
+					vm.memoryDetials= response.data;
+					vm.memoryDetials.syncUpdatedDate=new Date(vm.cpUDetials.syncUpdatedDate)
+				console.log("memoryDetials"+JSON.stringify(vm.memoryDetials))
+								
+			});
+		}
+		
+		function getMemoryDetials(serialNo){
+			console.log("Get Momory"+JSON.stringify(url))
+			var msg=""
+				 var url =workerSyncUrl+"/getMemoryDetailsDetialsByAssetId?serialNo="+serialNo;
+			console.log("url: "+JSON.stringify(url))
+
+				genericFactory.getAll(msg,url).then(function(response) {
+					vm.memoryDetials= response.data;
+					vm.memoryDetials.syncUpdatedDate=new Date(vm.cpUDetials.syncUpdatedDate)
+				console.log("memoryDetials"+JSON.stringify(vm.memoryDetials))
+								
+			});
+		}
+		
+		function getMemoryDetials(serialNo){
+			var msg=""
+				 var url =workerSyncUrl+"/getDiskDetailsDetialsByAssetId?serialNo="+serialNo;
+			console.log("url: "+JSON.stringify(url))
+
+				genericFactory.getAll(msg,url).then(function(response) {
+					vm.diskDetials= response.data;
+				console.log("diskDetials"+JSON.stringify(vm.diskDetials))
+								
+			});
+		}
+		
 		function getLast7Location(){
 			
 			var url =dailyTransactionUrl+"/getLast7LocationByAssetId?id="+sId;
@@ -87,7 +156,7 @@
 				 var url =assetEmpMappedUrl+"/getAllocationHistoryByAssetId?id="+sId;
 				genericFactory.getAll(msg,url).then(function(response) {
 					vm.allocationHistory = response.data;
-				console.log("allocationHistory: "+JSON.stringify(vm.allocationHistory))
+				//console.log("allocationHistory: "+JSON.stringify(vm.allocationHistory))
 				if(vm.allocationHistory==""){
 				$scope.noAllocationHistory=true	
 				}else{

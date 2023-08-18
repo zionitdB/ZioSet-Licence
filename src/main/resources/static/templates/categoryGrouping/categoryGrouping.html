@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-6">
                              <label for="inputState" class="col-form-label">Created Date </label> <i style="color:red">*</i>
-						                                                <input type="date" class="form-control" id="createdDate" ng-model="vm.category.createdDate" >
+						                                                <input type="date" class="form-control" id="createdDate" ng-model="createdDate" >
 						                                           		<span ng-show="createdDateErr" style="color:red">  * Created Date  is mandatory</span>
 						                                           
                         </div>
@@ -53,7 +53,7 @@
 					                                             <td class="text-center">
 					                                             
 					                                              <select class="form-control" ng-model="application.applicationName"
-																		 ng-options="licencesName as licencesName for licencesName in vm.licencesNames"
+																		 ng-options="licencesName.productName  as licencesName.productName  for licencesName in vm.licencesNames"
 																		required>
 																		 <option value="" disabled selected>Select Licences Name </option>
 																 </select>
@@ -141,16 +141,16 @@
                             </thead>
                             <tbody>
                             <tr ng-show="vm.devices.length <= 0"><td colspan="11" style="text-align:center;">Data Not Found!!
-										<tr dir-paginate="bundles in vm.bundles| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+										<tr dir-paginate="category in vm.categories| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
 							
                                            <td class="text-center">{{$index+1}}</td>
-                                             <td class="text-center">{{bundles.bundleName}}</td>
-                                            <td class="text-center">{{bundles.createdDate|date:'dd-MM-yyyy'}}</td>
+                                             <td class="text-center">{{category.categoryName}}</td>
+                                            <td class="text-center">{{category.createdDate|date:'dd-MM-yyyy'}}</td>
                                         
                                                                  
                                             <td class="text-center">
                                                
-                                               <i class="bi bi-pencil-square"   data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(bundles)"></i>
+                                               <i class="bi bi-pencil-square"   data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(category)"></i>
 <!--                                               <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  title="Delete" ng-click="vm.delet(device)"></i>
  -->                                              
                                             

@@ -260,9 +260,9 @@
 			
 			$rootScope.loader=true;
 	    	  getAllAssets();
-				 $rootScope.loader=true;
+			// $rootScope.loader=true;
 				exportData();
-	    	  //document.getElementById('btnExport').click();
+	    	  document.getElementById('btnExport').click();
 			
 			}
 		
@@ -308,7 +308,7 @@
 		}
 	//***********************Pagination Start*****************************//
 		$scope.searchByPagination=function (search){
-			loadAssets();
+			loadLicence();
 			
 		}
 		
@@ -319,7 +319,7 @@
 		// page changed 
 		$scope.pageChanged = function(pageNo){
 			vm.pageno=pageNo;
-			loadAssets();
+			loadLicence();
 			
 		}
 		

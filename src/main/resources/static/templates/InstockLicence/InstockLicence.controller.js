@@ -59,7 +59,7 @@
 				vm.allLicences = response.data;
 						
 				
-				console.log("allAssets: "+JSON.stringify(vm.allAssets))
+				console.log("allAssets: "+JSON.stringify(vm.allLicences.length))
 								
 			});
 		}
@@ -67,7 +67,7 @@
 		
 	//***********************Pagination Start*****************************//
 		$scope.searchByPagination=function (search){
-			loadAssets();
+			loadLicence();
 			
 		}
 		
@@ -78,11 +78,11 @@
 		// page changed 
 		$scope.pageChanged = function(pageNo){
 			vm.pageno=pageNo;
-			loadAssets();
+			loadLicence();
 			
 		}
 		
-		function loadAssets(){
+		function loadLicence1(){
 			if(vm.perPage>=1000){
 				console.log("MORE THAN 100")
 				vm.perPage=100
@@ -100,18 +100,18 @@
 			}
 			
 			if(vm.serachText==""||vm.serachText==undefined){
-				url=assetUrl+"/getAllAssetsByLimit/"+vm.pageno+"/"+vm.perPage+"/"+dataReq;
-				urlCount=assetUrl+"/getAllAssetCount/"+dataReq
+				url=licenceUrl+"/getSystemLincencceByLimit/"+vm.pageno+"/"+vm.perPage;
+				urlCount=licenceUrl+"/getSystemLicenceCount"
 			}else{
-				url=assetUrl+"/getAllAssetsByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage+"&dataReq="+dataReq;
-				urlCount=assetUrl+"/getAllAssetCountAndSearch?searchText="+vm.serachText+"&dataReq="+dataReq
+				url=licenceUrl+"/getSystemLicenceByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage;
+				urlCount=licenceUrl+"/getSystemLicenceCountAndSearch?searchText="+vm.serachText
 			}
 			
 			
 			console.log("urlCount :: "+urlCount)
 				console.log("url :: "+url)
 			genericFactory.getAll(msg,url).then(function(response) {
-				vm.assets = response.data;
+				vm.allLicences = response.data;
 				
 				console.log("assets: "+JSON.stringify(vm.assets))
 								

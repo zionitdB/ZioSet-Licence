@@ -14,11 +14,7 @@
 		console.log("State Param sId:"+JSON.stringify($stateParams.userId))
 		var vm = angular.extend(this, {
 			
-			perPage : 10,
-			total_count:100,
-			pageno:1,
-			serachText:"",
-			allAssets:[]
+			
 			
 		});
 

@@ -1,0 +1,249 @@
+  <style>
+<!--
+
+-->
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="SAAS Licene Expiry">
+           	 <div class="row  mt-3">
+              
+                        
+                    <!--     <div class="col-md-4" ng-click="totalTag()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total Count  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.tagCounts.totalNo}} </h3>
+                                </div>
+                            </div>
+                        </div> -->
+                    
+                       
+                    </div>
+                     <!-- Upload Form Start  -->
+ 				<div class="material mt-5" ng-show="uploadTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Upload Assets</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                        <label for="inputCity" class="col-form-label">Upload (.Xlsx)</label> 
+							                                              	 <input id="uploadAssets"  class="form-control"  type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />  
+
+							                                              	 <span ng-show="uploadErr" style="color:red">  * file is mandatory</span>
+						                                             	<a href="assets/uploadExcel/CustomerSuppliedSoftware.xlsx" type="button"class="btn btn-primary btn-rounded button-style waves-effect waves-light btn-sm"  id="tooltip-touch" title="Upload"  style="margin:10px; display: inline-block;">Download format</a>
+						                                             	
+						             
+                        </div>
+                    
+                       
+                        
+                          
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Upload" ng-click="vm.uploadSave()" ng-disabled="diabledSaveButton">Upload</button>
+                            <button type="submit" class="cancleBtn" title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Upload End   -->
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNewTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Customer Supplied Software</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                       
+                       
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Forms Sr. No <sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="formSrNo" ng-model="vm.suppliedSoftware.formSrNo" placeholder="Enter Forms Sr. No">
+                      	   <span style="color:red" ng-show="formSrNoErr">Forms Sr. No is Mandatory</span>
+                      	
+                      
+                        </div>
+                     <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Asset Tag No <sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="assetTagNo" ng-model="vm.suppliedSoftware.assetTagNo" placeholder="Enter Asset Tag No">
+                      	   <span style="color:red" ng-show="assetTagNoErr">Asset Tag No is Mandatory</span>
+                      	
+                      
+                        </div>
+
+
+
+						<div class="col-md-6">
+                            <label for="assectcod" class="form-label">Title <sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="title" ng-model="vm.suppliedSoftware.title" placeholder="Enter Title">
+                      	   <span style="color:red" ng-show="titleErr">Title is Mandatory</span>
+                      	
+                      
+                        </div>
+                     <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Version<sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="version" ng-model="vm.suppliedSoftware.version" placeholder="Enter Version">
+                      	   <span style="color:red" ng-show="versionErr">Version is Mandatory</span>
+                      	
+                      
+                        </div>
+
+				<div class="col-md-6">
+                            <label for="assectcod" class="form-label">Language <sup style="color: red;">*</sup></label>
+                            <input type="text" class="form-control" id="language" ng-model="vm.suppliedSoftware.language" placeholder="Enter Language">
+                      	   <span style="color:red" ng-show="languageErr">Language is Mandatory</span>
+                      	
+                      
+                        </div>
+                     <div class="col-md-6">
+                            <label for="assectcod" class="form-label">remark</label>
+                            <input type="text" class="form-control" id="remark" ng-model="vm.suppliedSoftware.remark" placeholder="Enter remark">
+                      	
+                      
+                        </div>
+                        
+						<div class="col-md-6">
+                            <label for="assectcod" class="form-label">Licence Count <sup style="color: red;">*</sup></label>
+                            <input type="number" class="form-control" id="licenceCount" ng-model="vm.suppliedSoftware.licenceCount" placeholder="Enter Licence Count">
+                      	   <span style="color:red" ng-show="licenceCountErr">Licence Count is Mandatory</span>
+                      	
+                      
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Save" ng-click="vm.save(vm.suppliedSoftware)" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn"  title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- List View Star -->
+                <div class="material mt-5">
+                    <div class="container-fluid">
+                    <div class="row">
+                     
+                        <!--  <div class="col-1 text-center">
+                          
+					              <input type="number" min="1"  class="form-control" ng-model="vm.perPage" ng-change="vm.loadAssets()"   >
+                          </div>
+                            <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Upload Assets" ng-click="vm.upload()">   <i class="bi bi-upload"></i></button>
+                        </div> -->
+                                                  <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.installLicenceExpires" report-fields="vm.labels" style="display:none" filename="'Install Licence Expires'" ></button>
+						            
+                        
+                        
+                        </div>
+                       <!--  <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New" ng-click="vm.addNew()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      
+                    </div> -->
+                      
+                       
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    
+                                    <th>Publisher</th>
+                                    <th>Product</th>
+                                    <th>Version</th>
+                                    <th>Computer Name</th>
+                                    <th>Serial No</th>
+                                  
+                                     <th>Installation Date</th>
+                                       <th>Expiry Date</th>
+                                     
+                                   
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <tr ng-show="vm.installLicenceExpires.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="installLicenceExpire in vm.installLicenceExpires| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                        
+                                
+                                     <th>{{$index+1}}</th>
+                                  
+                                    <td>{{installLicenceExpire.associate.associateName}}</td>
+                                    <td>{{installLicenceExpire.product.productName}}</td>
+                                    <td>{{installLicenceExpire.productVersion}}</td>
+                                    <td>{{installLicenceExpire.computerName}}</td>
+                                   	 <td>{{installLicenceExpire.asset.serialNo}}</td>
+                                   	  <td>{{installLicenceExpire.installDate|date:'dd-mm-yyyy'}}</td>
+                                   	 
+                                    <td>{{installLicenceExpire.expiryDate}}</td>
+                                
+                                   
+                                       
+                                   
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

@@ -9,6 +9,7 @@
 	function BundleAppicationController($state,$uibModal, genericFactory, $log, $scope, toastr, localStorageService, ApiEndpoint,$window,$rootScope) {
 		var bundleUrl = ApiEndpoint.url+"bundle";
 		var commonUrl = ApiEndpoint.url+"common";
+		var licenceUrl = ApiEndpoint.url+"licence";
 		var userDetail = localStorageService.get(ApiEndpoint.userKey);
 		var vm = angular.extend(this, {
 			add:add,
@@ -34,7 +35,20 @@
 			loadBundles();
 		
 		})();
+		
+		
+		function getAllApplicationName(){
+			var msg=""
+				 var url =licenceUrl+"/getProducts";
+				genericFactory.getAll(msg,url).then(function(response) {
+				vm.licencesNames = response.data;
+				console.log("licencesName: "+JSON.stringify(vm.licencesNames))
+								
+			});
+		}
+		
 	function addNew (){
+		getAllApplicationName()
 			var application={};
 			application.applicationName="";
 			application.version="";
@@ -50,7 +64,7 @@
 			vm.bundle.createdDate=new Date(bundle.createdDate)
 			console.log("bundles "+JSON.stringify(bundle))
 			getApplicationByBundles(bundle);
-
+			getAllApplicationName()
 			$scope.addNew=true;
 		}
 		

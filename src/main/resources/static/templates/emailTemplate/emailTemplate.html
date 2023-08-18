@@ -59,30 +59,17 @@
                     </legend>
                     <hr>
                     <form class="row g-3">
-                   <ol><p>Employee:</p>
-					  <li><b>#EMPN</b> :: Employee Name</li>
-					  <li><b>#EMPC</b> :: Employee Code</li>
-					  <li><b>#EMPI </b>:: Employee NTID</li>
-					   <li><b>#EMPE </b>:: Employee Email</li>
-					  <li><b>#EMPM </b>:: Employee Mobile No</li>
-					   <li><b>#EMPD </b>:: Employee Department</li>
+                   <ol><p>User:</p>
+					  <li><b>#URNM</b> :: User Name</li>
+					  <li><b>#FRNM</b> :: First Name</li>
+					  <li><b>#LTNM </b>:: LAST Name</li>
+					   <li><b>#OTP </b>:: OTP</li>
+					  <li><b>#DATE </b>:: Date</li>
+					   <li><b>#VLDT </b>:: Valid Time</li>
 					</ol>
                      
-                        <ol><p>Asset:</p>
-                      <li><b>#ASTT </b>:: Asset Type</li>
-					  <li><b>#ASTM </b>:: Asset Make</li>
-					  <li><b>#ASTN </b>:: Asset Model</li>
-					  <li><b>#ASTS </b>:: Asset Serial No</li>
-					   <li><b>#ASTI </b>:: Asset ID</li>
-					  <li><b>#ASTI </b>:: Asset Age</li>
-					   <li><b>#ASTI </b>:: Asset Location</li>
-					</ol> 
-                  <ol><p>Other:</p>
-                      <li><b>#ASG </b>:: Allocation Date</li>
-					  <li><b>#DASG </b>::DeAllocation Date</li>
-					  <li><b>#TRSD</b>:: Transaction Date</li>
-					
-					</ol> 
+                        
+                 
                        
                         <div class="col-12 mt-4 text-center">
                             <button type="submit" class="cancleBtn" ng-click="vm.close()" title="Cancel">Close</button>
@@ -104,15 +91,9 @@
                                     style="color: red;">*</sup></label>
                             <select id="selAssetType" class="form-control" ng-model="vm.template.templateFor">
                                <option value="" disabled selected>Select Template For </option>
-                                <option value="New Asset Registration">New Asset Registration</option>
-                                <option value="New Employee Registration">New Employee Registration</option>
-                                  <option value="New Device Registration">New Device Registration</option>
-                                    <option value="Asset Allocation">Asset Allocation</option>
-                                     <option value="Asset DeAllocation">Asset DeAllocation</option>
-                                  <option value="Alert For Not Assign asset From BIN">Alert For Not Assign asset From BIN</option>
-                                    <option value="Unauthorized Movement">Unauthorized Movement </option>
-                                   
-                             
+                                <option value="Login OTP">Login OTP</option>
+                                <option value="User Registration">User Registration</option>
+                               
                              
                             </select>
                              <span style="color:red" ng-show="templateForErr">Template For is Mandatory</span>

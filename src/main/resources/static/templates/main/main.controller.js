@@ -24,6 +24,7 @@
 		
 
 		(function activate() {
+			
 			$rootScope.menuBranch=0
 			loadBranches()
 		//	$window.onbeforeunload=call();
@@ -33,9 +34,9 @@
 			
 			$rootScope.loader=false;
 			//console.log("LOGIN DETIALSS "+JSON.stringify(vm.user));
-			loadNotificationCount();
+			//loadNotificationCount();
 			getAllAsset();
-			setInterval(function(){ 
+			/*setInterval(function(){ 
 				var msg=""
 					 var url =notificationUrl+"/getNotificationCount";
 					genericFactory.getAll(msg,url).then(function(response) {
@@ -47,7 +48,7 @@
 					
 				
 				
-			}, 3000);
+			}, 3000);*/
 			// $timeout(loadNotificationCount(), 1000);
 		})();
 		
@@ -99,7 +100,8 @@
 	
 		function getAllAsset(){
 			var msg=""
-				 var url =assetUrl+"/getAllAsseta1";
+				 var url =assetUrl+"/getAllAsset1";
+		//	console.log("url  :"+url)
 				genericFactory.getAll(msg,url).then(function(response) {
 					vm.allAssets = response.data;
 					//console.log("allAssets  :"+JSON.stringify(vm.allAssets))

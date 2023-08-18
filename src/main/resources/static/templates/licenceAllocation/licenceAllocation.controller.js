@@ -176,7 +176,7 @@
 		
 		function loadLicenceType(){
 			var msg="";
-			var url=licenceUrl+"/getLicenceType"
+			var url=licenceUrl+"/getLicenceTypes"
 
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.licencesTypes = response.data;
@@ -265,7 +265,7 @@
 
 		}
 		$scope.searchByPagination=function (search){
-			loadAssets();
+			loadLicence();
 			
 		}
 		
@@ -276,7 +276,8 @@
 		// page changed 
 		$scope.pageChanged = function(pageNo){
 			vm.pageno=pageNo;
-			loadAssets();
+			console.log("PAGE ................ "+pageNo)
+			loadLicence();
 			
 		}
 		
@@ -300,7 +301,7 @@
 			
 			
 			//console.log("$scope.type :: "+$scope.type)
-				//console.log("url :: "+url)
+				console.log("url :: "+url)
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.assetLicences = response.data;
 				

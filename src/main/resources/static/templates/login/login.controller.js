@@ -16,7 +16,9 @@
 			goToforgetPassword:goToforgetPassword,
 			goTologin:goTologin,
 			checkUserName:checkUserName,
-			forget:forget
+			forget:forget,
+			verify:verify,
+			resendOTP:resendOTP
 			
 		});
 
@@ -25,6 +27,70 @@
 		})();
 
 		// ******************************************************
+		function resendOTP(){
+			console.log("user : "+JSON.stringify($scope.user))
+			if($scope.user==undefined||$scope.user.username==""){
+				toastr.error("Enter Username");
+				return;
+			}
+			var obj={}
+			obj.username=$scope.user.username
+			obj.otp=$scope.user.otp
+			
+			var msg=""
+				 var url =userUrl+"/resendOTP";
+					genericFactory.add(msg,url,obj).then(function(response) {
+					vm.optResendRes = response.data;
+					if (vm.optResendRes.code==200) {
+						$scope.user.otpVerified=true;
+						$scope.veficationMessage=vm.optResendRes.message
+						vm.optVerificationRes.code=200
+						$scope.showResend=false
+					}
+					console.log("optVerificationRes: "+JSON.stringify(vm.optVerificationRes))
+
+				});
+			
+		}
+		function verify(){
+			console.log("User: "+JSON.stringify($scope.user))
+
+			if($scope.user==undefined||$scope.user.username==""){
+				toastr.error("Enter Username");
+				return;
+			}
+			
+			if($scope.user.otp==""||$scope.user.otp==undefined){
+				toastr.error("Enter OTP");
+				return;
+			}
+			
+			
+			var obj={}
+			obj.username=$scope.user.username
+			obj.otp=$scope.user.otp
+			
+			var msg=""
+				 var url =userUrl+"/verifyOPT";
+					genericFactory.add(msg,url,obj).then(function(response) {
+					vm.optVerificationRes = response.data;
+					console.log("optVerificationRes: "+JSON.stringify(vm.optVerificationRes))
+					if (vm.optVerificationRes.code==200) {
+						$scope.user.otpVerified=true;
+						$scope.veficationMessage=vm.optVerificationRes.message
+					} 
+					if (vm.optVerificationRes.code==600) {
+						$scope.showResend=true
+						//$scope.veficationMessage=vm.optVerificationRes.message
+					} 
+					$scope.veficationMessage=vm.optVerificationRes.message
+					
+					/*else {
+						
+					}*/
+					
+				});
+		}
 		function goToforgetPassword(){
 			$scope.forgetPasswordTab=true
 		}
@@ -39,15 +105,21 @@
 			}
 		}
 		function doLogin(user){
-
+			var captchaResponse = $window.grecaptcha.getResponse();
+			if (captchaResponse.length === 0) {
+				toastr.error('Please complete the reCAPTCHA.');
+				return;
+			}
 			var msg=""								
 			var  url =userUrl+"/login"
 			console.log("URL :: "+url)
 			console.log("User: "+JSON.stringify(user))
 			genericFactory.add(msg,url,user).then(function(response) {
-				vm.user = response.data;
+				vm.userRes = response.data;
+				console.log("userRes: "+JSON.stringify(vm.userRes))
+
 			//	toastr.success("hiii");
-				if (vm.user.code==200) {
+				if (vm.userRes.code==200) {
 					//toastr.success(vm.user.massage);
 				//	return;
 					 
@@ -58,7 +130,7 @@
 					$window.location.reload();
 					//$state.go('main.home');
 				} else {
-					toastr.error(vm.user.massage);
+					toastr.error(vm.userRes.massage);
 				}
 				
 			});

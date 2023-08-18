@@ -20,14 +20,11 @@
 			edit:edit,
 			cancle:cancle,
 			delet:delet,
-			print:print,
-			reload:reload,
+			
 			upload:upload,
 			uploadEmployee:uploadEmployee,
 			cancleDepartment:cancleDepartment,
 			saveDepartment:saveDepartment,
-			changeStatus:changeStatus,
-			createUser:createUser,
 			perPage : 10,
 			total_count:0,
 			pageno:1,
@@ -37,63 +34,13 @@
 		});
 
 		(function activate() {
-			if($rootScope.menuBranch==0){
-				$scope.type="all"
-			}
-			if($rootScope.menuBranch==1){
-				$scope.type="pune"
-			}
-			if($rootScope.menuBranch==2){
-				$scope.type="bengaluru"
-			}
-			$scope.employee={};
-			$scope.alertType=false;
-			loadEmployees();
-			$scope.editView=false;
-			$rootScope.loader=false;
-			
-			loadEmployeesCount();
-		})();
-		$rootScope.changeBranch=function(branchId){
-			console.log("vm.brans : " + JSON.stringify(branchId))
-			$rootScope.menuBranch=branchId
-			reload()
-		}
-		function reload(){
-			if($rootScope.menuBranch==0){
-				$scope.type="all"
-			}
-			if($rootScope.menuBranch==1){
-				$scope.type="pune"
-			}
-			if($rootScope.menuBranch==2){
-				$scope.type="bengaluru"
-			}
-			loadEmployees();
-		}
 		
-		$scope.totalEmployee=function (){
-			$scope.type="all"
-				loadEmployees();
-		}
-		$scope.puneEmployee=function (){
-			$scope.type="pune"
-				loadEmployees();
-		}
-		$scope.bengaluruEmployee=function (){
-			$scope.type="bengaluru"
-				loadEmployees();
-		}
-		function loadEmployeesCount(){
-			var msg=""
-				 var url =employeeUrl+"/getEmployeeCounts";
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.employeesCount = response.data;
-				console.log("employeesCount: "+JSON.stringify(vm.employeesCount))
-								
-			});
-		}
-		/*************************future date disabled**********************/
+			
+			loadEmployees();
+		
+		})();
+	
+		
 		
 		$scope.searchByPagination=function (search){
 			loadEmployees();
@@ -108,17 +55,7 @@
 								
 			});
 		}
-		/*$scope.today = function () {
-            $scope.employee.dateOfBirth= new Date();
-        };
-$scope.dateformat="dd-MM-yyyy";
-        $scope.today();
-$scope.showcalendar = function ($event) {
-            $scope.showdp = true;
-            $scope.dtmax = new Date();
-        };
-$scope.showdp = false;  
-$scope.dtmax = new Date();*/
+	
 	  
 
 		// current page
@@ -162,8 +99,6 @@ $scope.dtmax = new Date();*/
 			$scope.uploadtab=false;
 			loadBranches();
 			loadDepartments();
-			loadDesignations();
-			loadAllMangers();
 			$scope.addNewDepartment=false;
 			$scope.editView=false;
 			$scope.employee={}
@@ -200,29 +135,6 @@ $scope.dtmax = new Date();*/
 		}
 		
 		
-		function createUser(employee){
-			console.log("crete user employee :"+JSON.stringify(employee.active))
-			if(employee.active==0){
-				toastr.error("Selected Employee is Inactive ,Please make sure selected employe is Active");
-				//toastr.warning("");
-			}else{
-			$rootScope.loader=true;
-			var msg="Employee User Created successfully"
-			 var url =employeeUrl+"/createUser";
-			genericFactory.add(msg,url,employee).then(function(response) {
-				loadEmployees();
-				if(response.data.code==200){
-					toastr.success(msg);
-					$rootScope.loader=false;
-				}else{
-					toastr.error(response.data.msg);
-					$rootScope.loader=false;
-				}
-				
-					
-		});	
-			}
-		}
 		
 		/**************************export excel*********************/
 		
@@ -234,12 +146,7 @@ $scope.dtmax = new Date();*/
 			getAllEmployeesForExport()
 			 $rootScope.loader=true;
 			//vm.employee.dateOfBirth=new Date(employee.dateOfBirth)
-			 setTimeout(function(){
-				 
-				 //
-				 $rootScope.loader=false;
-				  $rootScope.$digest();
-				},1000);		
+				
 			
 		}
 		function getAllEmployeesForExport(){
@@ -248,37 +155,19 @@ $scope.dtmax = new Date();*/
 				genericFactory.getAll(msg,url).then(function(response) {
 				vm.allEmployees = response.data;
 				console.log("allEmployees: "+JSON.stringify(vm.allEmployees))
-				document.getElementById('btnExport').click();
-				 $rootScope.loader=false;
+				 setTimeout(function(){
+				 
+				 //
+					 document.getElementById('btnExport').click();
+					 $rootScope.loader=false;
+				  $rootScope.$digest();
+				},1000);	
+				
 								
 			});
 		}
 		
 		
-		/***********************************************************/
-		function changeStatus(employee){
-			console.log("employee active: "+JSON.stringify(employee.active))
-			
-			if(employee.active==1){
-				employee.active=0
-			}else{
-				employee.active=1
-			}
-			$rootScope.loader=true;
-			var msg=""
-			 var url =employeeUrl+"/changeStatus";
-			genericFactory.add(msg,url,employee).then(function(response) {
-				console.log("response: "+JSON.stringify(response))
-				if(response.data.code==200){
-					toastr.success(response.data.message);
-					$rootScope.loader=false;
-				}else{
-					toastr.error(response.data.message);
-					$rootScope.loader=false;
-				}
-					
-		});
-		}
 		/*****************************************************************/
 		function loadBranches(){
 			var msg=""
@@ -291,51 +180,31 @@ $scope.dtmax = new Date();*/
 		}
 		function loadDepartments(){
 			var msg=""
-				 var url =employeeUrl+"/getAllDepartments";
+				 var url =commonUrl+"/getAllDepartments";
 				genericFactory.getAll(msg,url).then(function(response) {
 				vm.departments = response.data;
 				console.log("department: "+JSON.stringify(vm.departments))
 								
 			});
 		}
-		function loadDesignations(){
-			var msg=""
-				 var url =employeeUrl+"/getDesignationList";
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.designations = response.data;
-				console.log("designations: "+JSON.stringify(vm.designations))
-								
-			});
-		}
 		
 		
 		
 		
-		
-		function loadAllMangers(){
-			var msg=""
-				 var url =employeeUrl+"/getAllManagers";
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.managers= response.data;
-				console.log("managers: "+JSON.stringify(vm.managers))
-								
-			});
-		}
 		
 		
 		function loadEmployees() {
-			loadCount()
-			console.log("userDetail "+JSON.stringify(userDetail))
+						console.log("userDetail "+JSON.stringify(userDetail))
 			
 			var url=""
 				var urlCount=""
 					var msg=""
 					if(vm.serachText==""||vm.serachText==undefined){
-						url=employeeUrl+"/getEmployeeByLimit/"+vm.pageno+"/"+vm.perPage+"/"+$scope.type;
-						urlCount=employeeUrl+"/getEmployeeCount/"+$scope.type
+						url=employeeUrl+"/getEmployeeByLimit/"+vm.pageno+"/"+vm.perPage;
+						urlCount=employeeUrl+"/getEmployeeCount"
 					}else{
-						url=employeeUrl+"/getEmployeeByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage+"&type="+$scope.type;
-						urlCount=employeeUrl+"/getEmployeeCountAndSearch?searchText="+vm.serachText+"&type="+$scope.type;
+						url=employeeUrl+"/getEmployeeByLimitAndSearch?searchText="+vm.serachText+"&pageNo="+vm.pageno+'&perPage='+vm.perPage
+						urlCount=employeeUrl+"/getEmployeeCountAndSearch?searchText="+vm.serachText;
 					}
 					genericFactory.getAll(msg,url).then(function(response) {
 						vm.employees = response.data;
@@ -351,70 +220,8 @@ $scope.dtmax = new Date();*/
 										
 					});
 		}
-function loadCount(){
-	var dataReq=""
-		console.log("userDetail"+JSON.stringify(userDetail))
-		if(userDetail.role.roleId==1||userDetail.role.roleId==3||userDetail.role.roleId==4){
-			dataReq="ALL"
-		}else{
-			dataReq=userDetail.branch.branchName
-		}
-			var msg=""
-				 var url =""
-				if($scope.search==""||$scope.search==undefined){
-					url =employeeUrl+"/getEmployeeCount/"+dataReq
-				}
-			else{
-				url=employeeUrl+"/getEmployeeCountAndSearch?search="+$scope.search+"&dataReq="+dataReq;
-			}
-				 //var url =employeeUrl+"/getEmployeesCount";
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.total_count = response.data;
-				console.log("total_count: "+JSON.stringify(vm.total_count))
-								
-			});
-		}
-		/*
-		function loadEmployees(){
-			
-			
-			loadCount();
-			var msg=""
-				var url="";
-				if($scope.search==""||$scope.search==undefined){
-					url =employeeUrl+"/getEmployeeByLimit?page_no="+vm.pageno+'&item_per_page='+vm.perPage;
-				}
-			else{
-				url=employeeUrl+"/getEmployeeByLimitAndSearch?page_no="+vm.pageno+'&item_per_page='+vm.perPage+"&search="+$scope.search;
-			}
-				//
-				// var url =employeeUrl+"/getAllEmployees";
-				console.log("Call EMPLOYEE : "+url)
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.employees = response.data;
-				console.log("employees: "+JSON.stringify(vm.employees))
-								
-			});
-		}
+
 		
-		function loadCount(){
-			
-			var msg=""
-				 var url =""
-				if($scope.search==""||$scope.search==undefined){
-					url =employeeUrl+"/getEmployeeCount"
-				}
-			else{
-				url=employeeUrl+"/getEmployeeCountAndSearch?search="+$scope.search;
-			}
-				 //var url =employeeUrl+"/getEmployeesCount";
-				genericFactory.getAll(msg,url).then(function(response) {
-				vm.total_count = response.data;
-				console.log("total_count: "+JSON.stringify(vm.total_count))
-								
-			});
-		}
-		*/
 		
 		$scope.checkemployeeCode=function (employeeCode){
 			var msg=""

@@ -56,7 +56,7 @@
              <div class="row  mt-3">
               
                         
-                        <div class="col-md-4" ng-click="totalUser()">
+                      <!--   <div class="col-md-4" ng-click="totalUser()">
                             <div class="card mb-3 dash-card" style="width: 266px">
                                 <div class="card-header">Total User </div>
                                 <div class="card-body">
@@ -64,8 +64,8 @@
                                     <h3 class="card-text text-end"> {{vm.userCounts.totalUserCount}} </h3>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4" ng-click="activeUser()">
+                        </div> -->
+                       <!--  <div class="col-md-4" ng-click="activeUser()">
                             <div class="card mb-3 dash-card"  style="width: 266px">
                                 <div class="card-header">Active  User</div>
                                 <div class="card-body">
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                     
+                      -->
                       
                     </div>
           
@@ -155,12 +155,15 @@
                         
                              <div class="col-md-6">
                             <label for="assectcod"   class="form-label">Password <i   ng-show="! viewPasstab" class="bi bi-eye" ng-click="viewPass()"style="margin-right: 10px;"></i> <i  ng-show=" viewPasstab" class="bi bi-eye-slash" ng-click="viewPass()"style="margin-right: 10px;"></i> </label>
-                             <input type="text" ng-show="viewPasstab" class="form-control" id="passwword" ng-model="vm.userObj.password" placeholder="Password">
-                             <input type="password" ng-show="! viewPasstab" class="form-control" id="password" ng-model="vm.userObj.password" placeholder="Password">
+                             <input type="text" ng-show="viewPasstab" class="form-control" id="passwword" ng-model="vm.userObj.password" ng-change="checkPassword(vm.userObj.password)"placeholder="Password">
+                             <input type="password" ng-show="! viewPasstab" class="form-control" id="password" ng-model="vm.userObj.password" ng-change="checkPassword(vm.userObj.password)" placeholder="Password">
                        		<span style="color:red" ng-show="passwordErr">Password is Mandatory</span>
                        		<span style="color:red" ng-show="passwordLengthErr">Password is must have 8 digit</span>
-                       		<span style="color:red" ng-show="passwordnumberErr">Password is must have at least 1 number</span>
-                       		<span style="color:red" ng-show="passwordcharErr">Password is must have at least 1 character</span>
+                       		<span style="color:red" ng-show="passwordnumberErr">Password is must have at least one number</span>
+                       		<span style="color:red" ng-show="passwordcharErr">Password is must have at least one character</span>
+                       		<span style="color:red" ng-show="passwordSpeErr">Password is must have at least one special character</span>
+                       	   <span style="color:red" ng-show="passwordCapErr">Password is must have at least one capital character</span>
+                       	
                         </div>
                        
                         

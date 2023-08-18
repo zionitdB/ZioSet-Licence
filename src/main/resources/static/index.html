@@ -21,7 +21,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.js"></script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <link rel="stylesheet" href="css/style.css">
  <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/popper.min.js"></script><!-- Popper for Bootstrap -->
@@ -46,7 +46,12 @@
 	<script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 	<script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
 	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/angular-recaptcha@4.2.0/release/angular-recaptcha.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
  
+  <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+ <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <!-- 	<script src="bower_components/angular/angular.min.js"></script>	 -->
 	<script src="assets/js/script.js"></script>	
 	
@@ -154,206 +159,86 @@
 <!-- Asset Info END -->
 
 
-<!--MailManger START -->
-<script src="templates/mailManger/mailManger.module.js"></script>
-<script src="templates/mailManger/mailManger.controller.js"></script>
-<!-- MailManger END -->
-
-
-<!--Device START -->
-<script src="templates/device/device.module.js"></script>
-<script src="templates/device/device.controller.js"></script>
-<!-- Device  END -->
-
-
-
 <!--Notification START -->
 <script src="templates/notification/notification.module.js"></script>
 <script src="templates/notification/notification.controller.js"></script>
 <!-- Notification END -->
 
-<!--Allocation Report START -->
-<script src="templates/allocationReport/allocationReport.module.js"></script>
-<script src="templates/allocationReport/allocationReport.controller.js"></script>
-<!-- Allocation Report END -->
+
+
+<!--Deallocation Asset START -->
+<script src="templates/deallocationAsset/deallocationAsset.module.js"></script>
+<script src="templates/deallocationAsset/deallocationAsset.controller.js"></script>
+<!-- Deallocation Asset  END -->
 
 <script src="templates/employee/employee.module.js"></script>
 <script src="templates/employee/employee.controller.js"></script>
 
 
 <!--Asset Tag mapping  Report START -->
-<script src="templates/assetTagMapping/assetTagMapping.module.js"></script>
-<script src="templates/assetTagMapping/assetTagMapping.controller.js"></script>
-<!-- Asset Tag mapping  END -->
-
-
-<!--Asset Tag mapping  Report START -->
 <script src="templates/profile/profile.module.js"></script>
 <script src="templates/profile/profile.controller.js"></script>
 <!-- Asset Tag mapping  END -->
-
-
-
-
-<!--Asset Tag mapping  Report START -->
-<script src="templates/assetMovementReport/assetMovementReport.module.js"></script>
-<script src="templates/assetMovementReport/assetMovementReport.controller.js"></script>
-<!-- Asset Tag mapping  END -->
-<script src="templates/assetSummaryReport/assetSummaryReport.module.js"></script>
-<script src="templates/assetSummaryReport/assetSummaryReport.controller.js"></script>
-
-
-<script src="templates/deallocationAsset/deallocationAsset.module.js"></script>
-<script src="templates/deallocationAsset/deallocationAsset.controller.js"></script>
-
-
-
-<script src="templates/updateTagRegistration/updateTagRegistration.module.js"></script>
-<script src="templates/updateTagRegistration/updateTagRegistration.controller.js"></script>
-
-<script src="templates/profile/profile.module.js"></script>
-<script src="templates/profile/profile.controller.js"></script>
-
-
-<script src="templates/profile/profile.module.js"></script>
-<script src="templates/profile/profile.controller.js"></script>
-
-
-
-<script src="templates/AllAsset/AllAsset.module.js"></script>
-<script src="templates/AllAsset/AllAsset.controller.js"></script>
-
-<script src="templates/UnRegisterAsset/UnRegisterAsset.module.js"></script>
-<script src="templates/UnRegisterAsset/UnRegisterAsset.controller.js"></script>
 
 <script src="templates/help/help.module.js"></script>
 <script src="templates/help/help.controller.js"></script>
 
 
-<script src="templates/allocatedAsset/allocatedAsset.module.js"></script>
-<script src="templates/allocatedAsset/allocatedAsset.controller.js"></script>
 
-<script src="templates/unAllocatedAsset/unAllocatedAsset.module.js"></script>
-<script src="templates/unAllocatedAsset/unAllocatedAsset.controller.js"></script>
-
-
-<script src="templates/assetLife/assetLife.module.js"></script>
-<script src="templates/assetLife/assetLife.controller.js"></script>
-
-
-<script src="templates/endOfLifeReport/endOfLifeReport.module.js"></script>
-<script src="templates/endOfLifeReport/endOfLifeReport.controller.js"></script>
-
-	
-	<script src="templates/employeeBranchWise/employeeBranchWise.module.js"></script>
-<script src="templates/employeeBranchWise/employeeBranchWise.controller.js"></script>
-		
-		
-		
-<script src="templates/eol/eol.module.js"></script>
-<script src="templates/eol/eol.controller.js"></script>
-	
-	<script src="templates/assetData/assetData.module.js"></script>
-<script src="templates/assetData/assetData.controller.js"></script>	
-
-
-	<script src="templates/assetInOfficeReport/assetInOfficeReport.module.js"></script>
-<script src="templates/assetInOfficeReport/assetInOfficeReport.controller.js"></script>	
-
-<script src="templates/assetInOfficeReport2/assetInOfficeReport2.module.js"></script>
-<script src="templates/assetInOfficeReport2/assetInOfficeReport2.controller.js"></script>	
-
-
-<script src="templates/reportAssetNoDetection/reportAssetNoDetection.module.js"></script>
-<script src="templates/reportAssetNoDetection/reportAssetNoDetection.controller.js"></script>	
-
-
-
-
-
-<script src="templates/assetReport/assetReport.module.js"></script>
-<script src="templates/assetReport/assetReport.controller.js"></script>	
-
-
-
-<script src="templates/unAllocatedAssetDetectByReader/unAllocatedAssetDetectByReader.module.js"></script>
-<script src="templates/unAllocatedAssetDetectByReader/unAllocatedAssetDetectByReader.controller.js"></script>	
-
-
-<script src="templates/rawDataReport/rawDataReport.module.js"></script>
-<script src="templates/rawDataReport/rawDataReport.controller.js"></script>	
-
-<script src="templates/reportTransaction/reportTransaction.module.js"></script>
-<script src="templates/reportTransaction/reportTransaction.controller.js"></script>	
-
-<script src="templates/reportLastlocations/reportLastlocations.module.js"></script>
-<script src="templates/reportLastlocations/reportLastlocations.controller.js"></script>	
-
-
-
-<script src="templates/storageLocation/storageLocation.module.js"></script>
-<script src="templates/storageLocation/storageLocation.controller.js"></script>	
-
-
-
-<script src="templates/kittingArea/kittingArea.module.js"></script>
-<script src="templates/kittingArea/kittingArea.controller.js"></script>	
-
-
-<script src="templates/transferStoreLocation/transferStoreLocation.module.js"></script>
-<script src="templates/transferStoreLocation/transferStoreLocation.controller.js"></script>	
-
-<script src="templates/pullingAsset/pullingAsset.module.js"></script>
-<script src="templates/pullingAsset/pullingAsset.controller.js"></script>	
-
-<script src="templates/pushingAsset/pushingAsset.module.js"></script>
-<script src="templates/pushingAsset/pushingAsset.controller.js"></script>	
-
-<script src="templates/reportAssetTrasnfer/reportAssetTrasnfer.module.js"></script>
-<script src="templates/reportAssetTrasnfer/reportAssetTrasnfer.controller.js"></script>	
-
-
-<script src="templates/reportStoreRoomWise/reportStoreRoomWise.module.js"></script>
-<script src="templates/reportStoreRoomWise/reportStoreRoomWise.controller.js"></script>	
-
-
-<script src="templates/stockByKittingArea/stockByKittingArea.module.js"></script>
-<script src="templates/stockByKittingArea/stockByKittingArea.controller.js"></script>	
-
-
-<script src="templates/emailTemplate/emailTemplate.module.js"></script>
-<script src="templates/emailTemplate/emailTemplate.controller.js"></script>	
-
-
-
-<script src="templates/updateMac/updateMac.module.js"></script>
-<script src="templates/updateMac/updateMac.controller.js"></script>	
-
-
-
-<script src="templates/reportDailyTransactionReaderWise/reportDailyTransactionReaderWise.module.js"></script>
-<script src="templates/reportDailyTransactionReaderWise/reportDailyTransactionReaderWise.controller.js"></script>	
-
-<script src="templates/reportRawDataReaderWise/reportRawDataReaderWise.module.js"></script>
-<script src="templates/reportRawDataReaderWise/reportRawDataReaderWise.controller.js"></script>	
-
-
-
-
+<script src="templates/rolePermission/rolePermission.module.js"></script>
+<script src="templates/rolePermission/rolePermission.controller.js"></script>
 
 <script src="templates/licence/licence.module.js"></script>
-<script src="templates/licence/licence.controller.js"></script>	
+<script src="templates/licence/licence.controller.js"></script>
+
+
+<script src="templates/licenceLifeNotification/licenceLifeNotification.module.js"></script>
+<script src="templates/licenceLifeNotification/licenceLifeNotification.controller.js"></script>
 
 <script src="templates/licenceAllocation/licenceAllocation.module.js"></script>
-<script src="templates/licenceAllocation/licenceAllocation.controller.js"></script>	
+<script src="templates/licenceAllocation/licenceAllocation.controller.js"></script>
 
-<script src="templates/licenceDashboard/licenceDashboard.module.js"></script>
-<script src="templates/licenceDashboard/licenceDashboard.controller.js"></script>	
+<script src="templates/bundleAppication/bundleAppication.module.js"></script>
+<script src="templates/bundleAppication/bundleAppication.controller.js"></script>
+
+
+<script src="templates/categoryGrouping/categoryGrouping.module.js"></script>
+<script src="templates/categoryGrouping/categoryGrouping.controller.js"></script>
 
 
 
-<script src="templates/AllLicence/AllLicence.module.js"></script>
-<script src="templates/AllLicence/AllLicence.controller.js"></script>	
+<script src="templates/customerSuppliedSoftware/customerSuppliedSoftware.module.js"></script>
+<script src="templates/customerSuppliedSoftware/customerSuppliedSoftware.controller.js"></script>
+
+
+<script src="templates/systemLicence/systemLicence.module.js"></script>
+<script src="templates/systemLicence/systemLicence.controller.js"></script>
+
+
+
+<script src="templates/licenceExpiry/licenceExpiry.module.js"></script>
+<script src="templates/licenceExpiry/licenceExpiry.controller.js"></script>
+
+<script src="templates/saasLicenceDashboard/saasLicenceDashboard.module.js"></script>
+<script src="templates/saasLicenceDashboard/saasLicenceDashboard.controller.js"></script>
+
+
+
+<script src="templates/installedLiceneExpiry/installedLiceneExpiry.module.js"></script>
+<script src="templates/installedLiceneExpiry/installedLiceneExpiry.controller.js"></script>
+
+
+<script src="templates/uploadLiceneExpiry/uploadLiceneExpiry.module.js"></script>
+<script src="templates/uploadLiceneExpiry/uploadLiceneExpiry.controller.js"></script>
+
+
+<script src="templates/systemDashboard/systemDashboard.module.js"></script>
+<script src="templates/systemDashboard/systemDashboard.controller.js"></script>
+
+
+<script src="templates/installLicenceDashboard/installLicenceDashboard.module.js"></script>
+<script src="templates/installLicenceDashboard/installLicenceDashboard.controller.js"></script>
+
 
 
 <script src="templates/InstockLicence/InstockLicence.module.js"></script>
@@ -365,47 +250,73 @@
 <script src="templates/AssignedLicence/AssignedLicence.controller.js"></script>
 
 
-<script src="templates/reportInstallLicence/reportInstallLicence.module.js"></script>
-<script src="templates/reportInstallLicence/reportInstallLicence.controller.js"></script>
+
+<script src="templates/saasLiceneExpiry/saasLiceneExpiry.module.js"></script>
+<script src="templates/saasLiceneExpiry/saasLiceneExpiry.controller.js"></script>
 
 
-
-<script src="templates/reportExpiryLicence/reportExpiryLicence.module.js"></script>
-<script src="templates/reportExpiryLicence/reportExpiryLicence.controller.js"></script>
-
-
-<script src="templates/reportActiveLicence/reportActiveLicence.module.js"></script>
-<script src="templates/reportActiveLicence/reportActiveLicence.controller.js"></script>
+<script src="templates/InstallLicence/InstallLicence.module.js"></script>
+<script src="templates/InstallLicence/InstallLicence.controller.js"></script>
 
 
+<script src="templates/renewalLicence/renewalLicence.module.js"></script>
+<script src="templates/renewalLicence/renewalLicence.controller.js"></script>
 
 
-<script src="templates/licenceLifeNotification/licenceLifeNotification.module.js"></script>
-<script src="templates/licenceLifeNotification/licenceLifeNotification.controller.js"></script>
+<script src="templates/workerInstalled/workerInstalled.module.js"></script>
+<script src="templates/workerInstalled/workerInstalled.controller.js"></script>
 
-<script src="templates/fetchInstallLicence/fetchInstallLicence.module.js"></script>
-<script src="templates/fetchInstallLicence/fetchInstallLicence.controller.js"></script>
 
-<script src="templates/endOfLifeLicence/endOfLifeLicence.module.js"></script>
-<script src="templates/endOfLifeLicence/endOfLifeLicence.controller.js"></script>
+<script src="templates/systemDetails/systemDetails.module.js"></script>
+<script src="templates/systemDetails/systemDetails.controller.js"></script>
+
 
 
 <script src="templates/licenceDetials/licenceDetials.module.js"></script>
 <script src="templates/licenceDetials/licenceDetials.controller.js"></script>
 
 
-<script src="templates/customerSuppliedSoftware/customerSuppliedSoftware.module.js"></script>
-<script src="templates/customerSuppliedSoftware/customerSuppliedSoftware.controller.js"></script>
+
+<script src="templates/fetchInstallLicence/fetchInstallLicence.module.js"></script>
+<script src="templates/fetchInstallLicence/fetchInstallLicence.controller.js"></script>
+
+<script src="templates/emailTemplate/emailTemplate.module.js"></script>
+<script src="templates/emailTemplate/emailTemplate.controller.js"></script>
+
+
+<script src="templates/mailManger/mailManger.module.js"></script>
+<script src="templates/mailManger/mailManger.controller.js"></script>
+
+
+<script src="templates/todayFetchInstallLicence/todayFetchInstallLicence.module.js"></script>
+<script src="templates/todayFetchInstallLicence/todayFetchInstallLicence.controller.js"></script>
+
+
+<script src="templates/branch/branch.module.js"></script>
+<script src="templates/branch/branch.controller.js"></script>
+
+<script src="templates/reportActiveLicence/reportActiveLicence.module.js"></script>
+<script src="templates/reportActiveLicence/reportActiveLicence.controller.js"></script>
+
+
+<script src="templates/reportExpiryLicence/reportExpiryLicence.module.js"></script>
+<script src="templates/reportExpiryLicence/reportExpiryLicence.controller.js"></script>
+
+
+<script src="templates/reportInstallLicence/reportInstallLicence.module.js"></script>
+<script src="templates/reportInstallLicence/reportInstallLicence.controller.js"></script>
 
 
 
-<script src="templates/bundleAppication/bundleAppication.module.js"></script>
-<script src="templates/bundleAppication/bundleAppication.controller.js"></script>
+<script src="templates/assetUnavailableworker/assetUnavailableworker.module.js"></script>
+<script src="templates/assetUnavailableworker/assetUnavailableworker.controller.js"></script>
 
 
-<script src="templates/categoryGrouping/categoryGrouping.module.js"></script>
-<script src="templates/categoryGrouping/categoryGrouping.controller.js"></script>
+<script src="templates/unavailableworkerforLast5Days/unavailableworkerforLast5Days.module.js"></script>
+<script src="templates/unavailableworkerforLast5Days/unavailableworkerforLast5Days.controller.js"></script>
 
+<script src="templates/reportUnavailableWorker/reportUnavailableWorker.module.js"></script>
+<script src="templates/reportUnavailableWorker/reportUnavailableWorker.controller.js"></script>
 
 
 </head>
