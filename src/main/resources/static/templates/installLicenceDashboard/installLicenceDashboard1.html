@@ -121,7 +121,8 @@
     margin: 15px auto;
     max-width: 1100px;
 }
-
+<link rel="stylesheet" type="text/css" href="js/datatables.min.css"/>
+<script type="text/javascript" src="js/datatables.min.js"></script> 
 </style>
     <div style="margin: 10px;height:100%">
         <uib-tabset active="activeJustified" justified="true">
@@ -361,9 +362,9 @@
                           
                           
                            <tbody>
-                          <tr dir-paginate="bundleWiseInstallLicence in vm.punlisherWiseInstallList| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-<!--                            <tr ng-repeat="bundleWiseInstallLicence in vm.punlisherWiseInstallList">
- -->                          <td>{{$index+1}}</td>
+                          
+                           <tr ng-repeat="bundleWiseInstallLicence in vm.punlisherWiseInstallList">
+                          <td>{{$index+1}}</td>
                            <td>{{bundleWiseInstallLicence.name}}</td>
                            <td>{{bundleWiseInstallLicence.count}}</td>
                            
@@ -374,7 +375,7 @@
                            </tbody>
                             
                      </table>
-                      <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoPublisherInstall()">  <span style="padding: 25px;">More....</span>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
                      
                       </div>
                       </div> 
@@ -403,8 +404,8 @@
                           
                           
                            <tbody>
-                             <tr dir-paginate="bundleWiseInstallLicence in vm.productWiseInstallList| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
                           
+                           <tr ng-repeat="bundleWiseInstallLicence in vm.productWiseInstallList">
                           <td>{{$index+1}}</td>
                            <td>{{bundleWiseInstallLicence.name}}</td>
                            <td>{{bundleWiseInstallLicence.count}}</td>
@@ -416,14 +417,38 @@
                            </tbody>
                             
                      </table>
-                      <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoProductInstall()">  <span style="padding: 25px;">More....</span>
+                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
                      
                       </div>
                       </div> 
            
        
     </div>
-   		
+    <div class="panel panel-default">
+    		<div class="panel-body table-responsive">
+
+					<table datatable="ng" id="example" class="table display">
+						<thead>
+							<tr>
+								 <th>Sr.No</th>
+                          <th>Name </th>
+                          <th>Count</th>
+                         
+							</tr>
+						</thead>
+
+						<tbody >
+							<tr ng-repeat="bundleWiseInstallLicence in vm.productWiseInstallList">
+								<td>{{$index+1}}</td>	
+								 <td>{{bundleWiseInstallLicence.name}}</td>
+                         		  <td>{{bundleWiseInstallLicence.count}}</td>
+                           
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+		</div>		
     </div>
     </div>
                 

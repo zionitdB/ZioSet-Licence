@@ -29,7 +29,10 @@
 		$scope.totalAsset = 0;
 		var vm = angular.extend(this, {
 			user : userDetail,
-			branches:[]
+			branches:[],
+			perPage : 10,
+			total_count:100,
+			pageno:1,
 
 		});
 		
@@ -102,6 +105,26 @@
 			}
 			$scope.renewLicence=function (){
 				$location.path('main/renewalLicence');
+				//$scope.selTab="licence"
+			}
+			
+			
+			$scope.gotoBundleCost=function (){
+				$location.path('main/BundleCost');
+				//$scope.selTab="licence"
+			}
+			$scope.gotoCategoryCost=function (){
+				$location.path('main/CategoryCost');
+				//$scope.selTab="licence"
+			}
+			
+			
+			$scope.gotoPubliasherStock=function (){
+				$location.path('main/PubliasherStock');
+				//$scope.selTab="licence"
+			}
+			$scope.gotoSAASStock=function (){
+				$location.path('main/SAASStock');
 				//$scope.selTab="licence"
 			}
 			

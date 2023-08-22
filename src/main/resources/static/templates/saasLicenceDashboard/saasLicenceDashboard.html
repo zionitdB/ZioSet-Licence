@@ -382,8 +382,8 @@
                           </thead>  
                           
                            <tbody>
+                            <tr dir-paginate="licencesCount in vm.bundleWiseCost| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
                           
-                           <tr ng-repeat="licencesCount in vm.bundleWiseCost">
                           <td>{{$index+1}}</td>
                            <td>{{licencesCount.name}}</td>
                            <td>{{licencesCount.cost}}</td>
@@ -393,7 +393,7 @@
                            </tbody>
                             
                      </table>
-                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                       <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoBundleCost()">  <span style="padding: 25px;">More....</span>
                      
                       </div>
                       </div>
@@ -419,8 +419,8 @@
                           </thead>  
                           
                            <tbody>
+                            <tr dir-paginate="licencesCount in vm.categoryWiseCost| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
                           
-                           <tr ng-repeat="licencesCount in vm.categoryWiseCost">
                           <td>{{$index+1}}</td>
                            <td>{{licencesCount.name}}</td>
                            <td>{{licencesCount.cost}}</td>
@@ -431,7 +431,7 @@
                            </tbody>
                             
                      </table>
-                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                     <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoCategoryCost()">  <span style="padding: 25px;">More....</span>
                      
                       </div>
                       </div>
@@ -461,8 +461,8 @@
                           </thead>  
                           
                            <tbody>
+							<tr dir-paginate="licencesCount in vm.licencesCountByPublisher| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
                           
-                           <tr ng-repeat="licencesCount in vm.licencesCountByPublisher">
                           <td>{{$index+1}}</td>
                            <td>{{licencesCount.publisher}}</td>
                            <td>{{licencesCount.total}}</td>
@@ -474,7 +474,7 @@
                            </tbody>
                             
                      </table>
-                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+				<button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoPubliasherStock()">  <span style="padding: 25px;">More....</span>
                      
                       </div>
                       </div>
@@ -507,8 +507,8 @@
                           </thead>  
                           
                            <tbody>
+                          	<tr dir-paginate="licencesCount in vm.licencesStockCountByPublisher| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
                           
-                           <tr ng-repeat="licencesCount in vm.licencesStockCountByPublisher">
                           <td>{{$index+1}}</td>
                            <td>{{licencesCount.publisher}}</td>
                            <td>{{licencesCount.total}}</td>
@@ -520,7 +520,7 @@
                            </tbody>
                             
                      </table>
-                        <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+                     				<button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoSAASStock()">  <span style="padding: 25px;">More....</span>
                      
                       </div>
                       </div>

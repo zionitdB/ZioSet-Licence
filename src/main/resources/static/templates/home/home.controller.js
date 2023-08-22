@@ -36,6 +36,9 @@
 			cateWiseSAASPieName:[],
 			cateWiseSAASPieCount:[],
 			totalcateSaas:0,
+			perPage : 10,
+			total_count:100,
+			pageno:1,
 		});
 		
 			(function activate() {
@@ -132,6 +135,28 @@
 			$scope.todayFetchCount=function(){
 				$location.path('main/todayFetchInstallLicence');
 			}
+			
+			$scope.gotoBundleSAAS=function(){
+				$location.path('main/BundleSaas');
+			}			
+			$scope.gotoBundleInstall=function(){
+				$location.path('main/BundleInstall');
+			}	
+			$scope.gotoCategorySAAS=function(){
+				$location.path('main/CategorySAAS');
+			}
+			$scope.gotoCategoryInstall=function(){
+				$location.path('main/CategoryInstall');
+			}
+			
+			$scope.gotoPublisherSAAS=function(){
+				$location.path('main/PublisherSAAS');
+			}
+			$scope.gotoPublisherInstall=function(){
+				$location.path('main/PublisherInstall');
+			}
+			
+			
 			
 			
 			function loadDashboardCount() {

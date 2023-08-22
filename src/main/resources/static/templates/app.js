@@ -60,6 +60,7 @@
 	'myApp.assetUnavailableworker',
 	'myApp.unavailableworkerforLast5Days',
 	'myApp.reportUnavailableWorker',
+	'myApp.DashboardTable',
 ])
 
 .value('_', window._)

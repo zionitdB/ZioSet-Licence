@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.management.Notification;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,12 +42,18 @@ import com.ZioSet.Repo.RamTotalRepo;
 import com.ZioSet.Repo.SoftwareRepo;
 import com.ZioSet.Service.AssetEmployeeMappeServices;
 import com.ZioSet.Service.AssetService;
+import com.ZioSet.Service.NotificationService;
 import com.jayway.jsonpath.Option;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/workerSync")
 public class WorkerSyncing {
+	
+	
+	@Autowired
+	NotificationService notificationService;
+	
 	
 	@Autowired
 	AssetService assetServices;
@@ -139,12 +147,17 @@ public class WorkerSyncing {
 				Optional<CPUDetials> optional2=cPUDetialsRepo.getCPUDetialBySerialNo(cPU.getSerialNo());
 				if(optional2.isPresent()){
 					CPUDetials cpuDetials=optional2.get();
+					if(!cPU.getProcessorName().equalsIgnoreCase(cpuDetials.getProcessorName())){
+						notificationService.sendNotificationForCPUChange(cpuDetials,cPU);
+					}
 					cpuDetials.setNumberOfCores(cPU.getNumberOfCores());
 					cpuDetials.setNumberOfProcessors(cPU.getNumberOfProcessors());
 					cpuDetials.setProcessorName(cPU.getProcessorName());
 					cpuDetials.setProcessorSpeed(cPU.getProcessorSpeed());
 					cpuDetials.setSyncUpdatedDate(new Date());
 					cPUDetialsRepo.save(cpuDetials);
+					
+					
 				}else{
 					cPU.setAsset(optional.get());
 					cPU.setSyncUpdatedDate(new Date());
@@ -182,11 +195,24 @@ public class WorkerSyncing {
 					cpuDetials.setVolumeName(diskDetials.getVolumeName());
 
 					diskDetialsRepo.save(cpuDetials);
+					double freeSpace=Double.parseDouble(diskDetials.getFreeSpace().replace("GB", ""));
+					double totalSpace=Double.parseDouble(diskDetials.getSize().replace("GB", ""));
+					double per=((freeSpace*100)/totalSpace);
+					System.out.println("DISK Utilization :: "+per+"  %");
+					
 				}else{
 					diskDetials.setAsset(optional.get());
 					diskDetials.setSyncUpdatedDate(new Date());
 					diskDetialsRepo.save(diskDetials);
+					double freeSpace=Double.parseDouble(diskDetials.getFreeSpace());
+					double totalSpace=Double.parseDouble(diskDetials.getSize());
+					double per=((freeSpace*100)/totalSpace);
+					System.out.println("DISK Utilization :: "+per+"  %");
+
+					
 				}
+				
+				
 			}
 			System.out.println("Adding diskDetialsRepo ......BY API");
 			return responceDTO	;
@@ -244,6 +270,15 @@ public class WorkerSyncing {
 				Optional<OSDetials> optional2=oSDetialsRepo.getOSDetailsBySerialNo(osDetials.getSerialNo());
 				if(optional2.isPresent()){
 					OSDetials osDetials2=optional2.get();
+					if(!osDetials.getName().equalsIgnoreCase(osDetials2.getName())){
+						notificationService.sendNotificationForOS("OS",osDetials,osDetials2);
+					}
+					if(!osDetials.getVersion().equalsIgnoreCase(osDetials2.getVersion())){
+						notificationService.sendNotificationForOS("Version",osDetials,osDetials2);
+					}
+					if(!osDetials.getOsSerialNumber().equalsIgnoreCase(osDetials2.getOsSerialNumber())){
+						notificationService.sendNotificationForOS("Serial Number",osDetials,osDetials2);
+					}
 					osDetials2.setLastBootTime(osDetials.getLastBootTime());
 					osDetials2.setName(osDetials.getName());
 					osDetials2.setOsSerialNumber(osDetials.getOsSerialNumber());
@@ -252,8 +287,11 @@ public class WorkerSyncing {
 					osDetials.setAsset(optional.get());
 
 					osDetials2.setSyncUpdatedDate(new Date());
+					System.out.println("OLD OS  "+osDetials2.getName());
+					System.out.println("New OS  "+osDetials.getName());
 
 					oSDetialsRepo.save(osDetials2);
+					
 				}else{
 					osDetials.setAsset(optional.get());
 					osDetials.setSyncUpdatedDate(new Date());

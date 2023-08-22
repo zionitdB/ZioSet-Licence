@@ -17,7 +17,9 @@
 		var licenceUrl=ApiEndpoint.url + "licence";
 		
 		var vm = angular.extend(this, {
-			
+			perPage : 10,
+			total_count:100,
+			pageno:1,
 
 		});
 		
@@ -65,6 +67,15 @@
 			$scope.todayFetchCount=function(){
 				$location.path('main/todayFetchInstallLicence');
 			}
+			
+			$scope.gotoPublisherInstall=function(){
+				$location.path('main/PublisherInstall');
+			}
+			
+			$scope.gotoProductInstall=function(){
+				$location.path('main/ProductInstall');
+			}
+			
 			
 			
 			function loadDashboardCount() {
