@@ -57,10 +57,10 @@
 			<!-- List View Star -->
                 <div class="material mt-2">
                    
-                    <div class="material-tbl mt-3">
+                    <div class="material-tbl mt-3 " style="">
                      <form class="row g-3">
                  
-                        <div class="col-md-4">
+                        <div class="col-md-4 overflow_box">
                         <div ng-repeat="publisher in vm.publishers">
                          	<input type="checkbox" class="c_check" ng-checked="publisher.selected"  ng-model ="publisher.selected" ng-click="vm.checkPublisher(publisher,$index)" >
 			                    
@@ -80,9 +80,9 @@
                         
                           <div class="col-md-8">
                            <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                        <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
                             style="width: 100%;">
-                            <thead>
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                     <th>Sr No</th>
                                    
@@ -129,9 +129,9 @@
                   <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
 
                     </div>
-                          <!--  <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                          <!--  <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
                             style="width: 100%;">
-                            <thead>
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                     <th>Sr No</th>
                                    

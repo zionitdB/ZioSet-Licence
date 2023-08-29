@@ -196,7 +196,10 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff;
+  background-color: #ffffff;
+}
+.dark-mode body {
+  /* background-color: var(---dark_mode) !important; */
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -2921,7 +2924,7 @@ textarea.form-control {
 }
 
 .btn:hover {
-  color: #212529;
+  /* color: #212529; */
   text-decoration: none;
 }
 
@@ -12666,7 +12669,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 
 .dark-mode {
-  background-color: #454d55 !important;
+  background-color: var(---dark_mode) !important;
   color: #fff;
 }
 
@@ -19110,6 +19113,7 @@ body.text-sm .control-sidebar {
 
 .dark-mode .nav-tabs {
   border-color: #56606a;
+
 }
 
 .dark-mode .nav-tabs .nav-link:focus,
@@ -31678,13 +31682,17 @@ html.maximized-card {
   color: #fff;
 }
 
-.dark-mode .card {
+.dark-mode .dash-card {
   background-color: #343a40;
+  color: #fff;
+}
+.dark-mode .card {
+  background-color: var(---dark_mode1) !important;
   color: #fff;
 }
 
 .dark-mode .card .card {
-  background-color: #3f474e;
+  background-color: var(---dark_mode1);
   color: #fff;
 }
 

@@ -4,7 +4,7 @@
  <div class="container-fluid loginout text-center" ng-show="!forgetPasswordTab">
         <div class="row logindiv">
             <div class="col-md-6">
-                <img src="images/loinimg.png" alt="" srcset="" class="loginimg" style="width:200px">
+                <img src="images/loinimg.png" alt="" srcset="" class="loginimg" style="width:325px">
             </div>
             <form class="col-md-6 logform">
                 <img src="images/zionit.jpg" alt="" class="loginlogo">
@@ -16,9 +16,14 @@
                 </div>
                 <div class="mb-3">
                 <label>Password <i class="fa fa-eye" ng-click="vm.showPass()"></i></label>
-                    <input   type="password" placeholder="Password" ng-model="user.password" class="form-control"  ng-show="vm.passView" id="exampleInputPassword1">
-                     <input   type="text" placeholder="Password" ng-model="user.password" class="form-control"  ng-show="!vm.passView" id="exampleInputPassword1">
-                    
+                    <input   type="password" placeholder="Password" ng-model="user.password" class="form-control"  ng-show="vm.passView" id="exampleInputPassword1" style="padding-right: 35px;">
+                     <input   type="text" placeholder="Password" ng-model="user.password" class="form-control"  ng-show="!vm.passView" id="exampleInputPassword1" style="padding-right: 35px;">
+                     <div class="input-group-append">
+                        <span class="input-group-text" style="position: absolute; top: 60%; right: 39px; transform: translateY(-50%);
+                        cursor: pointer;" ng-click="vm.showPass()">
+                            <i class="fa fa-eye"></i>
+                        </span>
+                    </div>
                 </div>
                  <div class="mb-2" ng-if="vm.userRes.code==300">
                 <label>OTP <i class="fa fa-check" ng-click="vm.verify()" title="vm.verifyOtp(user)"></i> </label>

@@ -68,7 +68,7 @@
 .constant('ApiEndpoint', {
 	
  //url: 'http://allstate.adp.ind.in:8080/',
-url: 'http://localhost:8084/',
+url: 'http://localhost:8086/',
  serverUrl:'http://20.219.1.165:8092/',
   //url: 'http://20.219.1.165:8084/',
 	//url: 'http://10.195.36.182:8080/',

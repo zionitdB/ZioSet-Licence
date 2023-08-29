@@ -3,7 +3,7 @@ package com.ZioSet.Service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.mail.MessagingException;
+//import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,16 +86,16 @@ public class EmailServiceImpl implements EmailService{
 				sendEmailData.setMessage(message);
 				sendEmailData.setRecipient(recipient);
 				sendEmailData.setSubject(subject);
-				try {
-					emailUtility.sendEmail(sendEmailData);
-					
-					sendEmailData.toString();
-				} catch (MessagingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					object.setCode(500);
-					object.setMessage("Email Not Send :");
-				}
+//				try {
+//					emailUtility.sendEmail(sendEmailData);
+//					
+//					sendEmailData.toString();
+//				} catch (MessagingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					object.setCode(500);
+//					object.setMessage("Email Not Send :");
+//				}
 			}else{
 				
 				object.setCode(500);

@@ -1,4 +1,4 @@
-
+<html>
 <!-- END wrapper -->
 <!-- jQuery  -->
 <script src="assets/js/jquery.min.js"></script>
@@ -45,6 +45,48 @@
 	margin-top: -22px; /* -1 * image height / 2 */
 	display: block;
 }
+
+.select_box {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .select_box b {
+        margin-right: 10px;
+    }
+
+    .select_dropdown {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+         /* Adjust the width as needed */
+    }
+	.select_dropdown {
+  	height: auto !important;
+    font-size: 2rem;
+    border: none;
+    border-radius: 50px 0 0 50px;
+    /* background: #e9e7e7; */
+}
+
+
+ /* Style for the button */
+ #theme-toggle {
+        background-color: #4070f4; /* Change to your desired color */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    /* Style when the button is hovered */
+    #theme-toggle:hover {
+        background-color: #3c68d1; /* Change to a slightly darker shade */
+    }
+
 </style>
 <div ng-if="loader" class="mydiv">
 	<img src="images/transparent-background-loading.gif"
@@ -54,7 +96,11 @@
 <script src="assets/js/jquery.core.js"></script>
 <script src="assets/js/jquery.app.js"></script>
 <!-- Begin page -->
-<div id="wrapper">
+
+	
+
+<div >
+<div id="wrapper" >
 
 	<!-- top navigation for mobile start-->
 
@@ -69,8 +115,8 @@
 		</div>
 
 		<ul class="navbar-nav">
-			<li class="list active"><b></b> <b></b> <select
-				class="form-control" ng-model="menuBranch"
+			<li class="select_box list active"><b></b> <b></b> <select
+				class="form-control select_dropdown" ng-model="menuBranch"
 				ng-options="branch.branchId as branch.branchName for branch in vm.branches"
 				ng-change="changeBranch(menuBranch)">
 					<option value="" disabled selected>Select Branch</option>
@@ -318,7 +364,7 @@
 				<div class="dropdown-menu w-56  intro-y" id="profileopen"
 					style="width: 224px; position: absolute; inset: 43px auto auto -204px; margin: 0px; display: none; background-color: rgb(50, 38, 174);">
 					<div
-						class="dropdown-menu__content  bg-theme-26 dark:bg-dark-6 text-white">
+						class="dropdown-menu__content  bg-theme-26 dark:bg-dark-6 text-white" style="text-align: left; padding-left: 26px; font-size: 1.5rem;">
 						<div class="p-4 border-b border-theme-27 dark:border-dark-3">
 							<div class="font-medium">
 								{{vm.user.firstName}} {{vm.user.lastName}} <br> <span>{{vm.user.role.roleName}}</span>
@@ -348,7 +394,12 @@
 									<rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect>
 									<circle cx="16" cy="12" r="3"></circle></svg> Logout
 							</a>
+							
 
+						</div>
+						<div class="check-box">
+							<button id="theme-toggle"
+								onclick="toggleTheme()">Dark Theme</button>
 						</div>
 					</div>
 
@@ -363,12 +414,13 @@
 	<div class="home_page">
 
 
-		<div ui-view="sub" style="background-color: white;"></div>
+		<div ui-view="sub" style="background-color: ;"></div>
 
 	</div>
 
 
 
+</div>
 </div>
 
 <script>
@@ -386,3 +438,51 @@
      });
  </script>
 
+
+
+<script>
+
+    function toggleLight() {
+        var body = document.getElementById("dark_mode");
+        var currentClass = body.className;
+        body.className = currentClass == "dark-mode" ? "light-mode" : "light-mode";
+    }
+
+    function toggleDark() {
+        var body = document.getElementById("dark_mode");
+        var currentClass = body.className;
+        body.className = currentClass == "light-mode" ? "dark-mode" : "dark-mode";
+    }
+
+    function toggleTheme() {
+            var body = document.getElementById("dark_mode");
+            var themeToggle = document.getElementById("theme-toggle");
+
+            if (body.className === "light-mode") {
+                body.className = "dark-mode";
+                themeToggle.textContent = "Light Theme ";
+            } else {
+                body.className = "light-mode";
+                themeToggle.textContent = "Dark Theme";
+            }
+        }
+
+        $(document).ready(function () {
+            $(".btn-group > .btn").click(function () {
+                $(".btn-group > .btn").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+
+    $(".btn-group > .btn").click(function () {
+        $(".btn-group > .btn").removeClass("active");
+        $(this).addClass("active");
+    });
+
+
+
+</script>
+
+
+
+</html>
