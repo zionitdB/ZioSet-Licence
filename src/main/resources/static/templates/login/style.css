@@ -1,3 +1,11 @@
+:root{
+    ---table_text_color: white;
+    ---primary: #3226ae;
+    ---dark_mode: #1e1e2d;
+    ---dark_mode1: #29293d;
+}
+
+
 /* side bar navigation css start  */
 html {
     scroll-behavior: smooth;
@@ -709,13 +717,19 @@ body {
     border-radius: 40px;
 }
 .logindiv input{
+    /* background: transparent; */
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
     width: 100%;
-    padding: 5px 20px;
+    border: 1px solid #0060ff;
+    box-sizing: border-box;
+    border-radius: 9px;
+    padding: 0 20px 0 36px;
+    height: 40px;
     outline: none;
-    font-size: 2.5vh;
-    border-radius: 40px;
-    border: 1px solid rgb(255,255,255);
-    background: #e9e7e7;
+    -webkit-text-fill-color: rgba(34,34,34,.6);
+    /* background: #e9e7e7; */
 }
 .loginimg {
     width: 100%;
@@ -723,17 +737,42 @@ body {
 }
 
 .input-group-text{
-    position: relative;
+    /* position: relative; */
     /* top: -16%; */
-    right: -93%;
+    /* right: -93%;
     transform: translateY(-50%);
     cursor: pointer;
     margin-top: -14px;
     border: none;
-    width: 0%;
+    width: 0%; */
+
+    position: absolute;
+    top: 58%;
+    right: 14px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    border: none;
+    background: #e8f0fe;
 }
 
 .fa, .fas {
     font-weight: 900;
     font-size: 14px;
 }
+
+
+.save {
+    height: 50px;
+    background-color: var(---primary);
+    /* background-color: #7b68ee; */
+    border: 0;
+    border-radius: 9px;
+    width: 100%;
+    margin-bottom: 22px;
+    box-shadow: 0 10px 25px #7b68ee80;
+}
+.save:hover{
+    background-color: blue;
+}
+

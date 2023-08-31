@@ -1491,10 +1491,19 @@ border: none !important;
 }
 
 .btn:hover, .btn:focus{
-    color: rgb(164, 164, 255);
-    border: 1px solid var(---primary);
+    /* color: rgb(164, 164, 255); */
+    /* border: 1px solid var(---primary); */
     transition: all 0.5s ease-in-out; 
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
+}
+
+.material-tbl1 table thead{
+
+    background-color: white !important;
+    /* color: #0062cc; */
+    color: black !important;
+    font-weight: 700 !important;
+
 }
 
 
@@ -1563,4 +1572,69 @@ table thead{
 .dark-mode .btn-seltab {
     background-color: var(---primary) !important;
     border-color: var(---primary);
+}
+
+.btn-navigation{
+    border: none;
+    padding: 10px;
+    /* background-color: var(---primary); */
+    /* border: 1px solid black; */
+}
+.btn-navigation::before{
+  
+    background-color: var(---primary);
+    
+}
+.btn-navigation button{
+    border: none;
+}
+
+.btn-unseltab {
+    /* background-color: red !important; */
+}
+.unselTabFont {
+    /* background-color: greenyellow !important; */
+}
+.selTabFont {
+    /* background-color: rgb(255, 6, 6) !important; */
+    border-bottom: 4px solid var(---primary);
+    color: var(---primary) !important;
+    font-weight: 700;
+    transition: 0.8s ease;
+}
+.selTabFont:after {
+    /* background-color: rgb(255, 6, 6) !important; */
+    border-bottom: 4px solid var(---primary);
+    width: 0;
+    transition: 0.8s ease;
+}
+.selTabFont:after:hover {
+    /* background-color: rgb(255, 6, 6) !important; */
+    border-bottom: 10px solid var(---primary);
+    width: 0;
+    transition: 0.3s ease;
+}
+.selTabFont span {
+  
+    font-weight: 700;
+    transition: 0.3s ease;
+}
+.selTabFont button {
+  
+    border: none !important;
+}
+
+.btn-seltab {
+   
+    background-color: transparent !important;
+}
+
+
+.material-tbl1 .tabelhedaer-bg{
+    
+    background-color: white !important;
+    /* color: #0062cc; */
+    color: black !important;
+    font-weight: 700 !important;
+
 }

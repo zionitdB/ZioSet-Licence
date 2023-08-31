@@ -13,8 +13,8 @@
     }
 
     .btn-seltab {
-        background-color: var(---primary) !important;
-        border-color: var(---primary);
+        /* background-color: var(---primary) !important;
+        border-color: var(---primary); */
     }
 
 
@@ -135,25 +135,25 @@
         <!-- RFID Zone start -->
         <uib-tab heading="">
             <div class="row">
-                <div ng-class="selTab=='home'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToOverview()">
+                <div ng-class="selTab=='home'?'selTabFont col-md-3':'unselTabFont col-md-3'" class="btn btn-navigation" ng-click="goToOverview()">
                     <button type="button"
                         ng-class="selTab=='home'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
                         style="height:40px;"><span>Overview</span></button>
 
                 </div>
-                <div ng-class="selTab=='saas'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSAAS()">
+                <div ng-class="selTab=='saas'?'selTabFont col-md-3':'unselTabFont col-md-3'" class="btn btn-navigation" ng-click="goToSAAS()">
                     <button type="button"
                         ng-class="selTab=='saas'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
                         style="height:40px;"> <span>SAAS</span></button>
                 </div>
-                <div ng-class="selTab=='install'?'selTabFont col-md-3':'unselTabFont col-md-3'"
+                <div ng-class="selTab=='install'?'selTabFont col-md-3':'unselTabFont col-md-3'" class="btn btn-navigation"
                     ng-click="goToInstalled()">
                     <button type="button"
                         ng-class="selTab=='install'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
                         style="height:40px;"><span>Installed</span></button>
 
                 </div>
-                <div ng-class="selTab=='system'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSystem()">
+                <div ng-class="selTab=='system'?'selTabFont col-md-3':'unselTabFont col-md-3'" class="btn btn-navigation" ng-click="goToSystem()">
                     <button type="button"
                         ng-class="selTab=='system'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
                         style="height:40px;"> <span>System</span></button>

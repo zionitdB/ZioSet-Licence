@@ -1,73 +1,80 @@
- 
 <link rel="stylesheet" type="text/css" href="templates/login/style.css" />
- 
- <div class="container-fluid loginout text-center" ng-show="!forgetPasswordTab">
-        <div class="row logindiv">
-            <div class="col-md-6">
-                <img src="images/loinimg.png" alt="" srcset="" class="loginimg" style="width:325px">
-            </div>
-            <form class="col-md-6 logform">
-                <img src="images/zionit.jpg" alt="" class="loginlogo">
-                <legend class="" style="color: #3226ae; font-size: 4vh; margin-top: 30px;"><b>Welcome </b></legend>
-                <div class="mb-5">
-                <label>Username</label>
-                    <input type="text" class="form-control" ng-model="user.username" placeholder="Username" id="exampleInputEmail1"
-                       >
-                </div>
-                <div class="mb-3">
-                <label>Password <i class="fa fa-eye" ng-click="vm.showPass()"></i></label>
-                    <input   type="password" placeholder="Password" ng-model="user.password" class="form-control"  ng-show="vm.passView" id="exampleInputPassword1" style="padding-right: 35px;">
-                     <input   type="text" placeholder="Password" ng-model="user.password" class="form-control"  ng-show="!vm.passView" id="exampleInputPassword1" style="padding-right: 35px;">
-                     <div class="input-group-append">
-                        <span class="input-group-text" style="" ng-click="vm.showPass()">
-                            <i class="fa fa-eye"></i>
-                        </span>
-                    </div>
-                </div>
-                 <div class="mb-2" ng-if="vm.userRes.code==300">
-                <label>OTP <i class="fa fa-check" ng-click="vm.verify()" title="vm.verifyOtp(user)"></i> </label>
-                    <input type="text" class="form-control" ng-model="user.otp" placeholder="Enter OTP" >
-                    <div class="input-group-text">
-                        <i class="fa fa-check" ng-click="vm.verify()" title="vm.verifyOtp(user)"></i> 
-                    </div>
 
-                    <span ng-if="vm.optVerificationRes.code==200" style="color:green">{{veficationMessage}}</span><span ng-if="vm.optVerificationRes.code!=200" style="color:red">{{veficationMessage}}</span>
-                 <button type="submit" class="save mb-5" ng-click="vm.resendOTP()" ng-if="showResend" >Resend</button>
-                
-                </div>
-               <div class="login-page-new__main-form-row" vc-recaptcha key="'6LdUvAonAAAAALCFVtm59Bhm4yuWgQUabrWbYuQD'"></div>
-                
-                <button type="submit" class="save mb-5" ng-click="vm.doLogin(user)">Login</button>
-                
-                <br/>
-                
-                <a ng-click="vm.goToforgetPassword()">Forget Password </a>
-               
-            </form>
-           
+<div class="container-fluid loginout text-center" ng-show="!forgetPasswordTab">
+    <div class="row logindiv">
+        <div class="col-md-7">
+            <img src="images/loinimg.png" alt="" srcset="" class="loginimg" style="width:325px">
         </div>
-    </div>
-    <div class="container-fluid loginout text-center" ng-show="forgetPasswordTab">
-        <div class="row logindiv">
-            <div class="col-md-6">
-                <img src="images/loinimg.png" alt="" srcset="" class="loginimg">
-            </div>
-            <form class="col-md-6 logform">
-                <img src="images/allstateHR1.png" alt="" class="loginlogo">
-                <legend class="" style="color: #3226ae; font-size: 4vh; margin-top: 30px;"><b>Forget Password </b></legend>
-                <div class="mb-5">
+        <form class="col-md-4 logform">
+            <img src="images/zionit.jpg" alt="" class="loginlogo">
+            <legend class="" style="color: #3226ae; font-size: 4vh; margin-top: 30px;"><b>Welcome </b></legend>
+            <div class="mb-5">
                 <label>Username</label>
-                    <input type="text" class="form-control" ng-model="user.username" placeholder="Username"  ng-change="vm.checkUserName(user.username)"id="exampleInputEmail1"
-                       >
-                                       <span ng-show="vm.userRes.code==500" style="color:red">{{vm.userRes.message}}</span>
-                       
+                <input type="text" class="form-control" ng-model="user.username" placeholder="Username"
+                    id="exampleInputEmail1">
+                    <!-- <div class="login-page-new__main-form-row-icon icon">
+                        <i class="fa fa-envelope" style="display: block;width: 100%;height: 100%;"></i>
+    
+                      </div> -->
+            </div>
+            <div class="mb-3">
+                <label>Password <i class="fa fa-eye" ng-click="vm.showPass()"></i></label>
+                <input type="password" placeholder="Password" ng-model="user.password" class="form-control"
+                    ng-show="vm.passView" id="exampleInputPassword1" style="padding-right: 35px;">
+                <input type="text" placeholder="Password" ng-model="user.password" class="form-control"
+                    ng-show="!vm.passView" id="exampleInputPassword1" style="padding-right: 35px;">
+                <div class="input-group-append">
+                    <span class="input-group-text" style="" ng-click="vm.showPass()">
+                        <i class="fa fa-eye"></i>
+                    </span>
                 </div>
-               
-                <button type="submit" class="save mb-5" ng-click="vm.forget(user)">Forget</button>
-                <br/>
-                <a ng-click="vm.goTologin()">Sign In</a>
-               
-            </form>
-           
-        </div>
+            </div>
+            <div class="mb-2" ng-if="vm.userRes.code==300">
+                <label>OTP <i class="fa fa-check" ng-click="vm.verify()" title="vm.verifyOtp(user)"></i> </label>
+                <input type="text" class="form-control" ng-model="user.otp" placeholder="Enter OTP">
+                <div class="input-group-text">
+                    <i class="fa fa-check" ng-click="vm.verify()" title="vm.verifyOtp(user)"></i>
+                </div>
+
+                <span ng-if="vm.optVerificationRes.code==200" style="color:green">{{veficationMessage}}</span><span
+                    ng-if="vm.optVerificationRes.code!=200" style="color:red">{{veficationMessage}}</span>
+                <button type="submit" class="save mb-5" ng-click="vm.resendOTP()" ng-if="showResend">Resend</button>
+
+            </div>
+            <div class="login-page-new__main-form-row" vc-recaptcha key="'6LdUvAonAAAAALCFVtm59Bhm4yuWgQUabrWbYuQD'">
+            </div>
+
+            <button type="submit" class="save mb-5" ng-click="vm.doLogin(user)">Login</button>
+
+            <br />
+
+            <a ng-click="vm.goToforgetPassword()">Forget Password </a>
+
+        </form>
+
     </div>
+</div>
+<div class="container-fluid loginout text-center" ng-show="forgetPasswordTab">
+    <div class="row logindiv">
+        <div class="col-md-6">
+            <img src="images/loinimg.png" alt="" srcset="" class="loginimg">
+        </div>
+        <form class="col-md-6 logform">
+            <img src="images/allstateHR1.png" alt="" class="loginlogo">
+            <legend class="" style="color: #3226ae; font-size: 4vh; margin-top: 30px;"><b>Forget Password </b></legend>
+            <div class="mb-5">
+                <label>Username</label>
+                <input type="text" class="form-control" ng-model="user.username" placeholder="Username"
+                    ng-change="vm.checkUserName(user.username)" id="exampleInputEmail1">
+                <span ng-show="vm.userRes.code==500" style="color:red">{{vm.userRes.message}}</span>
+
+            </div>
+
+            <button type="submit" class="save mb-5" ng-click="vm.forget(user)">Forget</button>
+            <br />
+            <a ng-click="vm.goTologin()">Sign In</a>
+
+        </form>
+
+    </div>
+</div>
