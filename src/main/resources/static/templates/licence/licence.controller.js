@@ -12,6 +12,7 @@
 		var tagUrl = ApiEndpoint.url+"tag";
 		var assetUrl = ApiEndpoint.url+"asset";
 		var licenceUrl = ApiEndpoint.url+"licence";
+		var portalUrl = ApiEndpoint.url+"portal";
 		var userDetails = localStorageService.get(ApiEndpoint.userKey);
 		var userDetail = localStorageService.get(ApiEndpoint.userKey);
 		var vm = angular.extend(this, {
@@ -37,7 +38,9 @@
 			getDataByTypeAndAssociateAndProductName:getDataByTypeAndAssociateAndProductName,
 			getDataByTypeAndAssociateAndProductNameVersion:getDataByTypeAndAssociateAndProductNameVersion,
 			addType:addType,
-			saveType:saveType
+			saveType:saveType,
+			generateKey:generateKey,
+			downloadCheck:downloadCheck
 		});
 
 		(function activate() {
@@ -46,6 +49,41 @@
 			loadTypes();
 			
 		})();
+		function downloadCheck(){
+			var msg="";
+			var 	url="http://20.219.1.165:8092/release/getAllReleases";
+			genericFactory.getAll(msg,url).then(function(response) {
+				vm.releases = response.data.data;
+				console.log("releases: "+JSON.stringify(vm.releases))
+				var 	url=portalUrl+"/addReleases";
+				genericFactory.add(msg,url,vm.releases).then(function(response) {
+					console.log("RES: "+JSON.stringify(response.data))
+
+									
+				});
+							
+			});
+			
+		}
+		
+		function generateKey(){
+			
+			console.log("GENERATE KEY ")
+
+			var msg="";
+			var 	url=licenceUrl+"/getMaxKeyIndex";
+			genericFactory.getAll(msg,url).then(function(response) {
+				vm.resObj = response.data;
+				var resStr="1"+vm.resObj.dataString
+				resStr++;
+				var newStr=resStr.toString()
+				vm.licence.keyGenIndx=newStr.substring(1,newStr.length)
+				
+				vm.licence.licenceKey="SAAS"+newStr.substring(1,newStr.length)
+				console.log("resObj : "+JSON.stringify(vm.resObj))	
+				console.log("resStr : "+JSON.stringify(newStr.substring(1,newStr.length)))	
+			});
+		}
 		function saveType(type){
 			if(type.typeName==""||type==undefined){
 				$scope.typeNameErr=true
@@ -224,7 +262,7 @@
 		}
 		
 		$scope.filename="Machines"
-			vm.labels={'srNo': 'Sr No','branch.branchName': 'Location','deviceGrouping': 'Device Grouping','deskLocation': 'Location','assetType':'Asset Type','serialNo':'Serial No','assetId':'Asset Id','tagCode':'EPC','purchaseOrderNo':'Purchase Order No', 'invoiceNo':'InvoiceNo','invoiceDate':'Invoice Date','age':'Age','make':'Make','model':'Model','status':'Status'}
+			vm.labels={'srNo': 'Sr No','branch.branchName': 'Location','associate.associateName': 'Publisher','product.productName': 'Product','licenceType':'Licence Type','projectName':'Project Name','licenceVersion':'Version','licenceStatus':'Status','cost':'Cost', 'purDate':'Purchase Date','expDate':'Expiry Date'}
 		$scope.checkSerialNo=function (serialNo){
 			var msg=""
 				 var url =assetUrl+"/checkBySerialNo?serialNo="+serialNo;
@@ -234,41 +272,37 @@
 				});
 					
 		}
-		 $scope.exportData = function () {  
-			  console.log("Exporting .........")
-		        //get current system date.         
-		        var date = new Date();  
-		        $scope.CurrentDateTime = $filter('date')(new Date().getTime(), 'MM/dd/yyyy HH:mm:ss');          
-		        //To convert Date[mm/dd/yyyy] from jsonDate "/Date(1355287447277)/"  
-		        for(var i=0; i<$scope.searchCaseResult.length;i++)  
-		        {  
-		            $scope.searchCaseResult[i].DocCreatedDate;  
-		            var dateString = $scope.searchCaseResult[i].DocCreatedDate.substr(6);  
-		            var currentTime = new Date(parseInt(dateString));  
-		            var month = currentTime.getMonth() + 1;  
-		            var day = currentTime.getDate();  
-		            var year = currentTime.getFullYear();  
-		            var date = month + "/" + day + "/" + year;  
-		            $scope.searchCaseResult[i].DocCreatedDate = date;              
-		        }  
-		        //Create XLS format using alasql.js file.  
-		        alasql('SELECT * INTO XLS("SearchResult' + $scope.CurrentDateTime + '.xls",?) FROM ?', [allAssets, $scope.searchCaseResult]);  
-		    };  
-		$scope.newExcel= function(){
-			
-			
-			
+		 
+		
+		$scope.download=function (){
 			$rootScope.loader=true;
-	    	  getAllAssets();
-			// $rootScope.loader=true;
-				exportData();
-	    	  document.getElementById('btnExport').click();
-			
-			}
+			var msg=""
+				 var url =licenceUrl+"/getAllLicences";
+				genericFactory.getAll(msg,url).then(function(response) {
+				vm.dataexp = response.data;
+				setInterval(document.getElementById('btnExport').click(), 1000);
+				$rootScope.loader=false;
+				console.log("allLicenes: "+JSON.stringify(vm.dataexp))
+				//document.getElementById('btnExport').click();
+			//	$rootScope.loader=false;
+								
+			});	
+		}
 		
 		
-		
-		
+function exportData(){
+	var msg=""
+		 var url =licenceUrl+"/getAllLicences";
+		genericFactory.getAll(msg,url).then(function(response) {
+		vm.dataexp = response.data;
+		//setInterval(document.getElementById('btnExport').click(), 1000);
+
+		console.log("allLicenes: "+JSON.stringify(vm.dataexp))
+		//document.getElementById('btnExport').click();
+	//	$rootScope.loader=false;
+						
+	});
+}		
 		
 		
 		function addNew(){

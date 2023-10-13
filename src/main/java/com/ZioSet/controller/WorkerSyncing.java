@@ -43,7 +43,6 @@ import com.ZioSet.Repo.SoftwareRepo;
 import com.ZioSet.Service.AssetEmployeeMappeServices;
 import com.ZioSet.Service.AssetService;
 import com.ZioSet.Service.NotificationService;
-import com.jayway.jsonpath.Option;
 
 @RestController
 @CrossOrigin("*")
@@ -93,16 +92,42 @@ public class WorkerSyncing {
 			
 			Optional<Asset>optional=assetServices.checkSerialNo(ramDetials.getSystemSerialNo());
 			if(optional.isPresent()){
+				System.out.println("ram...................................................................................."+ramDetials.getSize());
+				double size=ramDetials.getSize();
 				Optional<RamDetials> optional2=ramDetialsRepo.getRamDetialsBySerialNoAndOther(ramDetials.getSystemSerialNo(),ramDetials.getSize(),ramDetials.getSerialNo(),ramDetials.getPartNo(),ramDetials.getManufacture());
 				if(optional2.isPresent()){
 					RamDetials detials=optional2.get();
-					detials.setAsset(optional.get());
 
+					if(ramDetials.getManufacture()!=detials.getManufacture()){
+						notificationService.sendRamNotification("Manufacture",ramDetials,optional2.get());
+
+					}
+					if(ramDetials.getPartNo()!=detials.getPartNo()||ramDetials.getSerialNo()!=detials.getSerialNo()){
+						notificationService.sendRamNotification("Part No",ramDetials,optional2.get());
+
+					}
+					if(ramDetials.getSerialNo()!=detials.getSerialNo()){
+						notificationService.sendRamNotification("Serial Number",ramDetials,optional2.get());
+
+					}
+					System.out.println("ram"+ramDetials.getSize());
+					if(ramDetials.getSize()!=detials.getSize()){
+						notificationService.sendRamNotification("Size",ramDetials,optional2.get());
+
+					}
+					detials.setAsset(optional.get());
+					detials.setManufacture(ramDetials.getManufacture());
+					detials.setPartNo(ramDetials.getPartNo());
+					detials.setSerialNo(ramDetials.getSerialNo());
+					detials.setSize(size);
+					detials.setTotalSize(ramDetials.getTotalSize());
 					detials.setAddedDate(new Date());
 					ramDetialsRepo.save(detials);
+					
 				}else{
 					ramDetials.setAsset(optional.get());
 					ramDetials.setAddedDate(new Date());
+					ramDetials.setTotalSize(size);
 
 					ramDetialsRepo.save(ramDetials);
 				}
@@ -199,14 +224,21 @@ public class WorkerSyncing {
 					double totalSpace=Double.parseDouble(diskDetials.getSize().replace("GB", ""));
 					double per=((freeSpace*100)/totalSpace);
 					System.out.println("DISK Utilization :: "+per+"  %");
-					
+					if(per>90){
+						notificationService.sendDiskUtilizationNotification(cpuDetials,per);
+					}
 				}else{
 					diskDetials.setAsset(optional.get());
 					diskDetials.setSyncUpdatedDate(new Date());
 					diskDetialsRepo.save(diskDetials);
-					double freeSpace=Double.parseDouble(diskDetials.getFreeSpace());
+					System.out.println("Free "+diskDetials.getFreeSpace());
+					double freeSpace=Double.parseDouble(diskDetials.getFreeSpace().replace(" GB", ""));
 					double totalSpace=Double.parseDouble(diskDetials.getSize());
 					double per=((freeSpace*100)/totalSpace);
+					if(per>90){
+						notificationService.sendDiskUtilizationNotification(diskDetials,per);
+
+					}
 					System.out.println("DISK Utilization :: "+per+"  %");
 
 					
@@ -416,7 +448,7 @@ public class WorkerSyncing {
 			List<Asset> allAsset=assetServices.getAllAsset();
 			int srNo=1;
 			List<Integer> categories =installLicenceStockRepo.getListWorkerInstalledList();
-
+System.out.println("WORKER LIST "+categories.size());
 			for(int id:categories){
 				Optional<Asset> assetOp =assetService.getAssetByIdOp(id);
 				Asset asset=assetOp.get(); 
@@ -428,20 +460,15 @@ public class WorkerSyncing {
 			//	System.out.println("EMP nextDate  "+nextDate);
 
 				List<Software> list= softwareRepo.getAllSoftwareBySerialNoAndBeetweenDate(asset.getSerialNo(),today,nextDate);
+			
+				System.out.println("list  "+list.size());
 				if(list.size()==0){
 					
-					Optional<AssetEmployeeAssigned> assetEmpOp=assetEmployeeMappeServices.getAllocationByAsset(asset.getId());
 					asset.setSrNo(srNo);
 					srNo++;
 					//System.out.println("EMP ASSIGNE  "+assetEmpOp.isPresent());
-					if(assetEmpOp.isPresent()){
-						asset.setEmployee(assetEmpOp.get().getEmployee());
-						detials.add(asset);
-						
-					}else{
-						detials.add(asset);
-
-					}
+					
+					detials.add(asset);
 				}
 			}
 					

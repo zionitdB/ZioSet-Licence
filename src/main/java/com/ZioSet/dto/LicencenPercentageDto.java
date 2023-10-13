@@ -1,5 +1,7 @@
 package com.ZioSet.dto;
 
+import java.util.Date;
+
 public class LicencenPercentageDto {
 	private double instalPercentage;
 	private double saasPercentage;
@@ -7,7 +9,7 @@ public class LicencenPercentageDto {
 	
 	private double totalCount;
 	private double activeCount;
-	private String date;
+	private Date date;
 	public double getInstalPercentage() {
 		return instalPercentage;
 	}
@@ -32,10 +34,10 @@ public class LicencenPercentageDto {
 	public void setActiveCount(double activeCount) {
 		this.activeCount = activeCount;
 	}
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	

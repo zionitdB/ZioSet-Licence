@@ -13,6 +13,15 @@ import javax.persistence.Table;
 @Table(name="licence_expriry")
 public class LicenceExpriry {
 	
+	@Override
+	public String toString() {
+		return "LicenceExpriry [licenceExpriryid=" + licenceExpriryid + ", publisherName=" + publisherName
+				+ ", productName=" + productName + ", releaseName=" + releaseName + ", edition=" + edition
+				+ ", version=" + version + ", releaseDate=" + releaseDate + ", retirementDate=" + retirementDate
+				+ ", premiumSupportEndDate=" + premiumSupportEndDate + ", extendedSupportEndDate="
+				+ extendedSupportEndDate + "]";
+	}
+
 	@Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="licence_expriry_id")

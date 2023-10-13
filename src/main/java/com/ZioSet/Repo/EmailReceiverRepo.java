@@ -28,7 +28,7 @@ public interface EmailReceiverRepo  extends JpaRepository<EmailReceiver, Integer
 	@Query("select count (*) from EmailReceiver e where e.branch.branchId=1")
 	int getPuneAllEmailReceiverCount();
 	
-	@Query("select count (*) from EmailReceiver e where e.branch.branchId=1")
+	@Query("select count (*) from EmailReceiver e where e.branch.branchId=2")
 	int getBengaluruAllEmailReceiverCount();
 
 }

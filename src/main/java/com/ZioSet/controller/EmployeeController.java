@@ -35,6 +35,7 @@ import com.ZioSet.Repo.BranchRepo;
 import com.ZioSet.Repo.DepartmentRepo;
 import com.ZioSet.Service.EmployeeServices;
 import com.ZioSet.dto.Status;
+import com.ZioSet.model.AssetEmployeeAssigned;
 import com.ZioSet.model.Branch;
 import com.ZioSet.model.Department;
 import com.ZioSet.model.Employee;
@@ -100,23 +101,70 @@ public class EmployeeController {
 	public @ResponseBody Status deleteEmployee(@RequestBody Employee employee) {
 		Status status =new Status();
 		try {
-			//System.out.println("Delete Employee");
-			//List<AssetEmployeeAssigned> list = assetEmployeeMappeServices.getEmployeeWiseAllocationReport(employee.getEmployeeId());
+			System.out.println("Delete Employee");
+			List<AssetEmployeeAssigned> list = employeeServices.getEmployeeWiseAllocationReport(employee.getEmployeeId());
 			
-			/*if(list.size()!=0){
+			if(list.size()!=0){
 				status.setCode(500);
 				status.setMessage("Employee has assinged asset ..so can not delete");
 			}else{
 				status.setCode(200);
 				status.setMessage("Employee deleted ....succesfully");
 				employeeServices.deleteEmployee(employee);
-			}*/
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			status.setCode(500);
 			status.setMessage("Something Wrong");
 		}
 		return status;
+	}
+	@RequestMapping(value = "/getAllEmployeeListByBranch", method = RequestMethod.GET)
+	public @ResponseBody List<Employee> getAllEmployeeListByBranch(@RequestParam("branchName") String branchName) {
+		Status status =new Status();
+		List<Employee> list =new ArrayList<Employee>();
+		try {
+			List<Employee> list1=employeeServices.getAllEmployeesByBranch(branchName);
+			int srNo=1;
+			for(Employee employee : list1){
+					if(employee.getAddedBy()!=null){
+					String addBy=employee.getAddedBy().getFirstName()+" "+employee.getAddedBy().getLastName();
+					employee.setAddBy(addBy);
+				}
+				if(employee.getHireDate()!=null){
+				//	String hrDate=dateFormat.format(employee.getHireDate());
+				//	employee.setHrDate(hrDate);
+
+				}
+				System.out.println("ACTIVE "+employee.getActive());
+				if(employee.getActive()==1){
+					employee.setStatus("Active");
+				}
+				if(employee.getActive()==2){
+					employee.setStatus("Paid Leave");				
+				}
+				if(employee.getActive()==3){
+					employee.setStatus("Unpaid Leave");
+				}
+				if(employee.getActive()==4){
+					employee.setStatus("Terminated");
+				}
+				employee.setSrNo(srNo);
+				
+				if(employee.getManager()!=null){
+					employee.setManager(employee.getManager().replace(' ',' '));
+
+				}
+				list.add(employee);
+				srNo++;
+			
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			status.setCode(500);
+			status.setMessage("Something Wrong");
+		}
+		return list;
 	}
 	@RequestMapping(value = "/getAllEmployees", method = RequestMethod.GET)
 	public @ResponseBody List<Employee> getAllEmployees() {
@@ -393,7 +441,9 @@ public class EmployeeController {
 								}else{
 									if(! bOptional.isPresent()){
 										responceMsg+=" \r\n InValid Branch Name for Row No ::"+i;
-									//	//System.out.println("InValid Branch Name for Row No ::"+i);
+									System.out.println("InValid Branch Name for Row No ::"+i);
+									}else{
+										 employee.setBranch(bOptional.get());
 									}
 									
 								}
@@ -453,7 +503,7 @@ public class EmployeeController {
 									 employee.setWorkLocation(workLocation);
 									 employee.setManager(manager);
 									 //employee.setHireDate(hireDate);
-									 employee.setBranch(bOptional.get());
+									
 									 employee.setUsername(username);
 									// employee.setAddedDate(new Date());
 									 employee.setEmail(email);

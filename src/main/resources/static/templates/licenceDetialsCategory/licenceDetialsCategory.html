@@ -1,0 +1,155 @@
+  <style>
+
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Licence Detials Category">
+            	
+                     	<div class="material mt-5" >
+                    <hr>
+                    <form class="row g-3">
+                     <!--  <legend class="dotted    mt-5" style="color: #616060; font-size: 18px;" ng-repeat="type in vm.types"><i class="bi bi-plus-square"  ng-show="!type.check" ng-click="selectQR($index)"></i> <i ng-show="type.check" ng-click="selectQR($index)"class="bi bi-dash-square" ></i><b> {{type.typeName }}   - 90 </b>
+                    </legend> -->
+<!--                       <ul  style="list-style-type:none" ng-repeat="type in vm.types">
+                        	<li > <input class="c_check"
+							type="checkbox" ng-checked="type.check"
+							ng-click="selectQR($index)"> {{type.licenceType }}   - {{type.count }}</li>
+                        </ul> -->
+                    <legend class="dotted    mt-5"   style="color: #616060; font-size: 18px;" ng-repeat="category in vm.categories"><i class="bi bi-plus-square"   title="Show" ng-show="!category.check" ng-click="selectQR($index)"></i> <i ng-show="category.check" title="Hide" ng-click="selectQR($index)"class="bi bi-dash-square" ></i><b> {{category.categoryName }}   - {{category.count }} </b>
+                        
+		                     		<legend class="dotted    mt-5" ng-show="category.check"  style="color: #616060; font-size: 18px;margin-left: 100px;" ng-repeat="application in vm.applications"><i class="bi bi-plus-square" title="Show"  ng-show="!application.check" ng-click="selectAppication($index)"></i> <i ng-show="application.check" title="Hide" ng-click="selectAssocaiation($index)"class="bi bi-dash-square" ></i><b> {{application.applicationName}}   - {{application.count}} </b>
+		                   						<button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel(application)">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.lists" report-fields="vm.labels" style="display:none" filename="vm.fileName" ></button>
+						            
+		                   						
+		                 					   
+		                 					   				<div class="material-tbl mt-3" ng-show="application.check" >
+													                        <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
+													                            style="width: 92%;">
+													                            <thead>
+													                                <tr>
+													                                
+													                                    <th>Sr No</th>
+													                                   
+													                                 
+													                                    <th>Associate</th>
+													                                     <th>Product</th>
+													                                    <th>Version</th>
+													                                    <th>Make</th>
+													                                    <th>Model</th>
+													                                    <th>Serial No</th>
+													                                     <th>Asset Id </th>
+													                                      <th>Employee No</th>
+                                														<th>Employee Name</th>
+                                														<th>Project Id</th>
+                        														        <th>Project Name</th>
+													                                      <th>Computer Name</th>
+													                                    <th>Detected Date</th>
+													                                   
+													
+													                                </tr>
+													                            </thead>
+													                            <tbody>
+																				<tr ng-repeat="licence in vm.lists">
+																				
+													                                        
+<!-- 													                                	<td> <md-button class="md-icon-button btn-sm" aria-label="Favorite" ><i class='fas fa-eye'   data-toggle="tooltip" data-placement="bottom" title="Shoe Other Licecence" ng-click="vm.showOther(licence)" style="font-size:20px;color:#2E4053;"></i></md-button>
+ -->													                                	
+													                                	</td>
+													                                    <td>{{$index+1}}</td>
+													                                      <td>{{licence.associate.associateName}}</td>
+													                                      <td>{{licence.product.productName}}</td>
+													                                   
+													                                    <td>{{licence.productVersion}}</td>
+													                                    <td>{{licence.asset.make}}</td>
+													                                    <td>{{licence.asset.model}} </td>
+													                                    <td>{{licence.asset.serialNo}}</td>
+													                                     <td>{{licence.asset.assetId}}</td>
+														                                       <td>{{licence.asset.employeeNo}}</td>
+                             																   <td>{{licence.asset.employeeName}}</td>
+                             																     <td>{{licence.asset.projectId}}</td>
+                           																	     <td>{{licence.asset.projectName}}</td>
+													                                     <td>{{licence.computerName}}</td>
+													                                    <td>{{licence.detectedDate|date:'dd-MM-yyyy'}}</td>
+													                        
+													                                       
+													                                   
+													                                </tr>
+													                               
+													                               
+													                            </tbody>
+													                            
+													                        </table>
+
+                   												 </div>
+		                 					   
+		                 					   
+		                 					   
+		                     	  </legend>
+                     </legend>
+                     
+                     
+                     
+                     
+                        
+                     
+                       
+                        
+                          
+                      
+                    </form>
+                </div>   
+                       
+                           
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

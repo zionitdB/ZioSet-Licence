@@ -108,23 +108,22 @@
                        
                 </div>
                     <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                        <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
                             style="width: 100%;">
-                            <thead>
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                     <th>Sr No</th>
                                    
-                                 
-                                     <th>Branch</th>
-                                      
-                                    <th>Asset Type</th>
-                                    <th>Serial No</th>
+                            
                                    
                                     <th>Make</th>
                                     <th>Model</th>
+                                    <th>Serial No</th>
+                                    <th>Asset No</th>
+                                    <th>Employee No</th>
                                      <th>Employee Name</th>
                                        
-                                    <th>Employee No</th>
+                                    
                                    
 
                                 </tr>
@@ -135,16 +134,15 @@
                                         
                                 
                                     <th>{{$index+1}}</th>
-                                    <td>{{asset.branch.branchName}}</td>
-                                   
-                                      <td>{{asset.assetType}}</td>
-                                   
-                                    <td>{{asset.serialNo}}</td>
-                                 
-                                    <td>{{asset.make}}</td>
+                                     <td>{{asset.make}}</td>
                                     <td>{{asset.model}}</td>
-                                     <td>{{asset.allocatedToName}}</td>
-                                    <td>{{asset.allocatedToNo}}</td>
+                                    
+                                    <td>{{asset.serialNo}}</td>
+                                     <td>{{asset.assetId}}</td>
+                                 
+                                   
+                                     <td>{{asset.employeeNo}}</td>
+                                    <td>{{asset.employeeName}}</td>
                                    
 										
                                        

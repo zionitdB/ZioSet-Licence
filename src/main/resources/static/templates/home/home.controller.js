@@ -14,6 +14,7 @@
 		var dailyTransactionUrl = ApiEndpoint.url + "dailyTransaction";
 		var dashboardUrl = ApiEndpoint.url + "dashboard";
 		var licenceUrl = ApiEndpoint.url + "licence";
+		var userUrl1 = ApiEndpoint.urlnew + "user";
 
 		var userDetail = localStorageService.get(ApiEndpoint.userKey);
 
@@ -66,8 +67,29 @@
 				installlicencesByAssociate()
 				loadWorkerActivePercrntage()
 				loadDatabaseDetials();
+				loadTest();
 		})();
+  
+			
+			
+			function loadTest(){
+				
+				
+				console.log("------------------------------ Calling HTTPS-------------------------")
+				
+				var msg=""
+					var url = userUrl1 + "/getAllUsers";
+				console.log("URL "+url)
+					genericFactory.getAll(msg, url).then(function(response) {
+						vm.resObj= response.data;
+						
+						console.log("RES "+JSON.stringify(resObj))
+						
 
+					});
+				
+				
+			}
 	
 	
 
@@ -121,11 +143,11 @@
 			}
 			
 			$scope.saasLiceneExpiry=function(){
-				$location.path('main/saasLiceneExpiry');
+				$location.path('main/expirySAAS');
 			}
 			
 			$scope.eodInstall=function(){
-				$location.path('main/installedLiceneExpiry');
+				$location.path('main/endOfLifeInstall');
 			}
 			
 			$scope.renewLicence=function(){
@@ -155,7 +177,9 @@
 			$scope.gotoPublisherInstall=function(){
 				$location.path('main/PublisherInstall');
 			}
-			
+			$scope.eolSAAS=function(){
+				$location.path('main/endOfLifeSAAS');
+			}
 			
 			
 			

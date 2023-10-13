@@ -1,0 +1,66 @@
+
+<div>
+	<uib-tabset active="activeJustified" justified="true"> <uib-tab
+		style="    text-align: left;" heading=""> 
+	<div class="material mt-5">
+		<legend class="dotted text-center"
+			style="color: #616060; font-size: 18px;">
+			<b>User Profile                            </b>
+			
+		</legend>
+		<hr>
+		<form class="row g-3">
+	
+			<div class="col-md-6">
+				  <label for="inputCity" class="col-form-label">First Name</label> 
+						                                                <input type="text" class="form-control" id="firstName" ng-model="vm.user.firstName"  ng-disabled="ediTable" placeholder="Enter First Name">
+						                                             <span ng-show="firstNameErr" style="color:red">  * First name is mandatory</span>
+			</div>
+			<div class="col-md-6">
+				  <label for="inputCity" class="col-form-label">Last Name</label> 
+						                                                <input type="text" class="form-control" id="lastName" ng-model="vm.user.lastName"  ng-disabled="ediTable"  placeholder="Enter Last name">
+						                                             <span ng-show="lastNameErr" style="color:red">  * Last name is mandatory</span>
+			</div>
+			
+			<div class="col-md-6">
+				  <label for="inputCity" class="col-form-label">Username </label> 
+						                                                <input type="text" class="form-control" id="username" ng-model="vm.user.username" ng-disabled="ediTable"  placeholder="Enter Username">
+						                                             <span ng-show="usernameErr" style="color:red">  * Username is mandatory</span>
+			</div>
+			<div class="col-md-6">
+				  <label for="inputCity" class="col-form-label">Password <i   ng-show="! viewPasstab" class="bi bi-eye" ng-click="viewPass()"style="margin-right: 10px;"></i> <i  ng-show=" viewPasstab" class="bi bi-eye-slash" ng-click="viewPass()"style="margin-right: 10px;"></i> </label> 
+						                                                <input type="text" ng-show="viewPasstab" class="form-control" id="password" ng-model="vm.user.password"  ng-disabled="ediTable" placeholder="Enter Password">
+						                                                <input type="password" ng-show="! viewPasstab" class="form-control" id="password" ng-model="vm.user.password"  ng-disabled="ediTable" placeholder="Enter Password">
+						                                             <span ng-show="passwordErr" style="color:red">  * Password is mandatory</span>
+																	<span style="color:red" ng-show="passwordLengthErr">Password is must have 8 digit</span>
+				                       		<span style="color:red" ng-show="passwordnumberErr">Password is must have at least 1 number</span>
+				                       		<span style="color:red" ng-show="passwordcharErr">Password is must have at least 1 character</span>
+                 
+			
+			</div>
+			<div class="col-md-6">
+				  <label for="inputCity" class="col-form-label">Email</label> 
+						                                                <input type="email" class="form-control" id="email" ng-model="vm.user.email" ng-disabled="ediTable"  placeholder="Enter Email">
+						                                             <span ng-show="emailErr" style="color:red">  * Email name is mandatory</span>
+			</div>
+			<div class="col-md-6">
+				  <label for="inputCity" class="col-form-label">Last Updated</label> 
+						                                                <input type="text" class="form-control" id="updDatetime" ng-model="vm.user.updDatetime|date:'dd-MM-yyyy'"  disabled  placeholder="Enter Last name">
+			</div>
+			
+
+			
+			<div class="col-12 mt-4 text-center">
+				<button type="submit" class="save" ng-show="ediTable"  ng-click="vm.edit()" >Edit</button>
+
+				<button type="submit" class="save" ng-show="! ediTable"  ng-click="vm.save()" >Submit</button>
+
+
+			</div>
+		</form>
+	</div>
+	
+
+	
+	<!-- List View Star --> </uib-tab> </uib-tabset>
+</div>

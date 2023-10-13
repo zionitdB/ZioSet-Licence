@@ -13,11 +13,18 @@ public class DashboardOverviewCountDto {
 	private int endOfLifeSAAS;
 	private int renewalCount;
 	private int todayFetchCount;
+	private int expirySAAS;
 	
 	
 	
 	
 	
+	public int getExpirySAAS() {
+		return expirySAAS;
+	}
+	public void setExpirySAAS(int expirySAAS) {
+		this.expirySAAS = expirySAAS;
+	}
 	public int getTodayFetchCount() {
 		return todayFetchCount;
 	}

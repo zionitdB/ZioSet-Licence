@@ -1,295 +1,304 @@
-
 <style>
+    /* calender */
 
-/* calender */
+    .container-calendar {
+        /* background: #ffffff; */
+        padding: 15px;
+        max-width: 404px;
+        margin: 0 auto;
+        overflow: auto;
+        background: #003399;
+        border-radius: 32px;
+    }
 
-.container-calendar {
-   /* background: #ffffff; */
-    padding: 15px;
-    max-width: 404px;
-    margin: 0 auto;
-    overflow: auto;
-    background: #003399;
-    border-radius: 32px;
-}
-.btn-seltab {
-	 background-color: #3226ae;
-  border-color: #3226ae;
-}
+    .btn-seltab {
+        background-color: var(---primary) !important;
+        border-color: var(---primary);
+    }
 
-.btn-unseltab {
-	 background-color: #ffffff;
-  border-color: #ffffff;
-}
-.selTabFont{
-    font-size: 21px;
-    font-weight: 400;
-    color: white;
+    .btn-unseltab {
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
 
-}
-.unselTabFont{
-    font-size: 21px;
-    font-weight: 400;
-    color: black;
+    .selTabFont {
+        font-size: 21px;
+        font-weight: 400;
+        color: white;
 
-}
-.button-container-calendar button {
-    cursor: pointer;
-    display: inline-block;
-    zoom: 1;
-    background: #003399;
-    color: #fff;
-    border: 1px solid #0aa2b5;
-    border-radius: 4px;
-    padding: 5px 10px;
-}
+    }
 
-.table-calendar {
-    border-collapse: collapse;
-    width: 100%;
-    color: white
-}
+    .unselTabFont {
+        font-size: 21px;
+        font-weight: 400;
+        color: black;
 
-.table-calendar td, .table-calendar th {
-    padding: 5px;
-   
-    text-align: center;
-    vertical-align: top;
-}
+    }
 
-.date-picker.selected {
-    font-weight: bold;
-    outline: 1px dashed #00BCD4;
-}
+    .button-container-calendar button {
+        cursor: pointer;
+        display: inline-block;
+        zoom: 1;
+        background: #003399;
+        color: #fff;
+        border: 1px solid #0aa2b5;
+        border-radius: 4px;
+        padding: 5px 10px;
+    }
 
-.date-picker.selected span {
-    border-bottom: 2px solid currentColor;
-}
+    .table-calendar {
+        border-collapse: collapse;
+        width: 100%;
+        color: white
+    }
 
-/* sunday */
+    .table-calendar td,
+    .table-calendar th {
+        padding: 5px;
+
+        text-align: center;
+        vertical-align: top;
+    }
+
+    .date-picker.selected {
+        font-weight: bold;
+        outline: 1px dashed #00BCD4;
+    }
+
+    .date-picker.selected span {
+        border-bottom: 2px solid currentColor;
+    }
+
+    /* sunday */
 
 
-/* friday */
-.date-picker:nth-child(7) {
-  color: red;
-}
+    /* friday */
+    .date-picker:nth-child(7) {
+        color: red;
+    }
 
-#monthAndYear {
-    text-align: center;
-    margin-top: 0;
-    color: white;
-}
+    #monthAndYear {
+        text-align: center;
+        margin-top: 0;
+        color: white;
+    }
 
-.button-container-calendar {
-    position: relative;
-    margin-bottom: 1em;
-    overflow: hidden;
-    clear: both;
-    color: white;
-}
+    .button-container-calendar {
+        position: relative;
+        margin-bottom: 1em;
+        overflow: hidden;
+        clear: both;
+        color: white;
+    }
 
-#previous {
-    float: left;
-}
+    #previous {
+        float: left;
+    }
 
-#next {
-    float: right;
-}
+    #next {
+        float: right;
+    }
 
-.footer-container-calendar {
-    margin-top: 1em;
-    border-top: 1px solid #dadada;
-    padding: 10px 0;
-}
+    .footer-container-calendar {
+        margin-top: 1em;
+        border-top: 1px solid #dadada;
+        padding: 10px 0;
+    }
 
-.footer-container-calendar select {
-    cursor: pointer;
-    display: inline-block;
-    zoom: 1;
-    background: #ffffff;
-    color: #585858;
-    border: 1px solid #bfc5c5;
-    border-radius: 3px;
-    padding: 5px 1em;
-}
+    .footer-container-calendar select {
+        cursor: pointer;
+        display: inline-block;
+        zoom: 1;
+        background: #ffffff;
+        color: #585858;
+        border: 1px solid #bfc5c5;
+        border-radius: 3px;
+        padding: 5px 1em;
+    }
 
-.footer-container-calendar label { 
-  padding-left: 80px;
-    font-weight: 900;
-}
+    .footer-container-calendar label {
+        padding-left: 80px;
+        font-weight: 900;
+    }
+
     .wrapper1 {
-    margin: 15px auto;
-    max-width: 1100px;
-}
-<link rel="stylesheet" type="text/css" href="js/datatables.min.css"/>
-<script type="text/javascript" src="js/datatables.min.js"></script> 
-</style>
-    <div style="margin: 10px;height:100%">
-        <uib-tabset active="activeJustified" justified="true">
-            
+        margin: 15px auto;
+        max-width: 1100px;
+    }
 
-            <!-- RFID Zone start -->
-            <uib-tab heading="">
+    <link rel="stylesheet" type="text/css" href="js/datatables.min.css" /><script type="text/javascript" src="js/datatables.min.js"></script>
+</style>
+<div style="margin: 10px;height:100%">
+    <uib-tabset active="activeJustified" justified="true">
+
+
+        <!-- RFID Zone start -->
+        <uib-tab heading="">
             <div class="row">
-	          <div ng-class="selTab=='home'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToOverview()">
-	            	<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'" style="height:40px;" ><span  >Overview</span></button>
-	          
-	          </div>
-	           <div  ng-class="selTab=='saas'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSAAS()">
-	           <button type="button" ng-class="selTab=='saas'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"style="height:40px;" > <span  >SAAS</span></button>
-	          </div>
-	            <div ng-class="selTab=='install'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToInstalled()">
-	            	<button type="button" ng-class="selTab=='install'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'" style="height:40px;" ><span  >Installed</span></button>
-	          
-	          </div>
-	           <div  ng-class="selTab=='system'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSystem()">
-	           <button type="button" ng-class="selTab=='system'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"style="height:40px;" > <span  >System</span></button>
-	          </div>
-          </div>
-              <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==1">
-                    <div class="row">
-                        <legend class="dotted ml-3" style="color: #616060;"><b>OVERVIEW</b></legend>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4" ng-click="systemDetials()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Total EndPoint  </div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"></h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assetCount}} </h3>
-                                </div>
+                <div ng-class="selTab=='home'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToOverview()">
+                    <button type="button"
+                        ng-class="selTab=='home'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"><span>Overview</span></button>
+
+                </div>
+               <!--  <div ng-class="selTab=='saas'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSAAS()">
+                    <button type="button"
+                        ng-class="selTab=='saas'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"> <span>SAAS</span></button>
+                </div> -->
+                <div ng-class="selTab=='install'?'selTabFont col-md-3':'unselTabFont col-md-3'"
+                    ng-click="goToInstalled()">
+                    <button type="button"
+                        ng-class="selTab=='install'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"><span>Installed</span></button>
+
+                </div>
+                <div ng-class="selTab=='system'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSystem()">
+                    <button type="button"
+                        ng-class="selTab=='system'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"> <span>System</span></button>
+                </div>
+            </div>
+            <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==1">
+                <!-- <div class="row">
+                    <legend class="dotted ml-3" style="color: #616060;"><b>OVERVIEW</b></legend>
+                </div> -->
+                <div class="row mt-5">
+                    <div class="col-md-4" ng-click="systemDetials()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Total EndPoint </div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"></h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assetCount}} </h3>
                             </div>
                         </div>
-                      
-
-                      
-                        
                     </div>
-                 
-                   
+
+
+
+
                 </div>
-<!--              <div class="btn-group btn_align">
+
+
+            </div>
+            <!--              <div class="btn-group btn_align">
   											<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'" style="height:40px;width: 725px;" ng-click="goToAssetDashboard()"><span ng-class="selTab=='home'?'selTabFont':'unselTabFont'" >Asset</span></button>
  											 <button type="button" ng-class="selTab=='licence'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'"style="height:40px;width: 725px;" ng-click="goToLicenceDashboard()"> <span ng-class="selTab=='licence'?'selTabFont':'unselTabFont'" >Licence</span></button>  												
 										</div> -->
-            
-<!--           <h1>System Dashboard</h1>
+
+            <!--           <h1>System Dashboard</h1>
  -->
-              
-                
-             
-                <!-- pie chart start -->
-               
-                  <div class="row">
-    
-    
-    
-        <div class="col-md-12 " style="margin-top: 3px;">
-              <div class="panel-body container-fluid">
-        <section>
-            <div class="card"  style="margin-left:12px">
-                <div class="box ">
-                    <section  class="">
-                        <div class="row lead">
-                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Operating  System</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                            
-                           <canvas class="chart chart-bar " chart-data="osCounts" 
-                           chart-labels="osNames" chart-colors="colorsLocations" chart-dataset-override="datasetOverride3"
-                            style="display: block; width: 523px; height: 200px;">
-                            </canvas>
-                            
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </section>
-    </div> 
-    </div>
-    
-       <div class="col-md-12 " style="margin-top: 3px;">
-              <div class="panel-body container-fluid">
-        <section>
-            <div class="card"  style="margin-left:12px">
-                <div class="box ">
-                    <section  class="">
-                        <div class="row lead">
-                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">CPU</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                            
-                           <canvas class="chart chart-bar " chart-data="cpuCounts" 
-                           chart-labels="cpuNames" chart-colors="colorsLocations" chart-dataset-override="datasetOverride3"
-                            style="display: block; width: 523px; height: 200px;">
-                            </canvas>
-                            
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </section>
-    </div> 
-    </div>
-      <div class="col-md-12 " style="margin-top: 3px;">
-              <div class="panel-body container-fluid">
-        <section>
-            <div class="card"  style="margin-left:12px">
-                <div class="box ">
-                    <section  class="">
-                        <div class="row lead">
-                            <div class="col-md-12 text-center mt-2"   style="font-weight: 500;font-size: 1.5rem">Memory</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                            
-                           <canvas class="chart chart-bar " chart-data="memoryCounts" 
-                           chart-labels="memoryNames" chart-colors="colorsLocations" chart-dataset-override="datasetOverride3"
-                            style="display: block; width: 523px; height: 200px;">
-                            </canvas>
-                            
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </section>
-    </div> 
-    </div>
-                            
-            
-       </div>      
-               
-            
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-           
-               
-               
-               
-    
-   
-    
-    
-            </uib-tab>
 
-           
 
-                
-    </div>
-    
-    
- 
- 
+
+            <!-- pie chart start -->
+
+            <div class="row">
+
+
+
+                <div class="col-md-12 " style="margin-top: 3px;">
+                    <div class="panel-body container-fluid">
+                        <section>
+                            <div class="card" style="margin-left:12px">
+                                 <div class="mb-3 p-4 card-header">Operating System</div>
+                                <div class="card-body ">
+                                    <section class="">
+                                     
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <canvas class="chart chart-bar " chart-data="osCounts"
+                                                    chart-labels="osNames" chart-colors="colorsLocations"
+                                                    chart-dataset-override="datasetOverride3"
+                                                    style="display: block; width: 523px; height: 200px;">
+                                                </canvas>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-md-12 " style="margin-top: 3px;">
+                    <div class="panel-body container-fluid">
+                        <section>
+                            <div class="card" style="margin-left:12px">
+ <div class="mb-3 p-4 card-header">CPU</div>
+                                <div class="card-body ">
+                                    <section class="">
+                                     
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <canvas class="chart chart-bar " chart-data="cpuCounts"
+                                                    chart-labels="cpuNames" chart-colors="colorsLocations"
+                                                    chart-dataset-override="datasetOverride3"
+                                                    style="display: block; width: 523px; height: 200px;">
+                                                </canvas>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-md-12 " style="margin-top: 3px;">
+                    <div class="panel-body container-fluid">
+                        <section>
+                            <div class="card" style="margin-left:12px">
+                                 <div class="mb-3 p-4 card-header">Memory</div>
+                                <div class="card-body">
+                                    <section class="">
+                                     
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <canvas class="chart chart-bar " chart-data="memoryCounts"
+                                                    chart-labels="memoryNames" chart-colors="colorsLocations"
+                                                    chart-dataset-override="datasetOverride3"
+                                                    style="display: block; width: 523px; height: 200px;">
+                                                </canvas>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </uib-tab>
+
+
+
+
+</div>

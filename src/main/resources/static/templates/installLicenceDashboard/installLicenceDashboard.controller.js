@@ -35,6 +35,7 @@
 				loadProductWiseInstalledtable()
 				loadWorkerActivePercrntage();
 				loadDashboardCount();
+				// barThickness: 20
 		})();
 			$scope.goToOverview=function (){
 				$location.path('main/home');
@@ -76,7 +77,10 @@
 				$location.path('main/ProductInstall');
 			}
 			
-			
+
+			$scope.eodInstall=function(){
+				$location.path('main/endOfLifeInstall');
+			}
 			
 			function loadDashboardCount() {
 				var msg = ""
@@ -143,7 +147,7 @@ function loadProductWiseInstalledtable(){
 					genericFactory.getAll(msg, url).then(function(response) {
 						vm.bundleWiseCounts = response.data;
 						
-
+						vm.bundleWiseCounts.barThickness=20;
 					
 						console.log("bundleWiseCounts" + JSON.stringify(vm.bundleWiseCounts))
 						

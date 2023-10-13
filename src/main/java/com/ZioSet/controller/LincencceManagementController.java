@@ -44,14 +44,17 @@ import com.ZioSet.dto.LicenceAssociationGraph;
 import com.ZioSet.dto.LicenceByPubslisherDto;
 import com.ZioSet.dto.LicenceCountDto;
 import com.ZioSet.dto.LicenceDashboardCountDto;
+import com.ZioSet.dto.RequestObj;
 import com.ZioSet.dto.ResponceObject;
 import com.ZioSet.dto.Status;
 import com.ZioSet.model.Asset;
+import com.ZioSet.model.AssetEmployeeAssigned;
 import com.ZioSet.model.AssetLicence;
 import com.ZioSet.model.Associate;
 import com.ZioSet.model.Branch;
 import com.ZioSet.model.Department;
 import com.ZioSet.model.Employee;
+import com.ZioSet.model.ExpiryUpdate;
 import com.ZioSet.model.InstallLicenceStock;
 import com.ZioSet.model.Licence;
 import com.ZioSet.model.LicenceExpriry;
@@ -59,7 +62,13 @@ import com.ZioSet.model.LicenceLifeNotification;
 import com.ZioSet.model.LicenceTypes;
 import com.ZioSet.model.Product;
 import com.ZioSet.model.Software;
+import com.ZioSet.Repo.AssociateRepo;
 import com.ZioSet.Repo.BranchRepo;
+import com.ZioSet.Repo.ExpiryUpdateRepo;
+import com.ZioSet.Repo.InstallLicenceStockRepo;
+import com.ZioSet.Repo.LincencceRepo;
+import com.ZioSet.Repo.ProductRepo;
+import com.ZioSet.Service.AssetEmployeeMappeServices;
 import com.ZioSet.Service.AssetService;
 import com.ZioSet.Service.LincencceManagementService;
 
@@ -71,9 +80,385 @@ public class LincencceManagementController {
 	LincencceManagementService lincencceManagementService;
 	
 	@Autowired
+	AssetEmployeeMappeServices assetEmployeeMappeServices;
+	
+	
+	@Autowired
 	AssetService assetService;
 	@Autowired
 	BranchRepo branchRepo;
+	
+	@Autowired
+	ExpiryUpdateRepo expiryUpdateRepo;
+	@Autowired
+	AssociateRepo associateRepo;
+	
+	@Autowired
+	ProductRepo productRepo;
+	
+	@Autowired
+	LincencceRepo lincencceRepo;
+	@Autowired
+	InstallLicenceStockRepo installLicenceStockRepo;
+	
+	@RequestMapping(value = "/getAllLicenceByDuplicateProductByAssetId", method = RequestMethod.GET)
+	public @ResponseBody List<InstallLicenceStock> getAllLicenceByDuplicateProductByAssetId(@RequestParam("assetId") int assetId) {
+		List<InstallLicenceStock> list= new  ArrayList<InstallLicenceStock>();
+		Set<String> types= new  HashSet<String>();
+
+		try {	
+			List<Asset> assets= assetService.getAllAsset();
+			List<Product> products=productRepo.findAll();
+			
+				for(Product  product:products){
+					List<InstallLicenceStock> lis2= installLicenceStockRepo.getInstallLicenceStockebyAssetIdAndProduct(assetId,product.getId());
+					if(lis2.size()>1){
+						System.out.println("Duplicatiee");
+						list.addAll(lis2);
+					}
+				}
+			
+			int srNo=1;
+			for(InstallLicenceStock  installLicenceStock:list){
+				installLicenceStock.setSrNo(srNo);
+				srNo++;
+			}
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	@RequestMapping(value = "/getAllLicenceByDuplicateProduct", method = RequestMethod.GET)
+	public @ResponseBody List<InstallLicenceStock> getAllLicenceByDuplicateProduct() {
+		List<InstallLicenceStock> list= new  ArrayList<InstallLicenceStock>();
+		Set<String> types= new  HashSet<String>();
+
+		try {	
+			List<Asset> assets= assetService.getAllAsset();
+			List<Product> products=productRepo.findAll();
+			for(Asset  asset:assets){
+				for(Product  product:products){
+					List<InstallLicenceStock> lis2= installLicenceStockRepo.getInstallLicenceStockebyAssetIdAndProduct(asset.getId(),product.getId());
+					if(lis2.size()>1){
+						System.out.println("Duplicatiee");
+						list.addAll(lis2);
+					}
+				}
+			}
+			int srNo=1;
+			for(InstallLicenceStock  installLicenceStock:list){
+				installLicenceStock.setSrNo(srNo);
+				srNo++;
+			}
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/AssociatedAndCountByAssetId", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> AssociatedAndCount(@RequestParam("assetId") int assetId) {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+		Set<String> associtesStr= new  HashSet<String>();
+
+		try {	
+			List<InstallLicenceStock> associates= installLicenceStockRepo.getInstallLicenceStockebyAssetId(assetId);
+			
+			for(InstallLicenceStock  installLicenceStock:associates){
+				associtesStr.add(installLicenceStock.getAssociate().getAssociateName());
+			} 
+			for(String str:associtesStr){
+				LicenceCountDto licenceCountDto= new LicenceCountDto();
+				int count=installLicenceStockRepo.getCountOfInstallLicenceStock(str);
+				licenceCountDto.setLicenceType(str);
+				licenceCountDto.setCount(count);
+				list.add(licenceCountDto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	@RequestMapping(value = "/AssociatedAndCount", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> AssociatedAndCount() {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+		Set<String> associtesStr= new  HashSet<String>();
+
+		try {	
+			List<Associate> associates= associateRepo.findAll();
+			
+			for(Associate associate:associates){
+				associtesStr.add(associate.getAssociateName());
+			} 
+			for(String str:associtesStr){
+				LicenceCountDto licenceCountDto= new LicenceCountDto();
+				int count=installLicenceStockRepo.getCountOfInstallLicenceStock(str);
+				licenceCountDto.setLicenceType(str);
+				licenceCountDto.setCount(count);
+				list.add(licenceCountDto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getProductWithCountByAssociates", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> getProductWithCountByAssociates(@RequestParam("associateName") String associateName) {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+		Set<String> types= new  HashSet<String>();
+
+		try {	
+			List<InstallLicenceStock> products= installLicenceStockRepo.getAllInstalledLicencceReportByAssociate(associateName);
+			
+			for(InstallLicenceStock product:products){
+				types.add(product.getProduct().getProductName());
+			} 
+			for(String str:types){
+				LicenceCountDto licenceCountDto= new LicenceCountDto();
+				int count =installLicenceStockRepo.getCountOfInstallLicenceByProductName(str);
+				licenceCountDto.setAssociateName(str);
+				licenceCountDto.setCount(count);
+				list.add(licenceCountDto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getInstallLicenceBYProductNameProduct", method = RequestMethod.POST)
+	public @ResponseBody List<InstallLicenceStock> getInstallLicenceBYProductNameProduct(@RequestBody RequestObj  requestObj) {
+		List<InstallLicenceStock> list= new  ArrayList<InstallLicenceStock>();
+		Set<String> types= new  HashSet<String>();
+
+		try {	
+			list= installLicenceStockRepo.getListOfLicencesByProductName(requestObj.getInputStr());
+			int srNo=1;
+			for(InstallLicenceStock installLicenceStock:list){
+				installLicenceStock.setSrNo(srNo);
+				srNo++;
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	@RequestMapping(value = "/addExpiryUpdate", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject addExpiryUpdate(@RequestBody ExpiryUpdate expiryUpdate) {
+		ResponceObject responceObject =new ResponceObject();
+		try {
+			
+			expiryUpdate.setExistingExpiryDate(expiryUpdate.getLicence().getLicenceExpiryDate());
+			expiryUpdate.setNewExpiryDate(expiryUpdate.getNewExpDate());
+			Licence licence= expiryUpdate.getLicence();
+			licence.setLicenceExpiryDate(expiryUpdate.getNewExpDate());
+			lincencceRepo.save(licence);
+			expiryUpdateRepo.save(expiryUpdate);
+			responceObject.setCode(200);
+			responceObject.setMessage("Expiry Updated ......... Successfully");
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			responceObject.setCode(500);
+			responceObject.setMessage("Something Wrong");
+		}
+		return responceObject;
+	}
+	
+	
+	@RequestMapping(value = "/getAllPublisher", method = RequestMethod.GET)
+	public @ResponseBody List<Associate> getAllPublisher() {
+		List<Associate> list= new  ArrayList<Associate>();
+		try {	
+			
+				list=associateRepo.findAll();
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getAllProduct", method = RequestMethod.GET)
+	public @ResponseBody List<Product> getAllProduct() {
+		List<Product> list= new  ArrayList<Product>();
+		try {	
+			
+				list=productRepo.findAll();
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getLicenceByPublisherAndProduct", method = RequestMethod.GET)
+	public @ResponseBody List<Licence> getLicenceByPublisherAndProduct(@RequestParam("publisher") int publisher,@RequestParam("product") int product) {
+		List<Licence> list= new  ArrayList<Licence>();
+		try {	
+			
+				list=lincencceRepo.getAllLicenceByPublisherAndProduct(publisher,product);
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@RequestMapping(value = "/getExpiringLicencesSAASPagination/{page_no}/{item_per_page}", method = RequestMethod.GET)
+	public @ResponseBody List<Licence> getExpiringLicencesSAASPagination(@PathVariable("page_no") int page_no,@PathVariable("item_per_page") int item_per_page) {
+		List<Licence> list= new  ArrayList<Licence>();
+		try {	
+			
+				list=lincencceManagementService.getExpiringLicencesSAASPagination(page_no,item_per_page);
+			for(Licence licence:list){
+				Optional<AssetLicence> optional= lincencceManagementService.getAssetLicenceByLicence(licence.getId());
+				if(optional.isPresent()){
+					licence.setAsset(optional.get().getAsset());
+				}
+			}
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getExpiringLicencesSAASSearchPagination", method = RequestMethod.GET)
+	public @ResponseBody List<Licence> getExpiringLicencesSAASSearchPagination(@RequestParam("searchText") String searchText,@RequestParam("pageNo") int pageNo,@RequestParam("perPage") int perPage) {
+		List<Licence> list= new  ArrayList<Licence>();
+		try {	
+			
+			list=lincencceManagementService.getExpiringLicencesSAASSearchPagination(searchText,pageNo,perPage);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@RequestMapping(value = "/getAllCountExpiringLicencesSAAS", method = RequestMethod.GET)
+	public @ResponseBody int  getAllCountExpiringLicencesSAAS() {
+		int  count= 0;
+		try {
+			count= lincencceManagementService.getAllCountExpiringLicencesSAAS();
+
+			
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	@RequestMapping(value = "/getSearchCountExpiringLicencesSAAS", method = RequestMethod.GET)
+	public @ResponseBody int  getSearchCountExpiringLicencesSAAS(@RequestParam("searchText") String searchText) {
+		int  count= 0;
+		try {
+			count= lincencceManagementService.getSearchCountExpiringLicencesSAAS(searchText);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/getAvailanleLicenceExpiryPagination/{page_no}/{item_per_page}", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceExpriry> getAvailanleLicenceExpiryPagination(@PathVariable("page_no") int page_no,@PathVariable("item_per_page") int item_per_page) {
+		List<LicenceExpriry> list= new  ArrayList<LicenceExpriry>();
+		try {	
+			
+				list=lincencceManagementService.getAvailanleLicenceExpiryPagination(page_no,item_per_page);
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getAvailanleLicenceExpirySearchPagination", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceExpriry> getAvailanleLicenceExpirySearchPagination(@RequestParam("searchText") String searchText,@RequestParam("pageNo") int pageNo,@RequestParam("perPage") int perPage) {
+		List<LicenceExpriry> list= new  ArrayList<LicenceExpriry>();
+		try {	
+			
+			list=lincencceManagementService.getAvailanleLicenceExpirySearchPagination(searchText,pageNo,perPage);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@RequestMapping(value = "/getAllCountAvailanleLicenceExpiry", method = RequestMethod.GET)
+	public @ResponseBody int  getAllCountAvailanleLicenceExpiry() {
+		int  count= 0;
+		try {
+			count= lincencceManagementService.getAllCountAvailanleLicenceExpiry();
+
+			
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	@RequestMapping(value = "/getSearchCountAvailanleLicenceExpiry", method = RequestMethod.GET)
+	public @ResponseBody int  getSearchCountAvailanleLicenceExpiry(@RequestParam("searchText") String searchText) {
+		int  count= 0;
+		try {
+			count= lincencceManagementService.getSearchCountAvailanleLicenceExpiry(searchText);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	
+	
+	
 	
 	
 	@RequestMapping(value = "/getTodaysFetchLicenceByLimit/{page_no}/{item_per_page}", method = RequestMethod.GET)
@@ -149,7 +534,7 @@ public class LincencceManagementController {
 		}
 		return count;
 	}
-	@RequestMapping(value = "/getListOfInstalledExpiringLicencce", method = RequestMethod.GET)
+	@RequestMapping(value = "/getEOLInstall", method = RequestMethod.GET)
 	public @ResponseBody List<InstallLicenceStock>  getListOfInstalledExpiringLicencce() {
 		List<InstallLicenceStock> licenceStocks= new ArrayList<InstallLicenceStock>();
 	
@@ -164,10 +549,10 @@ public class LincencceManagementController {
 			System.out.println("NEXT DAY "+nextDate);
 			
 			List<LicenceExpriry> list=lincencceManagementService.getExpiredLicencesByDate(nextDate);
-			//System.out.println("expriry "+list.size());
+			System.out.println("SIZE "+list.size());
 
 			for(LicenceExpriry expriry:list){
-				System.out.println("expriry "+expriry.getReleaseName());
+				System.out.println("expriry "+expriry.toString());
 				
 				List<InstallLicenceStock> installLicenceStocks=lincencceManagementService.getInstallLicenceStockByPublisherProductAndRelease(expriry.getPublisherName(),expriry.getProductName(),expriry.getReleaseName()); 
 				System.out.println("Expiring Install Count "+installLicenceStocks.size());
@@ -196,8 +581,8 @@ public class LincencceManagementController {
 		}
 		return licenceStocks;
 	}
-	@RequestMapping(value = "/getListOfUploadedExpiringLicencce", method = RequestMethod.GET)
-	public @ResponseBody List<Licence>  getListOfUploadedExpiringLicencce() {
+	@RequestMapping(value = "/getEOLSAAS", method = RequestMethod.GET)
+	public @ResponseBody List<Licence>  getEOLSAAS() {
 		List<Licence> licenceStocks= new ArrayList<Licence>();
 	
 		try {
@@ -211,6 +596,7 @@ public class LincencceManagementController {
 			System.out.println("NEXT DAY "+nextDate);
 			
 			List<LicenceExpriry> list=lincencceManagementService.getExpiredLicencesByDate(nextDate);
+			System.out.println("list  "+list.size());
 			for(LicenceExpriry expriry:list){
 				
 				List<Licence> uploadLicenceStocks=lincencceManagementService.getUploadedLicenceStockByPublisherProductAndRelease(expriry.getPublisherName(),expriry.getProductName(),expriry.getReleaseName()); 
@@ -262,7 +648,25 @@ public class LincencceManagementController {
 		return responceObject;
 	}
 	
-	
+	@RequestMapping(value = "/getSystemLincencceByAssetId", method = RequestMethod.GET)
+	public @ResponseBody List<InstallLicenceStock> getSystemLincencceByAssetId(@RequestParam("assetId") int assetId) {
+		List<InstallLicenceStock> list= new  ArrayList<InstallLicenceStock>();
+		try {	
+			
+				list=lincencceManagementService.getSystemLincencceByAssetId(assetId);
+			int srNo=1;
+			for(InstallLicenceStock installLicenceStock : list){
+				installLicenceStock.setSrNo(srNo);
+				srNo++;
+			}
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	@RequestMapping(value = "/getSystemLincencceByLimit/{page_no}/{item_per_page}", method = RequestMethod.GET)
 	public @ResponseBody List<InstallLicenceStock> getSystemLincencceByLimit(@PathVariable("page_no") int page_no,@PathVariable("item_per_page") int item_per_page) {
@@ -271,7 +675,13 @@ public class LincencceManagementController {
 			
 				list=lincencceManagementService.getSystemLincencceByLimit(page_no,item_per_page);
 			
-			
+			for(InstallLicenceStock installLicenceStock : list){
+				Optional<AssetEmployeeAssigned>  optional= assetEmployeeMappeServices.getAllocationByAsset(installLicenceStock.getAsset().getId());
+				if(optional.isPresent()){
+					installLicenceStock.setEmployee(optional.get().getEmployee());
+				}
+				
+			}
 			
 			
 			
@@ -287,7 +697,13 @@ public class LincencceManagementController {
 		try {	
 			
 			list=lincencceManagementService.getSystemLicenceByLimitAndSearch(searchText,pageNo,perPage);
-			
+			for(InstallLicenceStock installLicenceStock : list){
+				Optional<AssetEmployeeAssigned>  optional= assetEmployeeMappeServices.getAllocationByAsset(installLicenceStock.getAsset().getId());
+				if(optional.isPresent()){
+					installLicenceStock.setEmployee(optional.get().getEmployee());
+				}
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -374,10 +790,14 @@ public class LincencceManagementController {
 			for(InstallLicenceStock licence:list){
 				licence.setSrNo(srNo);
 				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");  
-				String instDate = dateFormat.format(licence.getInstallDate());  
+				if(licence.getInstallDate()!=null){
+					String instDate = dateFormat.format(licence.getInstallDate()); 
+					licence.setInsDate(instDate);
+
+				}
+				
 				String exDate = dateFormat.format(licence.getDetectedDate()); 
-				licence.setInsDate(instDate);
-			
+				licence.setDetDate(exDate);
 				srNo++;
 				
 			} 
@@ -466,17 +886,28 @@ public class LincencceManagementController {
 
 		try {	
 			list= lincencceManagementService.getAllExpiryLicences();
-			int srNo=1;
+			int srNo=0;
 			for(Licence licence:list){
+				srNo++;
 				licence.setSrNo(srNo);
 				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");  
-				String purDate = dateFormat.format(licence.getPurchaseDate()); 
-				String instDate = dateFormat.format(licence.getInstalllationDate());  
-				String exDate = dateFormat.format(licence.getLicenceExpiryDate()); 
-				licence.setPurDate(purDate);
-				licence.setInstallDate(instDate);
-				licence.setExpDate(exDate);
-				srNo++;
+				if(licence.getInstalllationDate()!=null){
+					String instDate = dateFormat.format(licence.getInstalllationDate());  
+					licence.setInstallDate(instDate);
+
+				}
+				if(licence.getPurchaseDate()!=null){
+					String purDate = dateFormat.format(licence.getPurchaseDate()); 
+					licence.setPurDate(purDate);
+
+
+				}
+				if(licence.getLicenceExpiryDate()!=null){
+					String exDate = dateFormat.format(licence.getLicenceExpiryDate()); 
+					licence.setExpDate(exDate);
+				}
+				
+				
 				
 			} 
 			
@@ -830,6 +1261,24 @@ public class LincencceManagementController {
 		}
 		return responceObject;
 	}
+	
+	@RequestMapping(value = "/deleteAssetLicence", method = RequestMethod.POST)
+	public @ResponseBody ResponceObject deleteAssetLicence(@RequestBody AssetLicence assetLicence) {
+		ResponceObject responceObject =new ResponceObject();
+		try {
+				
+			lincencceManagementService.deleteAssetLicence(assetLicence);
+			responceObject.setCode(200);
+			responceObject.setMessage("Asset Licence deleted .......... Successfully !!!");
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			responceObject.setCode(500);
+			responceObject.setMessage("Something Wrong");
+		}
+		return responceObject;
+	}
 	@RequestMapping(value = "/getAllLicenceLifeNotification", method = RequestMethod.GET)
 	public @ResponseBody List<LicenceLifeNotification> getAllLicenceLifeNotification() {
 		List<LicenceLifeNotification> list=  new ArrayList<LicenceLifeNotification>();
@@ -875,6 +1324,29 @@ public class LincencceManagementController {
 			e.printStackTrace();
 		}
 		return res;
+	}
+	@RequestMapping(value = "/getAllAssetLicencce", method = RequestMethod.GET)
+	public @ResponseBody List<AssetLicence> getAllAssetLicencce() {
+		List<AssetLicence> allLicence=  new ArrayList<AssetLicence>();
+		try {	
+			 allLicence= lincencceManagementService.getAllAssetLicencce();
+			 int srNo=1;
+			for(AssetLicence assetLicence:allLicence){
+				assetLicence.setSrNo(srNo);
+				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
+				srNo++;
+				if(assetLicence.getAssingDate()!=null){
+					String strDate = dateFormat.format(assetLicence.getAssingDate()); 
+					assetLicence.setAssDate(strDate);
+				}
+				
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return allLicence;
 	}
 	@RequestMapping(value = "/getAllAssetLicencceByType", method = RequestMethod.GET)
 	public @ResponseBody List<AssetLicence> getAllAssetLicencceByType(@RequestParam("type") String type) {
@@ -1516,6 +1988,104 @@ public class LincencceManagementController {
 	
 	
 	
+	@RequestMapping(value = "/getExpiryUpdateByLimit/{page_no}/{item_per_page}", method = RequestMethod.GET)
+	public @ResponseBody List<ExpiryUpdate> getExpiryUpdateByLimit(@PathVariable("page_no") int page_no,@PathVariable("item_per_page") int item_per_page) {
+		List<ExpiryUpdate> list= new  ArrayList<ExpiryUpdate>();
+		try {	
+			
+				list=expiryUpdateRepo.getExpiryUpdateByLimit(page_no,item_per_page);
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getExpiryUpdateByLimitAndSearch", method = RequestMethod.GET)
+	public @ResponseBody List<ExpiryUpdate> getExpiryUpdateByLimitAndSearch(@RequestParam("searchText") String searchText,@RequestParam("pageNo") int pageNo,@RequestParam("perPage") int perPage) {
+		List<ExpiryUpdate> list= new  ArrayList<ExpiryUpdate>();
+		try {	
+			
+			list=expiryUpdateRepo.getExpiryUpdateByLimitAndSearch(searchText,pageNo,perPage);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@RequestMapping(value = "/getExpiryUpdateCount", method = RequestMethod.GET)
+	public @ResponseBody int  getExpiryUpdateCount() {
+		int  count= 0;
+		try {
+			count= expiryUpdateRepo.getExpiryUpdateCount();
+
+			
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	@RequestMapping(value = "/getExpiryUpdateCountAndSearch", method = RequestMethod.GET)
+	public @ResponseBody int  getExpiryUpdateCountAndSearch(@RequestParam("searchText") String searchText) {
+		int  count= 0;
+		try {
+			count= expiryUpdateRepo.getExpiryUpdateCountAndSearch(searchText);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	@RequestMapping(value = "/getAllupdatedExpiry", method = RequestMethod.GET)
+	public @ResponseBody List<ExpiryUpdate> getAllupdatedExpiry() {
+		List<ExpiryUpdate> list= new  ArrayList<ExpiryUpdate>();
+		try {	
+			
+			list=expiryUpdateRepo.findAll();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -1943,7 +2513,7 @@ public class LincencceManagementController {
 
 								}
 								if (formatter.formatCellValue(row.getCell(3), evaluator)
-										.equalsIgnoreCase("Associate")) {
+										.equalsIgnoreCase("Publisher")) {
 									checkExcel++;
 								}
 								if (formatter.formatCellValue(row.getCell(4), evaluator)
@@ -2010,8 +2580,12 @@ public class LincencceManagementController {
 									return status;
 								} else {
 									Optional<Associate> optionalAsso=lincencceManagementService.getAssociateByName(associate);
+									System.out.println("Associate "+associate+" is "+optionalAsso.isPresent());
 									Optional<Product> optionalProd=lincencceManagementService.getProductsByName(product);
 									Optional<Asset> optionalAsset=assetService.getAssetBySerialNo(serialNo);
+								
+									
+									
 									System.out.println("Asset for "+serialNo+" is "+optionalAsset.isPresent());
 									Optional<AssetLicence> optional2 = lincencceManagementService.getAllAssetLicencceByAssociateAndProductAndAssetId(optionalAsso.get().getId(),optionalProd.get().getId(),optionalProd.get().getId());
 									if (optional2.isPresent()) {
@@ -2029,7 +2603,7 @@ public class LincencceManagementController {
 											assetLicence.setAssingBy("Upload");
 											assetLicence.setLicence(licence);
 											assetLicence.setLicenceKey(licence.getLicenceKey());
-											
+											assetLicence.setAssingDate(new Date());
 											licence.setLicenceStatus("Assigned");
 											
 											lincencceManagementService.addAssetLicence(assetLicence);
@@ -2088,5 +2662,236 @@ public class LincencceManagementController {
 		return 0;
 	}
 
+	@RequestMapping(value = "/uploadExpiryUpdate", method = RequestMethod.POST)
+	public @ResponseBody Status uploadExpiryUpdate(ModelMap model, @ModelAttribute(value = "file") MultipartFile file,
+			HttpServletRequest request,@RequestParam("uploadBy")String uploadBy) throws ParseException {
+		Status  status= new Status();
+		int uploadedCount=0;
+		int totalCount=0;
+		String responceMsg="";
+		try {
+			if (!(file == null)) {
+				if (file.isEmpty()) {
+				} else {
+					System.out.println(file.getOriginalFilename());
+					try {
+						File dir = new File(System.getProperty("catalina.base"), "uploads");
+						File uplaodedFile = new File(dir + file.getOriginalFilename());
+						file.transferTo(uplaodedFile);
+						FileInputStream excelFile = new FileInputStream(uplaodedFile);
+						Workbook workbook = new XSSFWorkbook(excelFile);
+						FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+						DataFormatter formatter = new DataFormatter();
+						Sheet datatypeSheet = workbook.getSheetAt(0); 
+						int i = 1;
+						//Optional<UserInfo> optUser=userServices.findById(uploadBy);
 
+						totalCount= datatypeSheet.getLastRowNum();
+						while (i <= datatypeSheet.getLastRowNum()) { 
+							if(totalCount==0){
+								status.setCode(500);
+								status.setMessage("Data Not Found in sheet");
+								String responceMsg0="";
+
+								responceMsg0+=" \r\n  File Name :: "+file.getOriginalFilename();
+								responceMsg0+=" \r\n Upaloading Date :: "+new Date();
+								
+									responceMsg0+=" \r\n Upaload  By:: "+uploadBy;
+								
+								responceMsg0+=" \r\n Uploding row done "+uploadedCount+" out of "+totalCount;
+								
+								responceMsg0+="\r\n Data Not Found in sheet";
+								String newResMsg=responceMsg0+" \r\n "+responceMsg;
+								status.setResmessage(newResMsg);
+								
+								return status; 
+							}
+
+							XSSFRow row = null;
+							row = (XSSFRow) datatypeSheet.getRow(i++);
+						
+							String str=formatter.formatCellValue(row.getCell(0), evaluator);
+							if(str.length()==0) {
+								continue;
+							}
+						
+							
+							int checkExcel=0;
+							String publisher = formatter.formatCellValue(row.getCell(1), evaluator);
+							String product = formatter.formatCellValue(row.getCell(2), evaluator);
+							String version = formatter.formatCellValue(row.getCell(3), evaluator);
+							String key = formatter.formatCellValue(row.getCell(4), evaluator);
+							String  new_exp= formatter.formatCellValue(row.getCell(5), evaluator);
+							String cost = formatter.formatCellValue(row.getCell(6), evaluator);
+							System.out.println("publisher "+publisher);
+							System.out.println("product "+product);
+
+							System.out.println(" version "+ version);
+
+							System.out.println("key "+key);
+
+							if(i==1){
+								if (formatter.formatCellValue(row.getCell(1), evaluator)
+										.equalsIgnoreCase("Publisher")) {
+									checkExcel++;
+								}
+								if (formatter.formatCellValue(row.getCell(2), evaluator)
+										.equalsIgnoreCase("Product")) {
+									checkExcel++;
+
+								}
+								if (formatter.formatCellValue(row.getCell(3), evaluator)
+										.equalsIgnoreCase("Version")) {
+									checkExcel++;
+								}
+								if (formatter.formatCellValue(row.getCell(4), evaluator)
+										.equalsIgnoreCase("Key")) {
+									checkExcel++;
+								}
+								if (formatter.formatCellValue(row.getCell(5), evaluator)
+										.equalsIgnoreCase("New Expiry Date")) {
+									checkExcel++;
+								}
+
+								
+								
+								
+								
+								System.out.println("checkExcel "+checkExcel);
+								if(	checkExcel==4){
+								}else{
+									
+									status.setCode(500);
+									status.setMessage("Wrong Sheet Selected");
+									String responceMsg0="";
+								//	Optional<UserInfo> optional=userServices.findById(uploadBy);
+
+									responceMsg0+=" \r\n  File Name :: "+file.getOriginalFilename();
+									responceMsg0+=" \r\n Upaloading Date :: "+new Date();
+
+										responceMsg0+=" \r\n Upaload  By:: "+uploadBy;
+									
+									responceMsg0+=" \r\n Uploding row done "+uploadedCount+" out of "+totalCount;
+									
+									responceMsg0+="\r\n Wrong Sheet Selected";
+									String newResMsg=responceMsg0+" \r\n "+responceMsg;
+									status.setResmessage(newResMsg);
+									return status; 
+								}
+							}else{
+								String str1 = formatter.formatCellValue(row.getCell(0), evaluator);
+								System.out.println("NO DATA " + str1.length());
+								if (str1.length() == 0) {
+									status.setCode(500);
+									status.setMessage("Data Not Found in sheet");
+									String responceMsg0 = "";
+									responceMsg0 = "Uploading...... ";
+									responceMsg0 += " \r\n  File Name :: " + file.getOriginalFilename();
+									responceMsg0 += " \r\n Upaloading Date :: " + new Date();
+									responceMsg0 += " \r\n Upaload  By:: " + uploadBy;
+									responceMsg0 += " \r\n Uploding row done " + uploadedCount + " out of "
+											+ totalCount;
+
+									responceMsg0 += "\r\n Data Not Found in sheet";
+									String newResMsg = responceMsg0 + " \r\n " + responceMsg;
+									status.setResmessage(newResMsg);
+
+									return status;
+								} else {
+									Optional<Licence> optional2 = lincencceManagementService.getLicenceByPublisherProductKey(publisher,product,key);
+									
+									System.out.println("LICENCE IS FOUND "+optional2.isPresent());
+									if (optional2.isPresent()) {
+										Licence licence = optional2.get();
+
+										Date iDate = new SimpleDateFormat("dd/MM/yyyy").parse(new_exp);
+										
+										
+										ExpiryUpdate expiryUpdate= new ExpiryUpdate();
+										expiryUpdate.setCost(cost);
+										expiryUpdate.setExistingExpiryDate(licence.getLicenceExpiryDate());
+										expiryUpdate.setLicence(licence);
+										expiryUpdate.setNewExpiryDate(iDate);
+										
+										
+										licence.setLicenceExpiryDate(iDate);
+										licence.setCost(cost);
+										expiryUpdateRepo.save(expiryUpdate);
+										 lincencceManagementService.addLicence(licence);
+										uploadedCount++;
+
+									} else {
+										
+										responceMsg += " \r\n Invalid Licence Details for Row" + i;
+
+								
+							}
+							
+							
+							
+							
+						}
+
+					 }
+				}
+						workbook.close();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+						
+						
+					}
+				}
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		
+		}
+		status.setCode(200);
+		status.setMessage("Upalod Successfully");
+		String responceMsg0="";
+		responceMsg0="Uploading...... ";
+	//	Optional<UserInfo> optional=userServices.findById(uploadBy);
+
+		responceMsg0+=" \r\n  File Name :: "+file.getOriginalFilename();
+		responceMsg0+=" \r\n Upaloading Date :: "+new Date();
+		
+			responceMsg0+=" \r\n Upaload  By:: "+uploadBy;
+	
+		responceMsg0+=" \r\n Uploding row done "+uploadedCount+" out of "+totalCount;
+		if(uploadedCount==totalCount){
+			responceMsg0+=" \r\n No Constrain Found ";
+		}else{
+			responceMsg0+=" \r\n Found Following Constrain";
+		}
+		
+		String newResMsg=responceMsg0+" \r\n "+responceMsg;
+		status.setResmessage(newResMsg);
+		return status;
+	}
+	
+	@RequestMapping(value = "/getMaxKeyIndex", method = RequestMethod.GET)
+	public @ResponseBody ResponceObject getMaxKeyIndex() {
+		ResponceObject responceObject =new ResponceObject();
+		try {
+			
+		int count=lincencceRepo.getMaxIndexIsPresent();
+		String resData="";
+		if(count==0){
+			resData="00001";
+		}else{
+			resData=lincencceRepo.getMaxKeyIndex();
+		}
+			System.out.println("COUNT "+count);
+			System.out.println("resData "+resData);
+			responceObject.setDataString(resData);
+		} catch (Exception e) {
+			e.printStackTrace();
+			responceObject.setCode(500);
+			responceObject.setMessage("Something Wrong");
+		}
+		return responceObject;
+	}
 }

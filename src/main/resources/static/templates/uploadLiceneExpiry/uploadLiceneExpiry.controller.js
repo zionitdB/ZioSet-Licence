@@ -11,24 +11,35 @@
 		
 		var userDetail = localStorageService.get(ApiEndpoint.userKey);
 		var vm = angular.extend(this, {
+			excelDownload:excelDownload
 			
 		});
 
 		(function activate() {
 			getUploadedExpiringLicencce();
 		})();
+		
+		
+		function excelDownload(){
+			
+			
+			console.log("DOWNLOADinf............. ")
+
+		}
 		$scope.file="Employees"
 			vm.labels={'srNo':'Sr No','licenceType':'Licence Type','associate.associateName': 'Publisher', 'product.productName': 'Product','licenceVersion': 'Version','projectName': 'Project Name','purchaseDate':'Purchase Date','insDate':'Install Date','expDate':'Expiry Date'}
 		
 		$scope.newExcel= function(){
-			 $rootScope.loader=true;
+			
+			 document.getElementById('exportBTN').click();
+console.log("CLICK ")
+			/* $rootScope.loader=true;
 			 			setTimeout(function(){
 				 
 				 //
-					 document.getElementById('btnExport').click();
 					 $rootScope.loader=false;
 				  $rootScope.$digest();
-				},1000);					
+				},1000);		*/			
 			
 		}
 		function getUploadedExpiringLicencce(){

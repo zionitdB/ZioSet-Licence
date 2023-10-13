@@ -48,12 +48,12 @@ public class CustomerSuppliedSoftwareCustomeRepoImpl implements CustomerSupplied
 			// TODO Auto-generated method stub
 			long result = (long) entityManager
 					.createQuery(
-							"SELECT count(c) FROM CustomerSuppliedSoftware c where  c.formSrNo LIKE :searchText OR  l.assetTagNo LIKE :searchText OR l.title LIKE :searchText OR l.version LIKE :searchText OR l.language LIKE :searchText OR l.remark LIKE :searchText")
+							"SELECT count(c) FROM CustomerSuppliedSoftware c where  c.formSrNo LIKE :searchText OR  c.assetTagNo LIKE :searchText OR c.title LIKE :searchText OR c.version LIKE :searchText OR c.language LIKE :searchText")
 					.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 			int total_count = (int) result;
 			Query q = entityManager.createQuery(
-					"FROM CustomerSuppliedSoftware c where  c.formSrNo LIKE :searchText OR  l.assetTagNo LIKE :searchText OR l.title LIKE :searchText OR l.version LIKE :searchText OR l.language LIKE :searchText OR l.remark LIKE :searchText",
-					AssetLicence.class);
+					"FROM CustomerSuppliedSoftware c where    c.formSrNo LIKE :searchText OR  c.assetTagNo LIKE :searchText OR c.title LIKE :searchText OR c.version LIKE :searchText OR c.language LIKE :searchText",
+					CustomerSuppliedSoftware.class);
 			int firstR = total_count - (pageNo * perPage);
 			int maxR = total_count - ((pageNo - 1) * perPage);
 			if (firstR < 0) {
@@ -100,7 +100,7 @@ public class CustomerSuppliedSoftwareCustomeRepoImpl implements CustomerSupplied
 		// TODO Auto-generated method stub
 		long result = (long) entityManager
 				.createQuery(
-						"SELECT count(c) FROM CustomerSuppliedSoftware c where  c.formSrNo LIKE :searchText OR  l.assetTagNo LIKE :searchText OR l.title LIKE :searchText OR l.version LIKE :searchText OR l.language LIKE :searchText OR l.remark LIKE :searchText")
+						"SELECT count(c) FROM CustomerSuppliedSoftware c where  c.formSrNo LIKE :searchText OR  c.assetTagNo LIKE :searchText OR c.title LIKE :searchText OR c.version LIKE :searchText OR c.language LIKE :searchText")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 		int total_count = (int) result;
 		return total_count;

@@ -49,7 +49,7 @@ public class CategoryCustomeRepoImpl implements CategoryCustomeRepo {
 			// TODO Auto-generated method stub
 			long result = (long) entityManager
 					.createQuery(
-							"SELECT count(c) FROM Category c where  b.categoryName LIKE :searchText")
+							"SELECT count(c) FROM Category c where  c.categoryName LIKE :searchText")
 					.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 			int total_count = (int) result;
 			Query q = entityManager.createQuery(
@@ -90,7 +90,7 @@ public class CategoryCustomeRepoImpl implements CategoryCustomeRepo {
 		// TODO Auto-generated method stub
 		long result = (long) entityManager
 				.createQuery(
-						"SELECT count(c) FROM Category c where  b.categoryName LIKE :searchText")
+						"SELECT count(c) FROM Category c where  c.categoryName LIKE :searchText")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 		int total_count = (int) result;
 		return total_count;

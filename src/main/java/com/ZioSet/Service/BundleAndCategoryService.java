@@ -49,4 +49,8 @@ public interface BundleAndCategoryService {
 
 	List<CategoryApplications> getCategoryApplicationsByCategory(int categoryId);
 
+	List<CategoryApplications> getCategoryApplicationsByCategoryName(String categoryName);
+
+	List<BundleApplications> getbundleApplicationByBundleName(String bundleName);
+
 }

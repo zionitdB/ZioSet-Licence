@@ -95,6 +95,7 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public void addNewAsset(Asset asset) {
 		// TODO Auto-generated method stub
+		System.out.println("NEW AGE "+asset.getAge());
 		assetRepo.save(asset);
 	}
 

@@ -1,6 +1,6 @@
 		angular.module('myApp', [
 	'ui.router',
-	'vcRecaptcha',
+	//'vcRecaptcha',
 	'LocalStorageModule',
 	'angularUtils.directives.dirPagination',
 	'ngCookies',
@@ -34,15 +34,15 @@
 	'myApp.categoryGrouping',
 	'myApp.customerSuppliedSoftware',
 	'myApp.systemLicence',
-	'myApp.licenceExpiry',
+	'myApp.licenceRetirement',
 	'myApp.saasLicenceDashboard',
-	'myApp.installedLiceneExpiry',
+	'myApp.endOfLifeInstall',
 	'myApp.uploadLiceneExpiry',
 	'myApp.systemDashboard',
 	'myApp.installLicenceDashboard',
 	'myApp.InstockLicence',
 	'myApp.AssignedLicence',
-	'myApp.saasLiceneExpiry',
+	'myApp.endOfLifeSAAS',
 	'myApp.InstallLicence',
 	'myApp.renewalLicence',
 	'myApp.workerInstalled',
@@ -61,7 +61,19 @@
 	'myApp.unavailableworkerforLast5Days',
 	'myApp.reportUnavailableWorker',
 	'myApp.DashboardTable',
+	'myApp.expirySAAS',
+	'myApp.licenceDetialsInstalled',
+	'myApp.updateExpirySAAS',
+	'myApp.licenceDetialsAssetWise',
+	'myApp.licenceDetialsCategory',
+	'myApp.licenceDetialsBundle',
+	'myApp.authorizzedApplication',
+	'myApp.workerLicences',
+	'myApp.licenceDetialsSerialNo',
+	'myApp.duplicateLicenceAll',
+	'myApp.duplicateLicenceAssetWise',
 ])
+
 
 .value('_', window._)
 
@@ -69,8 +81,10 @@
 	
  //url: 'http://allstate.adp.ind.in:8080/',
 url: 'http://localhost:8084/',
- serverUrl:'http://20.219.1.165:8092/',
-  //url: 'http://20.219.1.165:8084/',
+  //url: 'http://10.42.23.1:8084/',
+ //urlnew: 'https://10.42.23.1:8440/',
+ //serverUrl:'http://20.219.1.165:8092/',
+ //url: 'http://20.219.1.165:8084/',
 	//url: 'http://10.195.36.182:8080/',
 	//url: 'http://10.195.36.182:8082/',
 	

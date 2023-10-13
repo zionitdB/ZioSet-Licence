@@ -23,14 +23,130 @@ public class Asset {
 	@Column(name="id")
 	private int Id;
 	
-	@Column(name="asset_type")
-	private String assetType;
-		
+	@Column(name="make")
+	private String make;
+	
+	@Column(name="model")
+	private String model;
+	
 	@Column(name="serial_no")
 	private String serialNo;
 	
 	@Column(name="asset_id")
 	private String assetId;
+	
+	
+	@Column(name="project_id")
+	private String projectId;
+	
+	@Column(name="project_name")
+	private String projectName;
+	
+	
+	@Column(name="employee_no")
+	private String employeeNo;
+	
+	
+	
+	@Column(name="employee_name")
+	private String employeeName;
+	
+	
+	@Column(name="email_id")
+	private String emailId;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getEmployeeNo() {
+		return employeeNo;
+	}
+
+	public void setEmployeeNo(String employeeNo) {
+		this.employeeNo = employeeNo;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	@Column(name="asset_type")
+	private String assetType;
+		
+	
+	
+	@Column(name="system_ip")
+	private String systemIp;
 	
 	@Column(name="purchase_order_no")
 	private String purchaseOrderNo;
@@ -161,11 +277,7 @@ public class Asset {
 	@Column(name="status")
 	private String status;
 	
-	@Column(name="make")
-	private String make;
 	
-	@Column(name="model")
-	private String model;
 	@Transient
 	private int detectCount;
 	
@@ -455,6 +567,14 @@ public class Asset {
 
 	public void setWorkerStatusDate(String workerStatusDate) {
 		this.workerStatusDate = workerStatusDate;
+	}
+
+	public String getSystemIp() {
+		return systemIp;
+	}
+
+	public void setSystemIp(String systemIp) {
+		this.systemIp = systemIp;
 	}
 	
 	

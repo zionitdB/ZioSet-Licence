@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-md-6">
                              <label for="inputState" class="col-form-label">Created Date </label> <i style="color:red">*</i>
-						                                                <input type="date" class="form-control" id="createdDate" ng-model="createdDate" >
+						                                                <input type="date" class="form-control" id="createdDate" ng-model="vm.category.createdDate" >
 						                                           		<span ng-show="createdDateErr" style="color:red">  * Created Date  is mandatory</span>
 						                                           
                         </div>
@@ -36,7 +36,7 @@
                         </div>
                          <div class="col-md-12">
                            <div class="material-tbl mt-3">
-                         			<table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped">
+                         			<table id="datatable-buttons" class="text-center align-middle justify-content-center ">
 					                            <thead>
 					                                <tr>
 					                                     <th class="text-center">Sr No</th>
@@ -65,7 +65,7 @@
 					                                            <td class="text-center">
 					                                               
 <!-- 					                                               <i class="bi bi-pencil-square"   data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(application)"></i>
- -->					                                              <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  title="Delete" ng-click="vm.remove(application)"></i>
+ -->					                                              <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  title="Delete" ng-click="vm.remove($index)"></i>
 					                                              
 					                                            
 					                                         </td>
@@ -104,15 +104,10 @@
                 <div class="material mt-5" >
                     <div class="container-fluid">
                     <div class="row">
-                      <div class="col-1 text-center">
-							<button class="addNew" type="submit" data-toggle="tooltip"
-								data-placement="bottom" title="Upload Tag" ng-click="vm.reload()">
-								<i class="bi bi-arrow-repeat"></i>
-							</button>
-						</div>
+                    
                         <div class="col-3">
                             <form class="d-flex search">
-                                <input class="me-2" type="search" placeholder="Search" aria-label="Search"  ng-change="vm.loadDevice()"ng-model="vm.serachText">
+                                <input class="me-2" type="search" placeholder="Search" aria-label="Search"  ng-change="searchByPagination()"ng-model="vm.serachText">
                             </form>
                         </div>
                           <div class="col-1 text-center">
@@ -121,13 +116,13 @@
                           </div>
                          
                         <div class="col-2 text-center">
-                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom"  title="Add New Device"style="margin-left: 128px;" ng-click="vm.add()">   <i class="bi bi-plus-square" ></i></button>
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom"  title="Add New Category"style="margin-left: 128px;" ng-click="vm.add()">   <i class="bi bi-plus-square" ></i></button>
                         </div>
                       
                     </div>
                 </div>
                     <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped"
+                        <table id="datatable-buttons" class="text-center align-middle justify-content-center "
                             >
                             <thead>
                                 <tr>
@@ -141,7 +136,7 @@
                             </thead>
                             <tbody>
                             <tr ng-show="vm.devices.length <= 0"><td colspan="11" style="text-align:center;">Data Not Found!!
-										<tr dir-paginate="category in vm.categories| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+										<tr dir-paginate="category in vm.categories|reverse| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
 							
                                            <td class="text-center">{{$index+1}}</td>
                                              <td class="text-center">{{category.categoryName}}</td>

@@ -26,7 +26,8 @@
 			save:save,
 			edit:edit,
 			delet:delet,
-			loadAssets:loadAssets
+			loadAssets:loadAssets,
+			viewConsole:viewConsole
 			
 		});
 
@@ -38,7 +39,37 @@
 			
 		})();
 	
-		
+		function viewConsole(asset){
+			if(asset.systemIp!=null){
+				$rootScope.loader=true;
+				console.log("NO IP FOND")
+				console.log("asset: "+JSON.stringify(asset.systemIp))
+				var urlCheck="http://"+asset.systemIp+":8088/config/checkLink";
+				var url="http://"+asset.systemIp+":8088/#!/updateConfig";
+			console.log("url: "+urlCheck)
+			
+			
+			  $http({
+				    method : "GET",
+				      url : urlCheck
+				  }).then(function mySuccess(response) {
+					  console.log("RESOINCE FOUND  "+JSON.stringify(response))
+					  window.open(url,'CINSIOLEE');
+
+						$rootScope.loader=false;
+					  
+				  }, function myError(response) {
+					  console.log("RESOINCE NOT  ")
+						$rootScope.loader=false;
+					  toastr.error("Network Error..........Can not connect to console");
+				  });
+
+			}else{
+				toastr.error("IP is not Present..........Can not connect to console");
+			}
+			
+
+		}
 		$scope.totalAsset=function (){
 			$scope.type="all"
 				loadAssets();
@@ -126,6 +157,7 @@
 			$scope.addNew=true;
 			$scope.uploadTab=false;
 			$scope.viewQRTab=false;
+			$scope.diabledSaveButton=false
 			loadBranch()
 			
 		}
@@ -142,6 +174,8 @@
 			$scope.uploadTab=true;
 		}
 		function edit(asset){
+			console.log("asset: "+JSON.stringify(asset))
+
 			loadBranch()
 			$scope.addNew=true;
 			$scope.viewQRTab=false;
@@ -239,42 +273,11 @@
 			
 			//console.log("asset : "+JSON.stringify(asset))
 			
-			if(asset==undefined||asset.branch==undefined){
-				$scope.branchErr=true;
-				return;
-			}else{
-				$scope.branchErr=false;
-			}
-			if(asset.assetType==""||asset.assetType==undefined){
-				$scope.assetTypeErr=true
-				return;
-			}else{
-				$scope.assetTypeErr=false
-			}
-			if(asset.serialNo==""||asset.serialNo==undefined){
-				$scope.serialNoErr=true
-				return;
-			}else{
-				$scope.serialNoErr=false
-			}
-		/*	if(asset.assetId==""||asset.assetId==null){
-				$scope.assetIdErr=true
-				return;
-			}else{
-				$scope.assetIdErr=false
-			}
-			*/
-			if(asset.status==""||asset.status==null){
-				$scope.statusErr=true
-				return;
-			}else{
-				$scope.statusErr=false
-			}
-			if(asset.make==""||asset.make==null){
+			if(asset==undefined||asset.make==undefined){
 				$scope.makeErr=true
 				return;
 			}else{
-				$scope.makeErr=false
+				$scope.makeErr=false;
 			}
 			if(asset.model==""||asset.model==null){
 				$scope.modelErr=true
@@ -282,6 +285,15 @@
 			}else{
 				$scope.modelErr=false
 			}
+			if(asset.serialNo==""||asset.serialNo==undefined){
+				$scope.serialNoErr=true
+				return;
+			}else{
+				$scope.serialNoErr=false
+			}
+		
+			
+			
 		if(vm.serialRes.code==500){
 			return;
 		}
@@ -292,10 +304,12 @@
 			var msg=""
 			 var url =assetUrl+"/addNewAsset";
 				genericFactory.add(msg,url,asset).then(function(response) {
-					//console.log("resp:"+JSON.stringify(response))
+					console.log("resp:"+JSON.stringify(response))
 					//console.log("data :"+JSON.stringify(response.data.code))
 					loadAssets();
+					loadAssetCounts()
 					$scope.addNew=false;
+					$scope.diabledSaveButton=true
 					$scope.asset={}
 					if(response.data.code==200){
 						toastr.success(response.data.message);
@@ -336,7 +350,7 @@
 			$('.loading').show();
 			var fd = new FormData();
 			fd.append('file', file);
-			var url = assetUrl + "/uploadAsset?uploadBy="+userDetail.firstName+" "+userDetail.lastName;
+			var url = assetUrl + "/uploadAssetNEW?uploadBy="+userDetail.firstName+" "+userDetail.lastName;
 			console.log("URL :: "+url)
 			$http.post(url, fd, {
 				transformRequest: angular.identity,
@@ -355,6 +369,7 @@
 				$scope.diabledSaveButton=false
 				$scope.uploadTab=false;
 				loadAssets();
+				loadAssetCounts();
 			}, function errorCallback(response) {
 		    	$('.loading').hide();
 				
@@ -362,6 +377,7 @@
 				toastr.error('Upload....', 'UnSuccesful !!');
 				$scope.uploadTab=false;
 				loadAssets();
+				loadAssetCounts();
 				$scope.diabledSaveButton=false
 					    });
 

@@ -5,25 +5,30 @@
             
        
 			<!-- List View Star -->
-                <div class="material mt-5" style="height: 80vh;">
+			<div class="material mt-5" >
                     <div class="container-fluid">
                     <div class="row">
-                        <div class="col-4">
+                   
+                        <div class="col-3">
                             <form class="d-flex search">
-                                <input class="me-2" type="search" placeholder="Search" aria-label="Search" ng-model="vm.serachText">
-                                <button class="searchBtn" type="submit"  ng-click="vm.loadNotificationsBySearch()">Search</button>
+                            <input class="me-2" type="search" placeholder="Search" aria-label="Search"  ng-change="vm.loadNotifications()"ng-model="vm.serachText">
+                               
                             </form>
                         </div>
+                          <div class="col-1">
+                          
+					              <input type="number" min="1"  class="form-control" ng-model="vm.perPage" ng-change="vm.loadEmployees()"   >
+					             
+                          </div>
                          
                          
-                        
-                      
+                    
                     </div>
                 </div>
                     <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped"
-                            style="width: 100%;">
-                            <thead>
+                        <table id="datatable-buttons" class="  ttext-center align-middle justify-content-center table-bordered"
+                           style="width: 1150px" >
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                     
                                              <th class="text-center">Sr No</th>
@@ -35,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                           <tr ng-show="vm.notifications.length <= 0"><td colspan="8" style="text-align:center;">Data Not Found!!
+                           <tr ng-show="vm.empoyees.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
 										<tr dir-paginate="notification in vm.notifications | filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
 							
                                            <td class="text-center">{{$index+1}}</td>
@@ -43,7 +48,7 @@
                                             <td class="text-center">{{notification.notificationDatatime |date:"dd/MM/yyyy 'at' h:mma"}} </td>
                                            
                                            <td class="text-center">  <button type="button"class="btn btn-danger waves-effect waves-light btn-sm"  data-toggle="tooltip" data-placement="bottom"  
- title="Change Status" ng-click="vm.read(notification)"> <i class="bi bi-eye-fill ml-1"></i> </button></td>
+ title="Change Status" ng-click="vm.read(notification)" ng-show="notification.view_bit==0"> <i class="bi bi-eye-fill ml-1"></i> </button></td>
                                       
                                       
                                            
@@ -55,7 +60,7 @@
 
                     </div>
                 </div>
-		<!-- List View Star -->
+          
             </uib-tab>
            
         </uib-tabset>

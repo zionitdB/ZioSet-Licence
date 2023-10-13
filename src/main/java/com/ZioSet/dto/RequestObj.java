@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class RequestObj {
 	private Date date;
+	private String inputStr;
 	private Date fromdate;
 	private Date todate;
 
@@ -29,6 +30,14 @@ public class RequestObj {
 
 	public void setTodate(Date todate) {
 		this.todate = todate;
+	}
+
+	public String getInputStr() {
+		return inputStr;
+	}
+
+	public void setInputStr(String inputStr) {
+		this.inputStr = inputStr;
 	}
 	
 	

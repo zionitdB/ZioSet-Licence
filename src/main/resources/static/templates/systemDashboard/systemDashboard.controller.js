@@ -27,6 +27,23 @@
 		
 		})();
 			
+			$scope.goToOverview=function (){
+				$location.path('main/home');
+				//$scope.selTab="home"
+			}
+			$scope.goToSAAS=function (){
+				$location.path('main/saasLicenceDashboard');
+				//$scope.selTab="licence"
+			}
+			$scope.goToInstalled=function (){
+				$location.path('main/installLicenceDashboard');
+				//$scope.selTab="home"
+			}
+			$scope.goToSystem=function (){
+				$location.path('main/systemDashboard');
+				//$scope.selTab="licence"
+			}
+			
 			function loadDashboardCount() {
 				var msg = ""
 				var url = dashboardUrl + "/getOverviewDashboardCount";

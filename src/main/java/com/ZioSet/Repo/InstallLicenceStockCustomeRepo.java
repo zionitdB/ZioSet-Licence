@@ -9,5 +9,8 @@ public interface InstallLicenceStockCustomeRepo {
 	List<InstallLicenceStock> getSystemLicenceByLimitAndSearch(String searchText, int pageNo, int perPage);
 	int getSystemLicenceCount();
 	int getSystemLicenceCount(String searchText);
+	List<InstallLicenceStock> getListOfLicencesByProductName(String string);
+	int getCountByEditionAndProductName(String name, String string);
+
 
 }

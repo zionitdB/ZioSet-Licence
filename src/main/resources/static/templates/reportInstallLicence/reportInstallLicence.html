@@ -52,7 +52,7 @@
  <div >
         <uib-tabset active="activeJustified" justified="true">
             <uib-tab style="    text-align: left;font-size: 1.7rem;
-    font-weight: 700;"heading="Install licenece Report ">
+    font-weight: 700;"heading="Fetch licenece Date Wise Report ">
            
          <div class="material mt-5" >
                     
@@ -133,9 +133,9 @@
                        
                 </div>
                     <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                        <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
                             style="width: 1150px;">
-                            <thead>
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                     <th>Sr No</th>
 
@@ -150,6 +150,9 @@
                                     <th>Serial NO</th>
                                   
                                      <th>Computer Name</th>
+                                     
+                                      <th>Employee No</th>
+                                    <th>Employee Name</th>
                                      <th>Install Date</th>
                                    
 
@@ -168,8 +171,11 @@
                                     <td>{{report.asset.make}}</td>
                                     <td>{{report.asset.model}}</td>
                                      <td>{{report.asset.serialNo}}</td>
-                                   
-                                         <td>{{report.computeName}}</td>
+                                      <td>{{report.computeName}}</td>
+                                      <td>{{report.asset.employeeNo}}</td>
+
+         								 <td>{{report.asset.employeeName}}</td> 
+                                        
                                       <td>{{report.insDate}}</td>
                                     
                                        

@@ -56,10 +56,10 @@ public class AssetCustomeRepoImpl implements AssetCustomeRepo {
 		
 		long result = (long) entityManager
 				.createQuery(
-						"SELECT count(a) FROM Asset a where  a.assetType LIKE :searchText OR  a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.purchaseOrderNo LIKE :searchText OR a.invoiceNo LIKE :searchText OR a.invoiceDate LIKE :searchText OR a.status LIKE :searchText OR a.make LIKE :searchText OR a.model LIKE :searchText ")
+						"SELECT count(a) FROM Asset a where  a.make LIKE :searchText OR  a.model LIKE :searchText OR a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.projectId LIKE :searchText OR a.projectName LIKE :searchText OR a.employeeNo LIKE :searchText OR a.employeeName LIKE :searchText OR a.emailId LIKE :searchText ")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 		 q = entityManager.createQuery(
-				"from Asset a where a.assetType LIKE :searchText OR  a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.purchaseOrderNo LIKE :searchText OR a.invoiceNo LIKE :searchText OR a.invoiceDate LIKE :searchText OR a.status LIKE :searchText OR a.make LIKE :searchText OR a.model LIKE :searchText ",
+				"from Asset a where a.make LIKE :searchText OR  a.model LIKE :searchText OR a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.projectId LIKE :searchText OR a.projectName LIKE :searchText OR a.employeeNo LIKE :searchText OR a.employeeName LIKE :searchText OR a.emailId LIKE :searchText",
 				Asset.class);
 			
 			
@@ -106,7 +106,7 @@ public class AssetCustomeRepoImpl implements AssetCustomeRepo {
 		// TODO Auto-generated method stub
 		long result = (long) entityManager
 				.createQuery(
-						"SELECT count(a) FROM Asset a where  a.assetType LIKE :searchText OR  a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.purchaseOrderNo LIKE :searchText OR a.invoiceNo LIKE :searchText OR a.invoiceDate LIKE :searchText OR a.status LIKE :searchText OR a.make LIKE :searchText OR a.model LIKE :searchText ")
+						"SELECT count(a) FROM Asset a where  a.make LIKE :searchText OR  a.model LIKE :searchText OR a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.projectId LIKE :searchText OR a.projectName LIKE :searchText OR a.employeeNo LIKE :searchText OR a.employeeName LIKE :searchText OR a.emailId LIKE :searchText")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 		int total_count = (int) result;
 
@@ -158,10 +158,10 @@ public class AssetCustomeRepoImpl implements AssetCustomeRepo {
 			
 			long result = (long) entityManager
 					.createQuery(
-							"SELECT count(a) FROM Asset a where a.availableStatus=0 and ( a.assetType LIKE :searchText OR  a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.purchaseOrderNo LIKE :searchText OR a.invoiceNo LIKE :searchText OR a.invoiceDate LIKE :searchText OR a.status LIKE :searchText OR a.make LIKE :searchText OR a.model LIKE :searchText)")
+							"SELECT count(a) FROM Asset a where a.availableStatus=0 and ( a.make LIKE :searchText OR  a.model LIKE :searchText OR a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.projectId LIKE :searchText OR a.projectName LIKE :searchText OR a.employeeNo LIKE :searchText OR a.employeeName LIKE :searchText OR a.emailId LIKE :searchText)")
 					.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 			 q = entityManager.createQuery(
-					"from Asset a where a.availableStatus=0 and ( a.assetType LIKE :searchText OR  a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.purchaseOrderNo LIKE :searchText OR a.invoiceNo LIKE :searchText OR a.invoiceDate LIKE :searchText OR a.status LIKE :searchText OR a.make LIKE :searchText OR a.model LIKE :searchText)",
+					"from Asset a where a.availableStatus=0 and ( a.make LIKE :searchText OR  a.model LIKE :searchText OR a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.projectId LIKE :searchText OR a.projectName LIKE :searchText OR a.employeeNo LIKE :searchText OR a.employeeName LIKE :searchText OR a.emailId LIKE :searchText)",
 					Asset.class);
 				
 				
@@ -207,7 +207,7 @@ public class AssetCustomeRepoImpl implements AssetCustomeRepo {
 		// TODO Auto-generated method stub
 		long result = (long) entityManager
 				.createQuery(
-						"SELECT count(a) FROM Asset a where a.availableStatus=0 and ( a.assetType LIKE :searchText OR  a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.purchaseOrderNo LIKE :searchText OR a.invoiceNo LIKE :searchText OR a.invoiceDate LIKE :searchText OR a.status LIKE :searchText OR a.make LIKE :searchText OR a.model LIKE :searchText)")
+						"SELECT count(a) FROM Asset a where a.availableStatus=0 and ( a.make LIKE :searchText OR  a.model LIKE :searchText OR a.serialNo LIKE :searchText OR a.assetId LIKE :searchText OR a.projectId LIKE :searchText OR a.projectName LIKE :searchText OR a.employeeNo LIKE :searchText OR a.employeeName LIKE :searchText OR a.emailId LIKE :searchText)")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 		return (int) result;
 	}

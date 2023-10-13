@@ -86,7 +86,7 @@ $scope.newExcel= function(){
 						},1000)
 				
 			
-				console.log("employeesAsset: "+JSON.stringify(vm.employeesAsset))
+				console.log("employeesAsset: "+JSON.stringify(vm.employeesAsset.length))
 								
 			});
 		}

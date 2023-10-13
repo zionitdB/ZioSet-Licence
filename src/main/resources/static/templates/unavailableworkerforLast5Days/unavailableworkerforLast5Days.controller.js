@@ -28,7 +28,7 @@
 
 			}
 		$scope.filename="Machines"
-			vm.labels={'srNo': 'Sr No','branch.branchName': 'Branch','assetType':'Asset Type','serialNo':'Serial No','make':'Make','model':'Model','employee.firstName':'First Name	','employee.lastName':'Last Name','employee.employeeNo':'Employee No'}
+			vm.labels={'srNo': 'Sr No','make':'Make','model':'Model','serialNo':'Serial No','assetId':'Asset Id','employeeNo':'Employee No','employeeName':'Employee Name'}
 		
 		function loadUnavailableWorker(){
 			

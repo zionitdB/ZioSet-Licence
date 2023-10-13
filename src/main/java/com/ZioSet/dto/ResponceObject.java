@@ -3,6 +3,7 @@ package com.ZioSet.dto;
 public class ResponceObject {
 	private int code;
 	private String message;
+	private String dataString;
 	private Object data;
 	public int getCode() {
 		return code;
@@ -21,6 +22,12 @@ public class ResponceObject {
 	}
 	public void setData(Object data) {
 		this.data = data;
+	}
+	public String getDataString() {
+		return dataString;
+	}
+	public void setDataString(String dataString) {
+		this.dataString = dataString;
 	}
 	
 	

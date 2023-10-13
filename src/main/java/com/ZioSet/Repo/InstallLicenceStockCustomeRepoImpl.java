@@ -61,7 +61,7 @@ public class InstallLicenceStockCustomeRepoImpl implements InstallLicenceStockCu
 						"SELECT count(i) FROM InstallLicenceStock i where  i.computerName LIKE :searchText OR  i.product.productName LIKE :searchText OR i.associate.associateName LIKE :searchText OR i.asset.serialNo LIKE :searchText OR i.asset.assetId LIKE :searchText OR i.asset.make LIKE :searchText OR i.asset.model LIKE :searchText")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
 		 q = entityManager.createQuery(
-				"from Asset a where  i.computerName LIKE :searchText OR  i.product.productName LIKE :searchText OR i.associate.associateName LIKE :searchText OR i.asset.serialNo LIKE :searchText OR i.asset.assetId LIKE :searchText OR i.asset.make LIKE :searchText OR i.asset.model LIKE :searchText",
+				"from InstallLicenceStock i where  i.computerName LIKE :searchText OR  i.product.productName LIKE :searchText OR i.associate.associateName LIKE :searchText OR i.asset.serialNo LIKE :searchText OR i.asset.assetId LIKE :searchText OR i.asset.make LIKE :searchText OR i.asset.model LIKE :searchText",
 				InstallLicenceStock.class);
 			
 			
@@ -109,6 +109,29 @@ public class InstallLicenceStockCustomeRepoImpl implements InstallLicenceStockCu
 				.createQuery(
 						"SELECT count(i) FROM InstallLicenceStock i where  i.computerName LIKE :searchText OR  i.product.productName LIKE :searchText OR i.associate.associateName LIKE :searchText OR i.asset.serialNo LIKE :searchText OR i.asset.assetId LIKE :searchText OR i.asset.make LIKE :searchText OR i.asset.model LIKE :searchText")
 				.setParameter("searchText", "%" + searchText + "%").getSingleResult();
+		return (int) result;
+	}
+
+	@Override
+	public List<InstallLicenceStock> getListOfLicencesByProductName(String string) {
+		// TODO Auto-generated method stub
+		Query q = null;
+		q = entityManager.createQuery(
+					"from InstallLicenceStock i where  i.product.productName LIKE :searchText",
+					InstallLicenceStock.class);
+		
+		q.setParameter("searchText", "%" + string + "%");
+	
+		List<InstallLicenceStock> list = q.getResultList();
+		return list;	}
+
+	@Override
+	public int getCountByEditionAndProductName(String name, String string) {
+		// TODO Auto-generated method stub
+		long result = (long) entityManager
+				.createQuery(
+						"SELECT count(i) FROM InstallLicenceStock i where    i.product.productName LIKE :searchText  AND i.edition =:edition")
+				.setParameter("searchText", "%" + string + "%").setParameter("edition",name).getSingleResult();
 		return (int) result;
 	}
 

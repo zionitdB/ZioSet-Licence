@@ -56,8 +56,8 @@
 				//application.nameErrr=false
 				vm.applications.push(application);
 		}
-		function remove(application){
-			vm.applications.splice(application,1);
+		function remove(index){
+			vm.applications.splice(index,1);
 		}
 		function edit(bundle){
 			vm.bundle=bundle
@@ -73,6 +73,8 @@
 				 var url =bundleUrl+"/getApplicationByBundleId?bundleId="+bundle.bundleId;
 				genericFactory.getAll(msg,url).then(function(response) {
 				vm.applications = response.data;
+				
+				console.log("applications "+JSON.stringify(vm.applications ))
 				angular.forEach(vm.applications, function(application) {
 					application.exprityDate=new Date(application.exprityDate)
 					});
@@ -122,6 +124,8 @@
 	}
 		
 		function add(){
+			vm.bundle={};
+			vm.applications=[]
 			$scope.addNew=true;
 			vm.bundle.createdDate=new Date(bundle.createdDate)
 			

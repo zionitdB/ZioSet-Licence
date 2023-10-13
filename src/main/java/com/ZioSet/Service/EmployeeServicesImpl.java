@@ -6,13 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ZioSet.Repo.AssetEmployeeAssignedRepo;
 import com.ZioSet.Repo.EmployeeRepo;
+import com.ZioSet.model.AssetEmployeeAssigned;
 import com.ZioSet.model.Employee;
 
 @Service
 public class EmployeeServicesImpl implements EmployeeServices {
 	@Autowired
 	EmployeeRepo employeeRepo;
+	@Autowired
+	AssetEmployeeAssignedRepo assetEmployeeAssignedRepo;
 
 	@Override
 	public void addNewEmployee(Employee employee) {
@@ -54,6 +58,24 @@ public class EmployeeServicesImpl implements EmployeeServices {
 	public int getEmployeeCountAndSearch(String searchText) {
 		// TODO Auto-generated method stub
 		return employeeRepo.getEmployeeCountAndSearch(searchText);
+	}
+
+	@Override
+	public List<AssetEmployeeAssigned> getEmployeeWiseAllocationReport(int employeeId) {
+		// TODO Auto-generated method stub
+		return assetEmployeeAssignedRepo.getEmployeeWiseAllocationReport(employeeId);
+	}
+
+	@Override
+	public void deleteEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		employeeRepo.delete(employee);
+	}
+
+	@Override
+	public List<Employee> getAllEmployeesByBranch(String branchName) {
+		// TODO Auto-generated method stub
+		return employeeRepo.getAllEmployeesByBranch(branchName);
 	}
 
 }

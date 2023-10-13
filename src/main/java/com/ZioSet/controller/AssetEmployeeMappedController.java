@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.ZioSet.dto.Status;
+import com.ZioSet.dto.TransferAssetDto;
 import com.ZioSet.model.Asset;
 import com.ZioSet.model.AssetEmployeeAssigned;
 import com.ZioSet.model.AssetTransaction;
@@ -55,7 +56,36 @@ public class AssetEmployeeMappedController {
 	@Autowired
 	AssetService 	assetServices;
 	
-
+	
+	@RequestMapping(value = "/transferAsset", method = RequestMethod.POST)
+	public @ResponseBody Status transferAsset(@RequestBody TransferAssetDto transferAssetDto) {
+		Status status= new Status();
+		try {
+			//System.out.println("New Empl "+transferAssetDto.getNewemployee().toString());
+			//System.out.println("MAPPED  "+transferAssetDto.getAssetEmployeeAssigned().toString());
+			AssetEmployeeAssigned assetEmployeeAssigned= new AssetEmployeeAssigned();
+			assetEmployeeAssigned.setAsset(transferAssetDto.getAssetEmployeeAssigned().getAsset());
+			assetEmployeeAssigned.setEmployee(transferAssetDto.getNewemployee());
+			assetEmployeeAssigned.setMappedDate(new Date());
+			assetEmployeeAssigned.setMappedStatus(1);
+			assetEmployeeMappeServices.mappedAsset(assetEmployeeAssigned);
+			assetEmployeeMappeServices.releaseMappedAsset(transferAssetDto.getAssetEmployeeAssigned());
+			
+			AssetTransaction assetTransaction = new AssetTransaction();
+			assetTransaction.setAsset(transferAssetDto.getAssetEmployeeAssigned().getAsset());
+			assetTransaction.setEmployee(transferAssetDto.getNewemployee());
+			assetTransaction.setTransactionDate(new Date());
+			assetTransaction.setTranactionType("Transfer");
+			assetEmployeeMappeServices.saveAssetTransaction(assetTransaction);
+			 status.setCode(200);
+			 status.setMessage("Asset Release.... Successfully");
+		} catch (Exception e) {
+			e.printStackTrace();
+			 status.setCode(500);
+			 status.setMessage("Something Wrong");
+		}
+		return status;
+	}
  
 	@RequestMapping(value = "/mappedAsset", method = RequestMethod.POST)
 	public @ResponseBody Status updateAsset(@RequestBody AssetEmployeeAssigned assetEmployeeAssigned) {
@@ -223,7 +253,7 @@ public class AssetEmployeeMappedController {
 		try {	
 			List<AssetEmployeeAssigned> list1=assetEmployeeMappeServices.getAllAssetEmployees();
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");  
-		
+		System.out.println("SIZE ..............."+list1.size());
 			int srNo=1;
 			for(AssetEmployeeAssigned assetEmployeeAssigned:list1){
 				String mapDateStr = dateFormat.format(assetEmployeeAssigned.getMappedDate());  
@@ -243,7 +273,11 @@ public class AssetEmployeeMappedController {
 						assetEmployeeAssigned.getAsset().setAge(String.valueOf(year));
 
 				}
-				String reportingManager=(assetEmployeeAssigned.getEmployee().getManager()).replace(',', ' ');
+				String reportingManager="";
+				if(assetEmployeeAssigned.getEmployee().getManager()!=null){
+					 reportingManager=(assetEmployeeAssigned.getEmployee().getManager()).replace(',', ' ');
+
+				}
 				assetEmployeeAssigned.getEmployee().setManager(reportingManager);
 				assetEmployeeAssigned.setEmpName(assetEmployeeAssigned.getEmployee().getFirstName()+" "+assetEmployeeAssigned.getEmployee().getLastName());
 				list.add(assetEmployeeAssigned);

@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.transaction.Transactional;
 
 @Entity
 @Table(name="customer_supplied_software")
@@ -43,9 +45,18 @@ public class CustomerSuppliedSoftware {
 	@Column(name="added_date")
 	private Date added_date;
 	
+	@Transient
+	private int srNo;
 	
 	
-	
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
+	}
 
 	public int getId() {
 		return id;

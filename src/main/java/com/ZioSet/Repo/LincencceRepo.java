@@ -62,5 +62,18 @@ public interface LincencceRepo extends JpaRepository<Licence, Integer>,Lincencce
 			String releaseName);
 	@Query("From Licence l where l.product.productName=?1")
 	List<Licence> getAllLicenceCostByProductName(String applicationName);
+	
+	@Query("From Licence l where l.associate.id=?1 and l.product.id=?2")
 
+	List<Licence> getAllLicenceByPublisherAndProduct(int publisher, int product);
+	
+	
+	@Query("From Licence l where  l.associate.associateName=?1 and  l.product.productName=?2 and l.licenceKey=?3 ")
+	Optional<Licence> getLicenceByPublisherProductKey(String associate, String product,String key);
+	
+	@Query("select count(*) From Licence l where l.keyGenIndx is not null")
+	int getMaxIndexIsPresent();
+	@Query("select max(l.keyGenIndx) From Licence l where l.keyGenIndx is not null")
+
+	String getMaxKeyIndex();
 }

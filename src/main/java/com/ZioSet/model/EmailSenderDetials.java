@@ -12,10 +12,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="email_sender")
 public class EmailSenderDetials {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "id")
+	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
 	 @Column(name = "host")
 	 private String host;

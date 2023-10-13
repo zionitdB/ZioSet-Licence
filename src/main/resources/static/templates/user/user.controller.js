@@ -26,7 +26,7 @@
 		});
 
 		(function activate() {
-			
+			$scope.diabledSaveButton=false
 			loadAllUsers();
 			$scope.viewPasstab=false
 			$scope.editOp=false
@@ -58,6 +58,7 @@
 			}
 		}
 		function addNew(){
+			$scope.diabledSaveButton=false
 			$scope.addNew=true;
 			$scope.viewPasstab=false
 			$scope.editOp=false
@@ -65,6 +66,7 @@
 			loadBranch();
 		}
 		function cancle(){
+			$scope.diabledSaveButton=false
 			$scope.addNew=false;
 			$scope.editOp=false
 			
@@ -81,6 +83,7 @@
 		function edit(user){
 			$scope.addNew=true;
 			$scope.editOp=true
+			$scope.diabledSaveButton=false
 			vm.userObj=user;
 			$scope.viewPasstab=false
 			loadRoles() ;
@@ -301,6 +304,7 @@
 				loadAllUsers();
 				$scope.addNew=false;
 				vm.userObj={};
+				$scope.diabledSaveButton=true
 				if(response.data.code==200){
 					toastr.success(response.data.message);
 					

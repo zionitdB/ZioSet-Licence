@@ -11,6 +11,8 @@ import com.ZioSet.model.Employee;
 public interface EmployeeRepo extends JpaRepository<Employee, Integer>,EmployeeCustomeRepo {
 	@Query("From Employee e where e.employeeNo=?1")
 	Optional<Employee> getEmployeeByNo(String employeeNo);
+	@Query("From Employee e where e.branch.branchName=?1")
+	List<Employee> getAllEmployeesByBranch(String branchName);
 
 	
 

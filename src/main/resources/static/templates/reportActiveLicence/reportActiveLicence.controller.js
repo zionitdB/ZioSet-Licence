@@ -38,7 +38,7 @@
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.transactions= response.data;
-				console.log("transactions: "+JSON.stringify(vm.transactions))
+				//console.log("transactions: "+JSON.stringify(vm.transactions))
 				if(vm.transactions.length!=0){
 					$scope.showDatatable=true
 				}
@@ -49,12 +49,12 @@
 		
 		function getAssets(){
 		
-			var url =assetUrl+"/getAllAsseta1";
+			var url =assetUrl+"/getAllAsset1";
 			var msg=""
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.assets= response.data;
-				console.log("assets: "+JSON.stringify(vm.assets))
+				//console.log("assets: "+JSON.stringify(vm.assets))
 				
 								
 			});
@@ -68,7 +68,7 @@
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.associates= response.data;
-				console.log("associates: "+JSON.stringify(vm.associates))
+			//	console.log("associates: "+JSON.stringify(vm.associates))
 				
 								
 			});
@@ -82,7 +82,7 @@
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.products= response.data;
-				console.log("products: "+JSON.stringify(vm.products))
+				//console.log("products: "+JSON.stringify(vm.products))
 							
 			});
 			
@@ -94,7 +94,7 @@
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.transactions= response.data;
-				console.log("products: "+JSON.stringify(vm.products))
+				//console.log("products: "+JSON.stringify(vm.products))
 							
 			});
 			
@@ -106,7 +106,7 @@
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.transactions= response.data;
-				console.log("products: "+JSON.stringify(vm.products))
+				//console.log("products: "+JSON.stringify(vm.products))
 							
 			});
 			
@@ -118,7 +118,7 @@
 			
 			genericFactory.getAll(msg,url).then(function(response) {
 				vm.transactions= response.data;
-				console.log("products: "+JSON.stringify(vm.products))
+				//console.log("products: "+JSON.stringify(vm.products))
 							
 			});
 			
@@ -129,7 +129,7 @@
 		}
 		
 		$scope.file="Customer"
-			vm.labels={'srNo':'Sr No','associate.associateName':'Associate','product.productName': 'Product','productVersion': 'Version','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','asset.assetId':'Asset Id','computerName':'Computer Name','insDate':'Install Date'}
+			vm.labels={'srNo':'Sr No','associate.associateName':'Associate','product.productName': 'Product','productVersion': 'Version','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','asset.assetId':'Asset Id','computerName':'Computer Name','asset.employeeNo':'Employee No','asset.employeeName':'Employee Name','insDate':'Install Date'}
 		
 		
 		

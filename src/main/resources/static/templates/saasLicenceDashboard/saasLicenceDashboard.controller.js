@@ -128,6 +128,14 @@
 				//$scope.selTab="licence"
 			}
 			
+			$scope.eolSAAS=function(){
+				$location.path('main/endOfLifeSAAS');
+			}
+			$scope.saasLiceneExpiry=function(){
+				$location.path('main/expirySAAS');
+			}
+			
+			
 			function loadDashboardCount() {
 				var msg = ""
 				var url = dashboardUrl + "/getOverviewDashboardCount";

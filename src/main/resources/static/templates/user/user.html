@@ -52,7 +52,7 @@
  <div >
         <uib-tabset active="activeJustified" justified="true">
             <uib-tab style="    text-align: left;font-size: 1.7rem;
-    font-weight: 700;"heading="User">
+    font-weight: 700;"heading="Access Management">
              <div class="row  mt-3">
               
                         
@@ -195,9 +195,9 @@
                     </div>
                 </div>
                     <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                        <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
                             style="width: 1150px;">
-                            <thead>
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                     <th>Sr No</th>
                                     <th>Branch</th>
@@ -217,7 +217,7 @@
 							
                                         
                                 
-                                    <th>{{$index+1}}</th>
+                                    <th>{{(vm.perPage*(vm.pageno-1))+($index+1)}}</th>
                                      <td><span ng-show="user.branch!=null||user.branch!='null'">{{user.branch.branchName}}</span>  <span ng-show="user.branch==null||user.branch=='null'">ALL</span></td>
                                     <td>{{user.firstName}}</td>
                                     <td>{{user.lastName}}</td>

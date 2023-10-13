@@ -1,0 +1,388 @@
+
+<!-- END wrapper -->
+<!-- jQuery  -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<!-- Popper for Bootstrap -->
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/metisMenu.min.js"></script>
+<script src="assets/js/waves.js"></script>
+<script src="assets/js/jquery.slimscroll.js"></script>
+
+<!-- Counter js  -->
+<script src="../plugins/waypoints/jquery.waypoints.min.js"></script>
+<script src="../plugins/counterup/jquery.counterup.min.js"></script>
+
+<!--C3 Chart-->
+<script type="text/javascript" src="plugins/d3/d3.min.js"></script>
+<script type="text/javascript" src="plugins/c3/c3.min.js"></script>
+
+<!--Echart Chart-->
+<script src="plugins/echart/echarts-all.js"></script>
+
+<!-- Dashboard init -->
+<script src="assets/pages/jquery.dashboard.js"></script>
+
+<!-- App js -->
+<style>
+.mydiv {
+	position: absolute;
+	top: 0;
+	overflow: hidden;
+	left: 0;
+	width: 100%;
+	height: 150%;
+	z-index: 1000;
+	background-color: grey;
+	opacity: .8;
+}
+
+.ajax-loader {
+	position: absolute;
+	left: 50%;
+	top: 25%;
+	margin-left: -32px; /* -1 * image width / 2 */
+	margin-top: -22px; /* -1 * image height / 2 */
+	display: block;
+}
+</style>
+<div ng-if="loader" class="mydiv">
+	<img src="images/transparent-background-loading.gif"
+		class="ajax-loader" />
+</div>
+<!-- App js -->
+<script src="assets/js/jquery.core.js"></script>
+<script src="assets/js/jquery.app.js"></script>
+<!-- Begin page -->
+<div id="wrapper">
+
+	<!-- top navigation for mobile start-->
+
+
+
+	<!--left navigation start-->
+	<div class="navigation">
+		<div class="logo">
+			<a href="#"> <span><img src="images/zionit.jpg" alt="logo"
+					class="img-fluid"> </span>
+			</a>
+		</div>
+
+		<ul class="navbar-nav">
+			<li class="list active"><b></b> <b></b> <select
+				class="form-control" ng-model="menuBranch"
+				ng-options="branch.branchId as branch.branchName for branch in vm.branches"
+				ng-change="changeBranch(menuBranch)">
+					<option value="" disabled selected>Select Branch</option>
+			</select></li>
+			<li class="list active"><b></b> <b></b> <a ui-sref="main.home"
+				class="nav-link"> <span class="icon"> <i
+						class="bi bi-speedometer2"></i>
+				</span> <span class="title">Dashboard</span>
+
+			</a></li>
+
+
+			<li class="list nav-item"><b></b> <b></b> <a class="nav-link"
+				href="#"> <span class="icon"> <i
+						class="bi bi-columns-gap"></i></span> <span class="title">Master</span> <span
+					class="aro">&rsaquo;</span>
+			</a>
+				<ul class="dro dro5">
+					<!-- <li><a ui-sref="main.tagUpload" class="nav-link"> <i
+							class="  mdi mdi-remote"></i>Tag Upload
+					</a></li> -->
+					<li><a ui-sref="main.asset" class="nav-link"> <i
+							class="  mdi  mdi-cart"></i>Asset
+					</a>
+					</li>
+					<li><a ui-sref="main.employee" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Employee
+					</a></li>
+					
+					<li><a ui-sref="main.rolePermission" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Role Permission
+					</a></li>
+
+				 	<li ><a ui-sref="main.user"
+						class="nav-link"> <i></i>User
+					</a></li>
+					<li ><a ui-sref="main.licence"
+						class="nav-link"> <i></i>Licence
+					</a></li>
+					<li ><a ui-sref="main.licenceLifeNotification"
+						class="nav-link"> <i></i>Licence Life
+					</a></li>
+					<li ng-show="vm.user.role.roleId==1"><a ui-sref="main.bundleAppication"
+						class="nav-link"> <i class=" mdi mdi-access-point-network-off"></i>Bundle Appication
+					</a></li>
+				 	<li ><a
+						ui-sref="main.categoryGrouping" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Category
+					</a></li>
+					
+					<li ng-show="vm.user.role.roleId==1"><a
+						ui-sref="main.customerSuppliedSoftware" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Customer Supplied Software
+					</a></li>
+					
+						
+					<li ><a
+						ui-sref="main.mailManger" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Mail Manger
+					</a></li>
+					
+						
+					<li ><a
+						ui-sref="main.emailTemplate" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Email Template
+					</a></li>
+					<li ><a
+						ui-sref="main.branch" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Branch
+					</a></li>
+				<!--	<li ng-show="vm.user.role.roleId==1"><a
+						ui-sref="main.kittingArea" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Kitting Area
+					</a></li> -->
+
+				</ul></li>
+
+			 <li class="list nav-item"><b></b> <b></b> <a class="nav-link"
+				data-bs-toggle="dropdown" href="#" role="button"
+				aria-expanded="false"> <span class="icon"> <i
+						class="bi bi-receipt"></i></span> <span class="title">Transaction</span>
+					<span class="aro">&rsaquo;</span>
+			</a>
+				<ul class="dro dro1">
+					<li><a ui-sref="main.licenceAllocation" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Licence Allocation
+					</a></li>
+
+					<li><a ui-sref="main.assetEmployeeMapped" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Asset Assinged
+					</a></li>
+					<li><a ui-sref="main.systemLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>System Licence
+					</a></li>
+					<li><a ui-sref="main.licenceExpiry" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Licence Expiry
+					</a>
+					</li>
+						<li><a ui-sref="main.licenceDetials" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Licence Detials
+					</a></li>
+					
+					<li><a ui-sref="main.fetchInstallLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Fetch Install Licence
+					</a></li>
+		
+
+
+				</ul></li> 
+				
+				<li class="list nav-item"><b></b> <b></b> <a class="nav-link"
+				data-bs-toggle="dropdown" href="#" role="button"
+				aria-expanded="false"> <span class="icon"> <i
+						class="bi bi-receipt"></i></span> <span class="title">Report</span>
+					<span class="aro">&rsaquo;</span>
+			</a>
+				<ul class="dro dro1">
+					<li><a ui-sref="main.reportActiveLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Active Licence Report
+					</a></li>
+
+					<li><a ui-sref="main.reportExpiryLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Expiry Licence Report
+					</a></li>
+					<li><a ui-sref="main.reportInstallLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Install Licence Report
+					</a></li>
+					
+			<li><a ui-sref="main.unavailableworkerforLast5Days" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Inactive Worker for Last 5 Days
+					</a></li>
+					
+						<li><a ui-sref="main.assetUnavailableworker" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>End Point -Worker Unassinged
+					</a></li>
+					
+					<li><a ui-sref="main.reportUnavailableWorker" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Inactive Worker Report
+					</a></li>
+
+				</ul></li>
+				
+			<!-- 	<li><a ui-sref="main.reportUnavailableWorker" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Unavailable Worker Report
+					</a></li>
+
+				</ul></li>   -->
+		<!-- 	<li class="list nav-item"><b></b> <b></b> <a class="nav-link"
+				href="#"> <span class="icon"> <i
+						class="bi bi-columns-gap"></i></span> <span class="title">Licence
+						Management</span> <span class="aro">&rsaquo;</span>
+			</a>
+				<ul class="dro dro5">
+					<li><a ui-sref="main.licence" class="nav-link"> <i
+							class="  mdi mdi-remote"></i>Licence Master
+					</a></li>
+					<li><a ui-sref="main.licenceAllocation" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Licence Allocation
+					</a></li>
+					<li><a ui-sref="main.licenceLifeNotification"
+						class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Licence Life
+							Notification
+					</a></li>
+					<li><a ui-sref="main.fetchInstallLicence" class="nav-link">
+							<i class=" mdi mdi-access-point-network-off "></i>Fetch Install
+							Licence
+					</a></li>
+					<li><a ui-sref="main.licenceDetials" class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Licence Detials
+					</a></li>
+					<li><a ui-sref="main.customerSuppliedSoftware"
+						class="nav-link"> <i
+							class=" mdi mdi-access-point-network-off "></i>Customer Supplied
+							Software
+					</a></li>
+
+
+				</ul></li>
+			<li class="list nav-item"><b></b> <b></b> <a class="nav-link"
+				data-bs-toggle="dropdown" href="#" role="button"
+				aria-expanded="false"> <span class="icon"> <i
+						class="bi bi-receipt"></i></span> <span class="title">Report</span> <span
+					class="aro">&rsaquo;</span>
+			</a>
+				<ul class="dro dro1">
+					<li><a ui-sref="main.allocationReport" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Asset Allocation Report
+					</a></li>
+
+					<li><a ui-sref="main.reportActiveLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Active Licence Report
+					</a></li>
+
+					<li><a ui-sref="main.reportExpiryLicence" class="nav-link">
+							<i class="  mdi  mdi-cart"></i>Expired Licence Report
+					</a></li>
+
+				</ul></li> -->
+			<!-- <li class="list nav-item"><b></b> <b></b> <a class="nav-link"
+				ui-sref="main.help" role="button" aria-expanded="false"> <span
+					class="icon"> <i class="bi bi-receipt"></i></span> <span
+					class="title">Help</span>
+
+			</a></li>
+ -->
+
+		</ul>
+	</div>
+
+	<!--left navigation end-->
+
+	<!-- user bar start -->
+	<nav class="navbar user-nav">
+		<div class="container-fluid user-profile">
+			<div class="d-flex">
+
+				<div class="d-flex">
+
+					<input class="me-2" type="search" title="Search Assset Info"
+						placeholder="Search" aria-label="Search"
+						ng-model="vm.selecteAsset" name="search"
+						uib-typeahead="asset as asset.assetId+' '+asset.assetType+' '+asset.serialNo+' '+asset.make+' '+asset.model for asset in vm.allAssets | filter:$viewValue | limitTo:20"
+						typeahead-no-results="codes" required
+						typeahead-on-select="vm.search(vm.selecteAsset)" />
+
+				</div>
+
+			</div>
+			<div style="margin-left: auto; margin-right: 34px;"
+				title="Notification">
+				<a ui-sref="main.notification"> <i class="bi bi-bell-fill">
+						<span ng-if="notificationCount!=0" class="badge">{{notificationCount}}
+					</span>
+				</i>
+				</a>
+			</div>
+			<div class="dropdown w-8 h-8" id="profile" data-toggle="tooltip"
+				data-placement="top" title="Profile">
+				<div
+					class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in intro-y"
+					role="button" aria-expanded="true">
+					<img src="images/users/icon_user.png" alt="userImage">
+				</div>
+				<div class="dropdown-menu w-56  intro-y" id="profileopen"
+					style="width: 224px; position: absolute; inset: 43px auto auto -204px; margin: 0px; display: none; background-color: rgb(50, 38, 174);">
+					<div
+						class="dropdown-menu__content  bg-theme-26 dark:bg-dark-6 text-white">
+						<div class="p-4 border-b border-theme-27 dark:border-dark-3">
+							<div class="font-medium">
+								{{vm.user.firstName}} {{vm.user.lastName}} <br> <span>{{vm.user.role.roleName}}</span>
+							</div>
+							<!-- <div class="text-xs text-theme-28 mt-0.5 dark:text-gray-600" style="font-size: 80%" style="display: none;">Frontend Engineer</div> -->
+						</div>
+
+						<div class="p-2">
+							<a ui-sref="main.profile"
+								class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md "
+								style="color: white"> <i class="bi bi-person-check-fill"></i>
+								Profile
+							</a>
+						</div>
+
+
+
+						<div class="p-2 border-t border-theme-27 dark:border-dark-3">
+							<a ui-sref="main.login" ng-click="vm.doLogout()"
+								class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md"
+								style="color: white"> <svg
+									xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+									viewBox="0 0 24 24" fill="none" stroke="currentColor"
+									stroke-width="1.5" stroke-linecap="round"
+									stroke-linejoin="round"
+									class="feather feather-toggle-right w-4 h-4 mr-2">
+									<rect x="1" y="5" width="22" height="14" rx="7" ry="7"></rect>
+									<circle cx="16" cy="12" r="3"></circle></svg> Logout
+							</a>
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+	</nav>
+	<!-- user bar end -->
+
+	<div class="home_page">
+
+
+		<div ui-view="sub" style="background-color: white;"></div>
+
+	</div>
+
+
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        // Show hide popover
+         $("#profile").click(function(){
+            $(this).find("#profileopen").slideToggle("fast");
+        });
+     });
+     $(document).on("click", function(event){
+         var $trigger = $("#profile");
+         if($trigger !== event.target && !$trigger.has(event.target).length){
+            $("#profileopen").slideUp("fast");
+         }            
+     });
+ </script>
+

@@ -1,7 +1,5 @@
  <style>
-<!--
 
--->
 /*Check Box*/
 .c_check {
   visibility: hidden;
@@ -171,7 +169,7 @@
                         </div>
                         <div class="col-md-6">
                             <label  for="inputCity" class="form-label">Email Id<sup style="color: red;">*</sup></label>
-                            <input type="email" class="form-control mandtry" id="email" ng-model="employee.email"  ng-blur="validateEmail(employee.emailId)"; placeholder="Enter Email Id">
+                            <input type="email" class="form-control mandtry" id="email" ng-model="employee.email"  ng-blur="validateEmail(employee.email)"; placeholder="Enter Email Id">
 						   <span ng-show="emialErr" style="color:red">  * Invalid Email ID</span>
 						    <span ng-show="emailErr" style="color:red">  * is mandatory</span>
                         </div>
@@ -302,15 +300,15 @@
                                
                             </form>
                         </div>
-                          <div class="col-1   ">
+                          <div class="col-1">
                           
 					              <input type="number" min="1"  class="form-control" ng-model="vm.perPage" ng-change="vm.loadEmployees()"   >
 					             
                           </div>
-                          <div class="col-2   ">
+                          <div class="col-2 ">
                             <button class="addNew" type="submit"   data-toggle="tooltip" data-placement="bottom" title="Upload Employee" ng-click="vm.upload()">   <i class="bi bi-upload" style="margin-right: 10px;"></i></button>
                         </div>
-                          <div class="col-2   ">
+                          <div class="col-2">
                                                     <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
                         
 						       <button id="btnExport" ng-json-export-excel data="vm.allEmployees" report-fields="vm.labels" style="display:none"  filename="'Employees'"  ></button>
@@ -320,14 +318,14 @@
                         </div>
                          <div class="col-2   ">
                             <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New Employee"style="margin-left: 68px;" ng-click="vm.add()">   <i class="bi bi-plus-square" ></i></button>
-                        </div>
+                         </div>
                     
                     </div>
                 </div>
                     <div class="material-tbl mt-3">
-                        <table id="datatable-buttons" class="  text-center table-striped align-middle justify-content-center "
+                        <table id="datatable-buttons" class="  ttext-center align-middle justify-content-center table-bordered"
                            style="width: 1150px" >
-                            <thead>
+                            <thead style="background-color: var(---primary); color: var(---table_text_color);">
                                 <tr>
                                    <th>Sr No</th>
                                             <th>Location</th>
@@ -343,6 +341,7 @@
                                              
                                               <th >Department</th>
                                                <th >Cost Center</th>
+                                                 <th >Status</th>
                                               <!--  <th >Added By</th>
                                               <th>Added Date</th> -->
                                             <th>Action</th>
@@ -352,7 +351,7 @@
                             </thead>
                             <tbody>
                            <tr ng-show="vm.empoyees.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
-							<tr dir-paginate="employee in vm.employees| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							<tr dir-paginate="employee in vm.employees|reverse| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
 							
                                            <td >{{(vm.perPage*(vm.pageno-1))+($index+1)}}</td>
                                            <td >{{employee.branch.branchName}}</td>
@@ -366,6 +365,7 @@
                                             
                                                 <td >{{employee.department.departmentName}}</td>
                                                  <td >{{employee.costCenter}}</td>
+                                                      <td ><span ng-if="employee.active==0">Inactive</span><span ng-if="employee.active==1">Active</span></td>
                                           <!--   <td  >{{employee.addedBy.firstName}} {{employee.addedBy.lastName}}</td>
                                               <td  >{{employee.addedDate|date:'dd-MM-yyyy'}}</td>
                                           -->  <!--   <td  >
@@ -385,9 +385,9 @@
                                           <!--   	<md-button class="md-icon-button btn-sm" aria-label="Favorite" ng-disabled="employee.designation.designationName=='Admin'" style="margin:0 0.5px;"> <i class=" mdi mdi-sync"  data-toggle="tooltip" data-placement="bottom" title="Change Status"
                                            ng-click="vm.changeStatus(employee)" style="font-size:20px;color:#2E86C1;"></i></md-button>  -->
                                            	
-                                           	   <md-icon class="fas fa-user-alt " ng-if="employee.active==1" data-toggle="tooltip" data-placement="bottom" title="ACTIVE" style="font-size:20px;color:green;padding-top:5px;"></md-icon>
+                                           	 <!--   <md-icon class="fas fa-user-alt " ng-if="employee.active==1" data-toggle="tooltip" data-placement="bottom" title="ACTIVE" style="font-size:20px;color:green;padding-top:5px;"></md-icon>
                                             	<md-icon class="fas fa-user-alt-slash" ng-if="employee.active==0" data-toggle="tooltip" data-placement="bottom"  title="INACTIVE" style="font-size:20px;color:red;padding-top:5px;"></md-icon>   
-                                            	   
+                                             -->	   
                                            	<md-button class="md-icon-button btn-sm" aria-label="Favorite" ng-if="employee.userCreated==0" style="margin:0 0.5px;"> <i class="fa fa-user-plus"   data-toggle="tooltip" data-placement="bottom" title="Create User" ng-click="vm.createUser(employee)" style="font-size:20px;color:#2E4053;"></i></md-button>
                                            	<md-button class="md-icon-button btn-sm" aria-label="Favorite" ng-if="employee.userCreated==1" style="margin:0 0.5px;"> <i class='fas fa-user-check'   data-toggle="tooltip" data-placement="bottom" title="User created " disabled style="font-size:20px;color:#85929E;"></i></md-button>
                                            	<md-button class="md-icon-button btn-sm" aria-label="Favorite" style="margin:0 0.5px;"><i class='fas fa-trash'   data-toggle="tooltip" data-placement="bottom" title="Delet" ng-click="vm.delet(employee)" style="font-size:20px;color:#ff0101;"></i></md-button>

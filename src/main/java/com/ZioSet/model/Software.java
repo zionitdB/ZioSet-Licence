@@ -16,6 +16,14 @@ import javax.persistence.Transient;
 @Table(name="licence_install")
 public class Software {
 	
+	public String getSystemIp() {
+		return systemIp;
+	}
+
+	public void setSystemIp(String systemIp) {
+		this.systemIp = systemIp;
+	}
+
 	@Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -31,6 +39,9 @@ public class Software {
 	
 	@Column(name="computer_name")
 	private String computeName;
+	
+	@Column(name="system_ip")
+	private String systemIp;
 
 	@Column(name="serial_no")
 	private String serialNo;
@@ -43,6 +54,9 @@ public class Software {
 	private Date detectedDate;
 	
 	
+	
+	@Transient
+	private Employee employee;
 	public Date getDetectedDate() {
 		return detectedDate;
 	}
@@ -210,6 +224,14 @@ public class Software {
 
 	public void setEdition(String edition) {
 		this.edition = edition;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 	
 	

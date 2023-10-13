@@ -10,6 +10,8 @@ import com.ZioSet.model.BundleApplications;
 public interface BundleApplicationsRepo extends JpaRepository<BundleApplications, Integer>,BundleApplicationsCustomeRepo{
 	@Query("From BundleApplications b where b.bundle.bundleId=?1")
 	List<BundleApplications> getApplicationByBundleId(int bundleId);
+	@Query("From BundleApplications b where b.bundle.bundleName=?1")
+	List<BundleApplications> getbundleApplicationByBundleName(String bundleName);
 
 
 }

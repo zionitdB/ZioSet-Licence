@@ -4,6 +4,11 @@ public class LicenceCountDto {
 private String licenceType;
 private String associateName;
 private String productName;
+private String categoryName;
+private String bundleName;
+
+private String applicationName;
+
 private int count;
 private boolean check;
 public String getLicenceType() {
@@ -35,6 +40,24 @@ public String getProductName() {
 }
 public void setProductName(String productName) {
 	this.productName = productName;
+}
+public String getCategoryName() {
+	return categoryName;
+}
+public void setCategoryName(String categoryName) {
+	this.categoryName = categoryName;
+}
+public String getBundleName() {
+	return bundleName;
+}
+public void setBundleName(String bundleName) {
+	this.bundleName = bundleName;
+}
+public String getApplicationName() {
+	return applicationName;
+}
+public void setApplicationName(String applicationName) {
+	this.applicationName = applicationName;
 }
 
 

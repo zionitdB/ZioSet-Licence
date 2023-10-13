@@ -38,6 +38,7 @@ import com.ZioSet.Repo.MemoryDetailsRepo;
 import com.ZioSet.Repo.OSDetialsRepo;
 import com.ZioSet.Service.AssetService;
 import com.ZioSet.dto.AssetCountDetialDto;
+import com.ZioSet.dto.ResponceObject;
 import com.ZioSet.dto.Status;
 import com.ZioSet.dto.SysytemDetailsDTO;
 import com.ZioSet.model.Asset;
@@ -75,6 +76,19 @@ public class AssetController {
 		try {
 
 			list = assetServices.getAvailableAssets();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getAllAsset", method = RequestMethod.GET)
+	public @ResponseBody List<Asset> getAllAsset() {
+		List<Asset> list = new ArrayList<Asset>();
+		try {
+
+			list = assetServices.getAllAsset();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,11 +146,20 @@ public class AssetController {
 				int currentAge0;
 				Date invoiceDate = asset.getInvoiceDate();
 				Date today = new Date();
+				//System.out.println("AGE IS "+asset.getAge());
 				if (invoiceDate != null) {
 					long diff = today.getTime() - invoiceDate.getTime();
 					int days = (int) (diff / 1000 / 60 / 60 / 24);
 					int year = (days / 356);
-					asset.setAge(String.valueOf(year));
+					if(year<=0){
+						
+					}else{
+						asset.setAge(String.valueOf(year));
+					}
+					
+					//System.out.println("NE diff  "+days);
+
+					
 				}
 
 			}
@@ -168,7 +191,11 @@ public class AssetController {
 					long diff = today.getTime() - invoiceDate.getTime();
 					int days = (int) (diff / 1000 / 60 / 60 / 24);
 					int year = (days / 356);
-					asset.setAge(String.valueOf(year));
+					if(year<=0){
+						
+					}else{
+						asset.setAge(String.valueOf(year));
+					}
 				}
 				sysytemDetailsDTO.setAssetType(asset.getAssetType());
 				sysytemDetailsDTO.setMake(asset.getMake());
@@ -250,7 +277,11 @@ public class AssetController {
 					int days = (int) (diff / 1000 / 60 / 60 / 24);
 					int year = (days / 356);
 					// System.out.println ("Days: " + year);
-					asset.setAge(String.valueOf(year));
+					if(year<=0){
+						
+					}else{
+						asset.setAge(String.valueOf(year));
+					}
 				}
 
 			}
@@ -280,7 +311,11 @@ public class AssetController {
 					long diff = today.getTime() - invoiceDate.getTime();
 					int days = (int) (diff / 1000 / 60 / 60 / 24);
 					int year = (days / 356);
-					asset.setAge(String.valueOf(year));
+					if(year<=0){
+						
+					}else{
+						asset.setAge(String.valueOf(year));
+					}
 				}
 				sysytemDetailsDTO.setAssetType(asset.getAssetType());
 				sysytemDetailsDTO.setMake(asset.getMake());
@@ -394,6 +429,27 @@ public class AssetController {
 		}
 		return asset;
 	}
+	@RequestMapping(value = "/getAssetBySerialNo", method = RequestMethod.GET)
+	public @ResponseBody ResponceObject getAssetBySerialNo(@RequestParam("serialNo") String serialNo) {
+		ResponceObject responceObject= new ResponceObject();
+		try {
+			Optional<Asset> optional = assetServices.checkSerialNo(serialNo);
+			if(optional.isPresent()){
+				Asset asset=optional.get();
+				responceObject.setCode(200);
+				responceObject.setMessage("Valid Serial No");
+				responceObject.setData(asset);
+			}else{
+				responceObject.setCode(500);
+				responceObject.setMessage("InValid Serial No");
+			}
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return responceObject;
+	}
 	@RequestMapping(value = "/getAllAsset/{type}", method = RequestMethod.GET)
 	public @ResponseBody List<Asset> getAllAsset(@PathVariable("type") String type) {
 		List<Asset> list= new ArrayList<Asset>();
@@ -441,6 +497,7 @@ public class AssetController {
 		}
 		return list;
 	}
+	
 	@RequestMapping(value = "/checkBySerialNo", method = RequestMethod.GET)
 	public @ResponseBody Status checkBySerialNo(@RequestParam("serialNo") String serialNo) {
 		Status status = new Status();
@@ -461,6 +518,317 @@ public class AssetController {
 		}
 		return status;
 	}
+	
+	
+	
+	@RequestMapping(value = "/uploadAssetNEW", method = RequestMethod.POST)
+	public @ResponseBody Status uploadAssetNEW(@ModelAttribute(value = "file") MultipartFile file, HttpServletRequest request,
+			@RequestParam("uploadBy") String uploadBy) throws ParseException {
+		Status status = new Status();
+		int uploadedCount = 0;
+		int totalCount = 0;
+		System.out.println("NEW UPLOADING ...................................................");
+		String responceMsg = "";
+		try {
+			if (!(file == null)) {
+				if (file.isEmpty()) {
+				} else {
+					//System.out.println(file.getOriginalFilename());
+					try {
+						File dir = new File(System.getProperty("catalina.base"), "uploads");
+						File uplaodedFile = new File(dir + file.getOriginalFilename());
+						file.transferTo(uplaodedFile);
+						FileInputStream excelFile = new FileInputStream(uplaodedFile);
+						Workbook workbook = new XSSFWorkbook(excelFile);
+						FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+						DataFormatter formatter = new DataFormatter();
+
+						Sheet datatypeSheet = workbook.getSheetAt(0);
+						totalCount = datatypeSheet.getLastRowNum();
+						//System.out.println("totalCount " + totalCount);
+						int i = 0;
+						while (i <= datatypeSheet.getLastRowNum()) {
+							if (totalCount == 0) {
+								status.setCode(500);
+								status.setMessage("Data Not Found in sheet");
+								String responceMsg0 = "";
+								responceMsg0 = "Uploading...... ";
+								responceMsg0 += " \r\n  File Name :: " + file.getOriginalFilename();
+								responceMsg0 += " \r\n Upaloading Date :: " + new Date();
+								responceMsg0 += " \r\n Upaload  By:: " + uploadBy;
+								responceMsg0 += " \r\n Uploding row done " + uploadedCount + " out of " + totalCount;
+
+								responceMsg0 += "\r\n Data Not Found in sheet";
+								String newResMsg = responceMsg0 + " \r\n " + responceMsg;
+								status.setResmessage(newResMsg);
+
+								// return status;
+							}
+							XSSFRow row = null;
+							row = (XSSFRow) datatypeSheet.getRow(i++);
+							// String str = row.getCell(0).toString();
+							String str = formatter.formatCellValue(row.getCell(0), evaluator);
+							int checkExcel = 0;
+
+							String serialNo = formatter.formatCellValue(row.getCell(1), evaluator);
+							String assetId = formatter.formatCellValue(row.getCell(2), evaluator);
+							String make = formatter.formatCellValue(row.getCell(3), evaluator);
+							String  model = formatter.formatCellValue(row.getCell(4), evaluator);
+							String employeeCode = formatter.formatCellValue(row.getCell(5), evaluator);
+							String employeeName= formatter.formatCellValue(row.getCell(6), evaluator);
+							String email= formatter.formatCellValue(row.getCell(7), evaluator);
+
+							String projectId = formatter.formatCellValue(row.getCell(8), evaluator);
+							String projectName= formatter.formatCellValue(row.getCell(9), evaluator);
+							String branchName = formatter.formatCellValue(row.getCell(10), evaluator);
+
+							if (i == 1) {
+
+								if (formatter.formatCellValue(row.getCell(1), evaluator)
+										.equalsIgnoreCase("Serial No")) {
+									checkExcel++;
+								}
+								if (formatter.formatCellValue(row.getCell(2), evaluator)
+										.equalsIgnoreCase("Asset Id")) {
+									checkExcel++;
+
+								}
+								if (formatter.formatCellValue(row.getCell(3), evaluator)
+										.equalsIgnoreCase("Make")) {
+									checkExcel++;
+								}
+								if (formatter.formatCellValue(row.getCell(4), evaluator)
+										.equalsIgnoreCase("Model")) {
+									checkExcel++;
+								}
+								
+								System.out.println("checkExcel " + checkExcel);
+								if (checkExcel == 4) {
+								} else {
+									status.setCode(500);
+									status.setMessage("Wrong Sheet Selected");
+									String responceMsg0 = "";
+									responceMsg0 = "Uploading...... ";
+									responceMsg0 += " \r\n  File Name :: " + file.getOriginalFilename();
+									responceMsg0 += " \r\n Upaloading Date :: " + new Date();
+									responceMsg0 += " \r\n Upaload  By:: " + uploadBy;
+									responceMsg0 += " \r\n Uploding row done " + uploadedCount + " out of "
+											+ totalCount;
+
+									responceMsg0 += "\r\n Wrong Sheet Selected";
+									String newResMsg = responceMsg0 + " \r\n " + responceMsg;
+									status.setResmessage(newResMsg);
+									return status;
+								}
+							} else {
+
+								String str1 = formatter.formatCellValue(row.getCell(0), evaluator);
+								//System.out.println("NO DATA " + str1.length());
+								if (str1.length() == 0) {
+									status.setCode(500);
+									status.setMessage("Data Not Found in sheet");
+									String responceMsg0 = "";
+									responceMsg0 = "Uploading...... ";
+									responceMsg0 += " \r\n  File Name :: " + file.getOriginalFilename();
+									responceMsg0 += " \r\n Upaloading Date :: " + new Date();
+									responceMsg0 += " \r\n Upaload  By:: " + uploadBy;
+									responceMsg0 += " \r\n Uploding row done " + uploadedCount + " out of "
+											+ totalCount;
+
+									responceMsg0 += "\r\n Data Not Found in sheet";
+									String newResMsg = responceMsg0 + " \r\n " + responceMsg;
+									status.setResmessage(newResMsg);
+
+									return status;
+								} else {
+									Optional<Asset> optional2 = assetServices.getAssetBySerialNo(serialNo);
+									
+									if (optional2.isPresent()) {
+										Asset asset = optional2.get();
+
+										
+										
+									
+										
+										if (make != "") {
+											asset.setMake(make);
+										}
+										if (model != "") {
+											asset.setModel(model);
+										}
+										if (employeeCode != "") {
+											asset.setEmployeeNo(employeeCode);;
+										}
+										if (employeeName != "") {
+											asset.setEmployeeName(employeeName);
+										}
+									
+										if (projectId != "") {
+											asset.setProjectId(projectId);
+										}
+										if (projectName != "") {
+											asset.setProjectName(projectName);
+										}
+										if (email != "") {
+											asset.setEmailId(email);
+										}
+										if (assetId != "") {
+											asset.setAssetId(assetId);
+										}
+									
+										
+										assetServices.addNewAsset(asset);
+										
+										uploadedCount++;
+									}
+									
+									
+									// For NEW ENTRy................................................
+									else {
+										if (make == null || make == "") {
+											responceMsg += " \r\n No Make Found  for Row No ::" + i;
+											// //System.out.println("No Tag No
+											// Found for Row No ::"+i);
+										}
+										if (model == null || model == "") {
+											responceMsg += " \r\n No Model Found  for Row No ::" + i;
+											// //System.out.println("No Tag No
+											// Found for Row No ::"+i);
+										}
+										if (serialNo == null || serialNo == "") {
+											responceMsg += " \r\n No SerialNo Found for Row No ::" + i;
+											// //System.out.println("No Hostname
+											// Found for Row No ::"+i);
+										}
+										if (assetId == null || assetId == "") {
+											responceMsg += " \r\n No Asset Id Found for Row No ::" + i;
+											// //System.out.println("No Hostname
+											// Found for Row No ::"+i);
+										}
+										
+										Optional<Branch> optional = branchRepo.getBranchByName(branchName);
+
+										if (branchName == null || branchName == "") {
+											responceMsg += " \r\n No Branch Name Found for Row No ::" + i;
+											// //System.out.println("No BranchName
+											// Found for Row No ::"+i);
+										} else {
+											if (!optional.isPresent()) {
+												responceMsg += " \r\n InValid Branch Name for Row No ::" + i;
+												// //System.out.println("InValid
+												// Branch Name for Row No
+												// ::"+i);
+											}
+
+										}
+										if (optional.isPresent()) {
+											Branch branch = optional.get();
+											Asset asset = new Asset();
+											asset.setActive(1);
+											asset.setAdded_by(uploadBy);
+											asset.setAddedDate(new Date());
+											asset.setBranch(branch);
+											
+											asset.setMake(make);
+											asset.setModel(model);
+											asset.setSerialNo(serialNo);
+											asset.setAssetId(assetId);
+											asset.setEmployeeNo(employeeCode);
+											asset.setEmployeeName(employeeName);
+											asset.setEmailId(email);
+											asset.setProjectId(projectId);
+											asset.setProjectName(projectName);
+											
+											
+											if (!make.equalsIgnoreCase("") && model != "" && serialNo != ""
+													&& assetId != "" && make != "") {
+
+												
+
+												
+												asset.setAvailableStatus(1);
+											   assetServices.addNewAsset(asset);
+												uploadedCount++;
+											}
+
+										}
+									}
+								}
+
+							}
+
+						}
+
+						workbook.close();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+
+					}
+				}
+			}
+			
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+		status.setCode(200);
+		status.setMessage("Upalod Successfully");
+		String responceMsg0 = "";
+		responceMsg0 = "Uploading...... ";
+		responceMsg0 += " \r\n  File Name :: " + file.getOriginalFilename();
+		responceMsg0 += " \r\n Upaloading Date :: " + new Date();
+		responceMsg0 += " \r\n Upaload  By:: " + uploadBy;
+		responceMsg0 += " \r\n Uploding row done " + uploadedCount + " out of " + totalCount;
+		if (uploadedCount == totalCount) {
+			responceMsg0 += " \r\n No Constrain Found ";
+		} else {
+			responceMsg0 += " \r\n Found Following Constrain";
+		}
+
+		String newResMsg = responceMsg0 + " \r\n " + responceMsg;
+		status.setResmessage(newResMsg);
+		return status;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value = "/uploadAsset", method = RequestMethod.POST)
 	public @ResponseBody Status postFile(@ModelAttribute(value = "file") MultipartFile file, HttpServletRequest request,
 			@RequestParam("uploadBy") String uploadBy) throws ParseException {
@@ -546,10 +914,10 @@ public class AssetController {
 										.equalsIgnoreCase("Invoice No")) {
 									checkExcel++;
 								}
-								if (formatter.formatCellValue(row.getCell(6), evaluator)
+								/*if (formatter.formatCellValue(row.getCell(6), evaluator)
 										.equalsIgnoreCase("Invoice Date")) {
 									checkExcel++;
-								}
+								}*/
 
 								if (formatter.formatCellValue(row.getCell(7), evaluator).equalsIgnoreCase("Age")) {
 									checkExcel++;
@@ -573,7 +941,7 @@ public class AssetController {
 								}
 
 								//System.out.println("checkExcel " + checkExcel);
-								if (checkExcel == 11) {
+								if (checkExcel == 10) {
 								} else {
 									status.setCode(500);
 									status.setMessage("Wrong Sheet Selected");
@@ -629,11 +997,14 @@ public class AssetController {
 											asset.setInvoiceNo(invoiceNo);
 										}
 										Date iDate = null;
-
+									     SimpleDateFormat systemDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+									        
+									        // Get the pattern used by the system date format
+									        String systemDateFormatPattern = systemDateFormat.toPattern();
 										if (!invoiceDate.equalsIgnoreCase("")) {
 											try {
-												iDate = new SimpleDateFormat("MM/dd/yy").parse(invoiceDate);
-												//System.out.println("Invoice Date "+iDate+"  for   "+invoiceDate);
+												iDate = new SimpleDateFormat("MM/dd/yyyy").parse(invoiceDate);
+												System.out.println("Invoice Date "+iDate+"  for   "+invoiceDate);
 												asset.setInvoiceDate(iDate);
 											} catch (Exception e) {
 												// TODO Auto-generated catch
@@ -787,8 +1158,7 @@ public class AssetController {
 											asset.setInvoiceNo(invoiceNo);
 											Date iDate = null;
 											asset.setStoreLocation(storeLocation);
-											System.out.println("LOCATION "+storeLocation);
-
+											
 											if (!invoiceDate.equalsIgnoreCase("")) {
 												// iDate = new
 												// SimpleDateFormat("dd/MM/yyyy").parse(invoiceDate);
@@ -805,6 +1175,9 @@ public class AssetController {
 											asset.setInvoiceDate(iDate);
 											asset.setMake(make);
 											asset.setModel(model1);
+											asset.setAge(age);
+											System.out.println("Age  "+asset.getAge());
+
 											asset.setPurchaseOrderNo(purchaseOrderNo);
 											asset.setSerialNo(serialNo);
 											asset.setStoreLocation(storeLocation);

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="product_mst")
@@ -22,6 +23,27 @@ public class Product {
 	
 	@Column(name="product_id")
 	private String productId;
+	
+	
+	
+	
+	@Transient
+	private boolean check;
+	
+	
+	
+	
+	
+	
+	
+
+	public boolean isCheck() {
+		return check;
+	}
+
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
 
 	public int getId() {
 		return id;

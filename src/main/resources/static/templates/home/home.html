@@ -1,303 +1,338 @@
-
 <style>
+    /* calender */
 
-/* calender */
+    .container-calendar {
+        /* background: #ffffff; */
+        padding: 15px;
+        max-width: 404px;
+        margin: 0 auto;
+        overflow: auto;
+        background: #003399;
+        border-radius: 32px;
+    }
 
-.container-calendar {
-   /* background: #ffffff; */
-    padding: 15px;
-    max-width: 404px;
-    margin: 0 auto;
-    overflow: auto;
-    background: #003399;
-    border-radius: 32px;
-}
-.btn-seltab {
-	 background-color: #3226ae;
-  border-color: #3226ae;
-}
-.selTabFont{
-    font-size: 21px;
-    font-weight: 400;
-    color: white;
+    .btn-seltab {
+        background-color: var(---primary) !important;
+        border-color: var(---primary);
+    }
+    .dark-mode .btn-seltab {
+        background-color: var(---primary) !important;
+        border-color: var(---primary);
+    }
 
-}
-.unselTabFont{
-    font-size: 21px;
-    font-weight: 400;
-    color: black;
+    .selTabFont {
+        font-size: 21px;
+        font-weight: 400;
+        color: white;
 
-}
+    }
 
-.btn-unseltab {
-	 background-color: #ffffff;
-  border-color: #ffffff;
-}
-.button-container-calendar button {
-    cursor: pointer;
-    display: inline-block;
-    zoom: 1;
-    background: #003399;
-    color: #fff;
-    border: 1px solid #0aa2b5;
-    border-radius: 4px;
-    padding: 5px 10px;
-}
+    .unselTabFont {
+        font-size: 21px;
+        font-weight: 400;
+        color: black;
 
-.table-calendar {
-    border-collapse: collapse;
-    width: 100%;
-    color: white
-}
+    }
 
-.table-calendar td, .table-calendar th {
-    padding: 5px;
-   
+    .btn-unseltab {
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .button-container-calendar button {
+        cursor: pointer;
+        display: inline-block;
+        zoom: 1;
+        background: #003399;
+        color: #fff;
+        border: 1px solid #0aa2b5;
+        border-radius: 4px;
+        padding: 5px 10px;
+    }
+
+    .table-calendar {
+        border-collapse: collapse;
+        width: 100%;
+        color: white
+    }
+
+    .table-calendar td,
+    .table-calendar th {
+        padding: 5px;
+
+        text-align: center;
+        vertical-align: top;
+    }
+
+    .date-picker.selected {
+        font-weight: bold;
+        outline: 1px dashed #00BCD4;
+    }
+
+    .date-picker.selected span {
+        border-bottom: 2px solid currentColor;
+    }
+
+    /* sunday */
+
+
+    /* friday */
+    .date-picker:nth-child(7) {
+        color: red;
+    }
+
+    #monthAndYear {
+        text-align: center;
+        margin-top: 0;
+        color: white;
+    }
+
+    .addNew {
+        margin: 7px;
+    }
+
+    /* .text-end{
+    font-size: 3rem !important;
+    font-weight: bolder;
     text-align: center;
-    vertical-align: top;
-}
-
-.date-picker.selected {
-    font-weight: bold;
-    outline: 1px dashed #00BCD4;
-}
-
-.date-picker.selected span {
-    border-bottom: 2px solid currentColor;
-}
-
-/* sunday */
-
-
-/* friday */
-.date-picker:nth-child(7) {
-  color: red;
-}
-
-#monthAndYear {
-    text-align: center;
-    margin-top: 0;
-    color: white;
-}
-
-
+} */
 </style>
-    <div style="margin: 10px;height:100%">
-        <uib-tabset active="activeJustified" justified="true">
-            
+<div class="home-section" style="margin: 10px;height:100%">
+    <uib-tabset active="activeJustified" justified="true">
 
-            <!-- RFID Zone start -->
-            <uib-tab heading="">
-          <div class="row">
-	          <div ng-class="selTab=='home'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToOverview()">
-	            	<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'" style="height:40px;" ><span  >Overview</span></button>
-	          
-	          </div>
-	           <div  ng-class="selTab=='saas'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSAAS()">
-	           <button type="button" ng-class="selTab=='saas'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"style="height:40px;" > <span  >SAAS</span></button>
-	          </div>
-	            <div ng-class="selTab=='install'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToInstalled()">
-	            	<button type="button" ng-class="selTab=='install'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'" style="height:40px;" ><span  >Installed</span></button>
-	          
-	          </div>
-	           <div  ng-class="selTab=='system'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSystem()">
-	           <button type="button" ng-class="selTab=='system'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"style="height:40px;" > <span  >System</span></button>
-	          </div>
-          </div>
-            
-            
-         <!--   <div class="btn-group btn_align">
+
+        <!-- RFID Zone start -->
+        <uib-tab heading="">
+            <div class="row">
+                <div ng-class="selTab=='home'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToOverview()">
+                    <button type="button"
+                        ng-class="selTab=='home'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"><span>Overview</span></button>
+
+                </div>
+              <!--   <div ng-class="selTab=='saas'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSAAS()">
+                    <button type="button"
+                        ng-class="selTab=='saas'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"> <span>SAAS</span></button>
+                </div> -->
+                <div ng-class="selTab=='install'?'selTabFont col-md-3':'unselTabFont col-md-3'"
+                    ng-click="goToInstalled()">
+                    <button type="button"
+                        ng-class="selTab=='install'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"><span>Installed</span></button>
+
+                </div>
+                <div ng-class="selTab=='system'?'selTabFont col-md-3':'unselTabFont col-md-3'" ng-click="goToSystem()">
+                    <button type="button"
+                        ng-class="selTab=='system'?'btn btn-seltab btn-rounded selTabFont':'btn btn-unseltab btn-rounded unselTabFont'"
+                        style="height:40px;"> <span>System</span></button>
+                </div>
+            </div>
+
+
+            <!--   <div class="btn-group btn_align">
   						  											<button type="button" ng-class="selTab=='home'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'" style="height:40px;width: 50%" ng-click="goToAssetDashboard()"><span ng-class="selTab=='home'?'selTabFont':'unselTabFont'" >Asset</span></button>
  											 <button type="button" ng-class="selTab=='licence'?'btn btn-seltab btn-rounded':'btn btn-unseltab btn-rounded'"style="height:40px;width: 50%;" ng-click="goToLicenceDashboard()"> <span ng-class="selTab=='licence'?'selTabFont':'unselTabFont'" >Licence</span></button>  			
   	    	</div> -->
-  <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==1">
-                    <div class="row">
-<!--                         <legend class="dotted ml-3" style="color: #616060;"><b>OVERVIEW</b></legend>
- -->                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-4" ng-click="allAsset()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Total EndPoint  </div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"></h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assetCount}} </h3>
-                                </div>
+            <div class="container-fluid mt-" ng-show="menuBranch==0||menuBranch==1">
+                <div class="row">
+                    <!--                         <legend class="dotted ml-3" style="color: #616060;"><b>OVERVIEW</b></legend>
+ -->
+                </div>
+                <div class="row mt-5 ">
+                    <div class="col-md-4" ng-click="allAsset()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Total EndPoint </div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"></h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assetCount}} </h3>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card mb-3 dash-card" style="width: 266px" ng-click="gotoEmployee()">
-                                <div class="card-header">Employee</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"></h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.employeeCount}} </h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4" ng-click="assingedAsset()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Assigned EndPoint </div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assignedAssetCount}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                        
-                         <div class="col-md-4" ng-click="installLicence()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Install Licence</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.totalInstock}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4" ng-click="saasLicence()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">SAAS Licence</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.totalSaas}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4" ng-click="todayFetchCount()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Today Fetch</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.todayFetchCount}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4" ng-click="assingedLicence()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Assigned Licences</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assignedSaas}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" ng-click="customerSuppliedSoftware()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Customer Software</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.customerSoftware}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" ng-click="customerSuppliedSoftware()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Customer Software No</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.customerSoftwareTotalCount}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4" ng-click="saasLiceneExpiry()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">End Of Life SAAS</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.endOfLifeSAAS}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4" ng-click="eodInstall()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">End Of Life Install</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.endOfLifeInstall}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4" ng-click="renewLicence()">
-                            <div class="card mb-3 dash-card" style="width: 266px">
-                                <div class="card-header">Renewal Lincence</div>
-                                <div class="card-body">
-                                    <h5 class="card-text card-title"> </h5>
-                                    <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.renewalCount}} </h3>
-                                </div>
-                            </div>
-                        </div>
-                        
                     </div>
-                 
-                   
+                   <!--  <div class="col-md-4">
+                        <div class="card mb-3 dash-card" style="width: 266px" ng-click="gotoEmployee()">
+                            <div class="card-header">Employee</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"></h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.employeeCount}} </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" ng-click="assingedAsset()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Assigned EndPoint </div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assignedAssetCount}} </h3>
+                            </div>
+                        </div>
+                    </div>
+ -->
+                    <div class="col-md-4" ng-click="installLicence()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Install Licence</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.totalInstock}} </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4" ng-click="saasLicence()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">SAAS Licence</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.totalSaas}} </h3>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4" ng-click="todayFetchCount()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Today Fetch</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.todayFetchCount}} </h3>
+                            </div>
+                        </div>
+                    </div>
+                   <!--  <div class="col-md-4" ng-click="assingedLicence()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Assigned Licences SAAS</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.assignedSaas}} </h3>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4" ng-click="customerSuppliedSoftware()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Customer Software</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.customerSoftware}} </h3>
+                            </div>
+                        </div>
+                    </div>
+                   <!--  <div class="col-md-4" ng-click="customerSuppliedSoftware()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Customer Software No</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.customerSoftwareTotalCount}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div> -->
+                   <!--  <div class="col-md-4" ng-click="saasLiceneExpiry()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Expiring Licence SAAS</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.expirySAAS}} </h3>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!--  <div class="col-md-4" ng-click="eolSAAS()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">End Of Life SAAS</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.endOfLifeSAAS}} </h3>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4" ng-click="eodInstall()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">End Of Life Install</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.endOfLifeInstall}} </h3>
+                            </div>
+                        </div>
+                    </div>
+                 <!--    <div class="col-md-4" ng-click="renewLicence()">
+                        <div class="card mb-3 dash-card" style="width: 266px">
+                            <div class="card-header">Renewal Lincence</div>
+                            <div class="card-body">
+                                <h5 class="card-text card-title"> </h5>
+                                <h3 class="card-text text-end"> {{vm.overviewDashBoardCount.renewalCount}} </h3>
+                            </div>
+                        </div>
+                    </div> -->
+
                 </div>
-                <hr>
 
 
-                <hr>
-                
-
-              
-                
-             
-                <!-- pie chart start -->
-               
-               <div class="row mt-5  ">
-                 <div class="col-md-6 ">
-              
-                <div class="panel-body container-fluid">
-        	<section>
-            <div class="card">
-             <h4 class="ml-3 mt-3"><b>EndPoint Status</b></h4>
-             <hr>
-            
-                <div class=" box">
-                    <section class="">
-                      
-                        
-                        <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope" 
-                        chart-data="vm.statusWiseAsset.counts" chart-labels="vm.statusWiseAsset.names" chart-colors="colorsPie"  width="523" height="261" 
-                        style="display: block; width: 523px; height: 261px;border: none"></canvas>
-                        
-                        
-                          
-                    </section>
-                </div>
             </div>
-        </section>
-    </div>
-    </div>
-                
-                 <div class="col-md-6 "  >
-                
-                <div class="panel-body container-fluid">
-        	<section>
-            <div class="card ">
-             <h4 class="ml-3 mt-3"><b>EndPoint Types</b></h4>
-             <hr>
-            
-                <div class=" box">
-                    <section class="">
-                       
-                         <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope" 
-                        chart-data="vm.typesWiseAsset.counts" chart-labels="vm.typesWiseAsset.names" chart-colors="colorsPie1"  width="523" height="261" 
-                        style="display: block; width: 523px; height: 261px;border: none"></canvas>
-                        
-                        
-                             <!--  -  <canvas id="pie" class=" chart-pie" chart-data="data1" 
+
+
+
+
+
+
+            <!-- pie chart start -->
+
+            <div class="row mt-5  ">
+                <div class="col-md-6 ">
+
+                    <div class="panel-body container-fluid">
+                        <section>
+                            <div class="card">
+                                <h4 class="mb-3 p-4 card-header"><b>EndPoint Status</b></h4>
+                                <!-- <hr> -->
+
+                                <div class="card-body">
+                                    <section class="">
+
+
+                                        <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope"
+                                            chart-data="vm.statusWiseAsset.counts"
+                                            chart-labels="vm.statusWiseAsset.names" chart-colors="colorsPie" width="523"
+                                            height="261"
+                                            style="display: block; width: 523px; height: 261px;border: none"></canvas>
+
+
+
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ">
+
+                    <div class="panel-body container-fluid">
+                        <section>
+                            <div class="card ">
+                                <h4 class="mb-3 p-4 card-header"><b>EndPoint Types</b></h4>
+                                <!-- <hr> -->
+
+                                <div class="card-body">
+                                    <section class="">
+
+                                        <canvas id="doughnut" class="chart chart-doughnut chart-xs ng-isolate-scope"
+                                            chart-data="vm.typesWiseAsset.counts" chart-labels="vm.typesWiseAsset.names"
+                                            chart-colors="colorsPie1" width="523" height="261"
+                                            style="display: block; width: 523px; height: 261px;border: none"></canvas>
+
+
+                                        <!--  -  <canvas id="pie" class=" chart-pie" chart-data="data1" 
                                         chart-labels="labels1" chart-options="optionsPie1" 
                                         chart-colors="colorsPie1" chart-options="optionsPie1" 
                                         chart-click="clickme" chart-hover="hoverme" 
                                         chart-dataset-override="PieDataSetOverride">
                                 </canvas>-->
-                          
-                    </section>
+
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
-        </section>
-    </div>
-   </div>
-       </div>      
-         <!--          
+            <!--          
                <div class="row mt-5  ">
                  <div class="col-md-6 ">
               
@@ -353,438 +388,498 @@
         </section>
     </div>
    </div>
-       </div> --> 
-            <!-- pie chart end -->   
+       </div> -->
+            <!-- pie chart end -->
             <div class="row  mt-5">
-              <div class="col-md-6 " >
-                
-              
-            	<div class="card" >
-					
-					<div class="card-body">
-						<h4 class="ml-3 mt-3"><b>Licences</b> <span style="margin-left: 450px;">{{vm.licencePercentage.totalCount}}</span></h4>
-						<hr />
-						
-						
-						<label>SAAS <span style="margin-left: 543px;">{{vm.licencePercentage.saasPercentage}}</span></label>
-						<div class="progress" style="height: 40px">
-							<div
-								class="progress-bar progress-bar-striped bg-success progress-bar-animated"
-								role="progressbar" id="saasPercentagePro"   aria-valuenow="saasLicencePer"
-								aria-valuemin="0" aria-valuemax="100">{{saasLicencePer}}%</div>
-						</div>
-						<label>INSTALL <span style="margin-left: 543px;">{{vm.licencePercentage.instalPercentage}}</span></label>
-						<div class="progress" style="height: 40px">
-							<div
-								class="progress-bar progress-bar-striped bg-info progress-bar-animated"
-								role="progressbar" id="installPercentagePro" aria-valuenow="installLicencePer"
-								aria-valuemin="0" aria-valuemax="100">{{installLicencePer}}%</div>
-						</div>
-						
-						
-					</div>
-				</div>
-                      </div> 
-                       <div class="col-md-6 " >
-                
-              
-				            <div class="card" >
-					
-					<div class="card-body">
-						<h4 class="ml-3 mt-3"><b>Worker <small>(as per . {{fetchDate}})</small></b> <span style="margin-left: 350px;">{{vm.workerActivePercentage.totalCount}}</span></h4>
-						<hr />
-						
-						
-						<label>ACTIVE  <span style="margin-left: 543px;">{{activeCount}}</span></label>
-						<div class="progress" style="height: 40px">
-							<div
-								class="progress-bar progress-bar-striped bg-success progress-bar-animated"
-								role="progressbar" id="activeWorkerPro" aria-valuenow="activePer"
-								aria-valuemin="0" aria-valuemax="100">{{activePer}}%</div>
-						</div>
-						<label>INACTIVE <span style="margin-left: 543px;">{{inActiveCount}}</span></label>
-						<div class="progress" style="height: 40px">
-							<div
-								class="progress-bar progress-bar-striped bg-info progress-bar-animated"
-								role="progressbar" id="inactiveWorkerPro" aria-valuenow="inactivePer"
-								aria-valuemin="0" aria-valuemax="100">{{inactivePer}}%</div>
-						</div>
-						
-						
-					</div>
-				</div>
-                      </div> 
+                <div class="col-md-6 ">
+
+                    <div class="panel-body container-fluid">
+                        <div class="card">
+                            <h4 class="mb-3 p-4 card-header"><b>Licences</b> <span class="cardH_total"
+                                    style="margin-left: ;">(Total- {{vm.licencePercentage.totalCount}})</span></h4>
+                            <div class="card-body">
+
+                                <!-- <hr /> -->
+
+
+                                <label>SAAS <span class="cardH_total"
+                                        style="margin-left: ;">{{vm.licencePercentage.saasPercentage}}</span></label>
+                                <div class="progress" style="height: 40px">
+                                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated"
+                                        role="progressbar" id="saasPercentagePro" aria-valuenow="saasLicencePer"
+                                        aria-valuemin="0" aria-valuemax="100">{{saasLicencePer}}%</div>
+                                </div>
+                                <label>INSTALL <span class="cardH_total"
+                                        style="margin-left: ;">{{vm.licencePercentage.instalPercentage}}</span></label>
+                                <div class="progress" style="height: 40px">
+                                    <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
+                                        role="progressbar" id="installPercentagePro" aria-valuenow="installLicencePer"
+                                        aria-valuemin="0" aria-valuemax="100">{{installLicencePer}}%</div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+
+                    <div class="panel-body container-fluid">
+                        <div class="card">
+                            <h4 class="mb-3 p-4 card-header"><b>Worker <small>(as per . {{fetchDate|date:'dd-MM-yyyy'}})</small></b> <span
+                                    class="cardH_total" style="margin-left: ;">(Total-
+                                    {{vm.workerActivePercentage.totalCount}})</span></h4>
+                            <div class="card-body">
+
+                                <!-- <hr /> -->
+
+
+                                <label>ACTIVE <span class="cardH_total"
+                                        style="margin-left: ;">{{activeCount}}</span></label>
+                                <div class="progress" style="height: 40px">
+                                    <div class="progress-bar progress-bar-striped bg-success progress-bar-animated"
+                                        role="progressbar" id="activeWorkerPro" aria-valuenow="activePer"
+                                        aria-valuemin="0" aria-valuemax="100">{{activePer}}%</div>
+                                </div>
+                                <label>INACTIVE <span class="cardH_total"
+                                        style="margin-left: ;">{{inActiveCount}}</span></label>
+                                <div class="progress" style="height: 40px">
+                                    <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
+                                        role="progressbar" id="inactiveWorkerPro" aria-valuenow="inactivePer"
+                                        aria-valuemin="0" aria-valuemax="100">{{inactivePer}}%</div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-                <!-- pie chart end -->   
+
+
+
+            <!-- pie chart end -->
             <div class="row  mt-5">
-              <div class="col-md-6 " >
-                
-              
-            	<div class="card" >
-					 <h4 class="ml-3 mt-3"><b> Software Bundle</b></h4>
-					<canvas id="line" class="chart chart-line" chart-data="dataBundle"
-					chart-labels="labelsBundle" chart-series="seriesBundle" chart-options="options"
-					chart-dataset-override="datasetOverride" chart-click="onClick">
-					</canvas>
-					
-				</div>
-                      </div> 
-                       <div class="col-md-6 " >
-                
-              
-            	<div class="card" >
-					 <h4 class="ml-3 mt-3"><b>Software Category</b></h4>
-					<canvas id="line" class="chart chart-line" chart-data="dataCategory"
-					chart-labels="labelsCategory" chart-series="seriesCategory" chart-options="options"
-					chart-dataset-override="datasetOverride" chart-click="onClick">
-					</canvas>
-					
-				</div>
-                      </div> 
-            </div>  
-            
-             <div class="row  mt-5">
-              
-                       <div class="col-md-6 " >
-                  <div class="card" style="height: 372px">
-                <h4 class="ml-3 mt-3"><b>Bundle -SAAS</b></h4>
-            
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons" class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Name </th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          <tr dir-paginate="bundleWiseInstallLicence in vm.bundleWiseSAASLicences| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{bundleWiseInstallLicence.name}}</td>
-                           <td>{{bundleWiseInstallLicence.count}}</td>
-                           
-                           </tr>
-                          
-                           </tbody>
-                            
-                     </table>
-                      <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoBundleSAAS()">  <span style="padding: 25px;">More....</span>
-                      </button>
-                     
-                      </div>
-                      </div>
-              
-            	
-                      </div> 
-                      <div class="col-md-6 " >
-                
-              
-            	<div class="card" style="height: 372px">
-					 <h4 class="ml-3 mt-3"><b>Bundle -SAAS</b></h4>
-					<canvas id="pie" class="chart chart-pie"
-					  chart-data="vm.bundleWiseSAASPieCount" chart-labels="vm.bundleWiseSAASPieName" chart-options="options">
-					</canvas> 
-					
-				</div>
-                      </div> 
+
+                <div class="col-md-6 ">
+
+                    <div class="panel-body container-fluid">
+                        <div class="card">
+                            <h4 class="mb-3 p-4 card-header"><b>  Bundle</b></h4>
+                            <div class="card-body">
+                                <canvas id="line" class="chart chart-line" chart-data="dataBundle"
+                                    chart-labels="labelsBundle" chart-series="seriesBundle" chart-options="options"
+                                    chart-dataset-override="datasetOverride" chart-click="onClick">
+                                </canvas>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ">
+
+                    <div class="panel-body container-fluid">
+                        <div class="card">
+                            <h4 class="mb-3 p-4 card-header"><b> Category</b></h4>
+                            <div class="card-body">
+                            <canvas id="line" class="chart chart-line" chart-data="dataCategory"
+                                chart-labels="labelsCategory" chart-series="seriesCategory" chart-options="options"
+                                chart-dataset-override="datasetOverride" chart-click="onClick">
+                            </canvas>
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-               <div class="row  mt-5">
-             
-                        
-                      
-                       <div class="col-md-6 " >
-                
-               <div class="card" style="height: 372px">
-                       <h4 class="ml-3 mt-3"><b>Bundle-Install</b></h4>
-                      
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Name </th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          
-                             <tr dir-paginate="bundleWiseInstallLicence in vm.bundleWiseInstallLicences| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{bundleWiseInstallLicence.name}}</td>
-                           <td>{{bundleWiseInstallLicence.count}}</td>
-                           
-                           </tr>
-                           
-                          
-                         
-                           </tbody>
-                            
-                     </table>
-                      <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoBundleInstall()">  <span style="padding: 25px;">More....</span>
-                     
-                      </div>
-                      </div> 
-            	
-                      </div> 
-                      <div class="col-md-6 " >
-                
-              
-            	<div class="card" style="height: 372px">
-					 <h4 class="ml-3 mt-3"><b>Bundle-Install</b></h4>
-					<canvas id="pie" class="chart chart-pie"
-					  chart-data="vm.bundleWiseIntsallPieCount" chart-labels="vm.bundleWiseInstallPieName" chart-options="options">
-					</canvas> 
-										
-				</div>
-                      </div>
-            </div>  
-            
-             <div class="row  mt-5">
-           
-                       <div class="col-md-6 " >
-                 <div class="card" style="height: 372px">
-                       <h4 class="ml-3 mt-3"><b>Category -SAAS</b></h4>
-                      
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Name </th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          <tr dir-paginate="bundleWiseInstallLicence in vm.categoryWiseSAASLicences| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{bundleWiseInstallLicence.name}}</td>
-                           <td>{{bundleWiseInstallLicence.count}}</td>
-                           
-                           </tr>
-                           
-                          
-                         
-                           </tbody>
-                            
-                     </table>
-                       <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoCategorySAAS()">  <span style="padding: 25px;">More....</span>
-                     
-                      </div>
-                      </div>
-              
-                      </div> 
-                         <div class="col-md-6 " >
-                
-              
-            	<div class="card" style="height: 372px">
-					 <h4 class="ml-3 mt-3"><b>Category -SAAS</b></h4>
-					<canvas id="pie" class="chart chart-pie"
-					  chart-data="vm.cateWiseSAASPieCount" chart-labels="vm.cateWiseSAASPieName" chart-options="options">
-					</canvas> 
-					
-				</div>
-                      </div> 
+</div>
+
+<!-- <div class="row  mt-5">
+
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Bundle -SAAS</b></h4>
+<div class="card-body">
+            <div class="material-tbl1 overflow-auto mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Name </th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        <tr dir-paginate="bundleWiseInstallLicence in vm.bundleWiseSAASLicences| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{bundleWiseInstallLicence.name}}</td>
+                            <td>{{bundleWiseInstallLicence.count}}</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+                <button class="addNew" type="submit" style="background:#3226ae" data-toggle="tooltip"
+                    data-placement="bottom" title="Load More" ng-click="gotoBundleSAAS()"> <span
+                        style="padding: 25px;">More....</span>
+                </button>
+
             </div>
-               
-             <div class="row  mt-5">
-              
-                       
-                      <div class="col-md-6 " >
-                
-                <div class="card" style="height: 372px">
-                       <h4 class="ml-3 mt-3"><b>Category-Install</b></h4>
-                      
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Name </th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          <tr dir-paginate="bundleWiseInstallLicence in vm.categoryWiseInstallLicences| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{bundleWiseInstallLicence.name}}</td>
-                           <td>{{bundleWiseInstallLicence.count}}</td>
-                           
-                           </tr>
-                           
-                          
-                         
-                           </tbody>
-                            
-                     </table>
-                    <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoCategoryInstall()">  <span style="padding: 25px;">More....</span>
-                     
-                      </div>
-                      </div> 
-            	
-                </div> 
-                 <div class="col-md-6 " >
-                
-              
-            	<div class="card"style="height: 372px" >
-					 <h4 class="ml-3 mt-3"><b>Category-Install</b></h4>
-					<canvas id="pie" class="chart chart-pie"
-					  chart-data="vm.cateWiseIntsallPieCount" chart-labels="vm.cateWiseInstallPieName" chart-options="options">
-					</canvas> 
-										
-				</div>
-                      </div>
+        </div>
+        </div>
+</div>
+
+    </div>
+    <div class="col-md-6 ">
+
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Bundle -SAAS</b></h4>
+            <div class="card-body">
+            <canvas id="pie" class="chart chart-pie" chart-data="vm.bundleWiseSAASPieCount"
+                chart-labels="vm.bundleWiseSAASPieName" chart-options="options">
+            </canvas>
+</div>
+        </div>
+    </div>
+    </div>
+</div> -->
+<div class="row  mt-5">
+
+
+
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Bundle</b></h4>
+<div class="card-body">
+            <div class="material-tbl1 overflow-auto mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Name </th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr dir-paginate="bundleWiseInstallLicence in vm.bundleWiseInstallLicences| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{bundleWiseInstallLicence.name}}</td>
+                            <td>{{bundleWiseInstallLicence.count}}</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                <button class="addNew" type="submit" style="background:#3226ae" data-toggle="tooltip"
+                    data-placement="bottom" title="Load More" ng-click="gotoBundleInstall()"> <span
+                        style="padding: 25px;">More....</span>
+
             </div>
-                
-                <div  class="row mt-5">
-       <div class="col-md-6 " >
-                     
-                       <div class="card" style="margin-left:13px">
-                       <h4 class="ml-3 mt-3"><b>Publisher -SAAS</b></h4>
-                       <hr>
-                        
-                    
-                      
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Name </th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          
-                           <tr dir-paginate="bundleWiseInstallLicence in vm.saaslicencesAssociateList| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{bundleWiseInstallLicence.name}}</td>
-                           <td>{{bundleWiseInstallLicence.count}}</td>
-                           
-                           </tr>
-                           
-                          
-                         
-                           </tbody>
-                            
-                     </table>
-                      <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoPublisherSAAS()">  <span style="padding: 25px;">More....</span>
-                     
-                      </div>
-                      </div> 
-                      </div> 
-         <div class="col-md-6 " >
-                     
-                       <div class="card" style="margin-left:13px">
-                       <h4 class="ml-3 mt-3"><b>Publisher-Install</b></h4>
-                       <hr>
-                        
-                    
-                      
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Name </th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          <tr dir-paginate="bundleWiseInstallLicence in vm.installlicencesAssociateList| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{bundleWiseInstallLicence.name}}</td>
-                           <td>{{bundleWiseInstallLicence.count}}</td>
-                           
-                           </tr>
-                           
-                          
-                         
-                           </tbody>
-                            
-                     </table>
- <button class="addNew" type="submit"  style="background:#3226ae" data-toggle="tooltip" data-placement="bottom" title="Load More" ng-click="gotoPublisherInstall()">  <span style="padding: 25px;">More....</span>
-                     
-                     
-                      </div>
-                      </div> 
-                      </div> 
-                        <div class="col-md-6 " >
-                     
-                       <div class="card" style="margin-left:13px">
-                       <h4 class="ml-3 mt-3"><b>Database Details</b></h4>
-                        
-                    
-                      
-                <div class="material-tbl1 overflow-auto mt-3">
-                 <table id="datatable-buttons"  class=" table table-report table-bordered text-center table-striped align-middle justify-content-center "
-                            style="width: 1150px;">
-                          <thead class="tabelhedaer-bg">
-                          <tr>
-                           <th>Sr.No</th>
-                          <th>Database Name </th>
-                           <th>Edition</th>
-                          <th>Count</th>
-                         
-                          </tr>
-                          </thead>  
-                          
-                          
-                           <tbody>
-                          
-                           <tr dir-paginate="databaseDetial in vm.databaseDetials| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
-                           
-                          <td>{{$index+1}}</td>
-                           <td>{{databaseDetial.dbName}}</td>
-                           <td>{{databaseDetial.edition}}</td>
-                           <td>{{databaseDetial.count}}</td>
-                           </tr>
-                           
-                          
-                         
-                           </tbody>
-                            
-                     </table>
-                     
-                      </div>
-                      </div> 
-                      </div> 
-                      
-    
-    
-    </div>  
-    
- <!--    
+        </div>
+        </div>
+</div>
+    </div>
+    <div class="col-md-6 ">
+
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Bundle</b></h4>
+            <div class="card-body">
+            <canvas id="pie" class="chart chart-pie" chart-data="vm.bundleWiseIntsallPieCount"
+                chart-labels="vm.bundleWiseInstallPieName" chart-options="options">
+            </canvas>
+</div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row  mt-5">
+
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Category -SAAS</b></h4>
+<div class="card-body">
+            <div class="material-tbl1 overflow-auto mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Name </th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        <tr dir-paginate="bundleWiseInstallLicence in vm.categoryWiseSAASLicences| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{bundleWiseInstallLicence.name}}</td>
+                            <td>{{bundleWiseInstallLicence.count}}</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                <button class="addNew" type="submit" style="background:#3226ae" data-toggle="tooltip"
+                    data-placement="bottom" title="Load More" ng-click="gotoCategorySAAS()"> <span
+                        style="padding: 25px;">More....</span>
+
+            </div>
+        </div>
+        </div>
+</div>
+    </div>
+    <div class="col-md-6 ">
+
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Category -SAAS</b></h4>
+            <div class="card-body">
+            <canvas id="pie" class="chart chart-pie" chart-data="vm.cateWiseSAASPieCount"
+                chart-labels="vm.cateWiseSAASPieName" chart-options="options">
+            </canvas>
+</div>
+        </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="row  mt-5">
+
+
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Category</b></h4>
+<div class="card-body">
+            <div class="material-tbl1 overflow-auto mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Name </th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        <tr dir-paginate="bundleWiseInstallLicence in vm.categoryWiseInstallLicences| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{bundleWiseInstallLicence.name}}</td>
+                            <td>{{bundleWiseInstallLicence.count}}</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                <button class="addNew" type="submit" style="background:#3226ae" data-toggle="tooltip"
+                    data-placement="bottom" title="Load More" ng-click="gotoCategoryInstall()"> <span
+                        style="padding: 25px;">More....</span>
+
+            </div>
+        </div>
+</div>
+</div>
+    </div>
+    <div class="col-md-6 ">
+
+        <div class="panel-body container-fluid">
+        <div class="card" style="height: 372px">
+            <h4 class="mb-3 p-4 card-header"><b>Category-Install</b></h4>
+            <div class="card-body">
+            <canvas id="pie" class="chart chart-pie" chart-data="vm.cateWiseIntsallPieCount"
+                chart-labels="vm.cateWiseInstallPieName" chart-options="options">
+            </canvas>
+</div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row mt-5">
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="margin-left:13px">
+            <h4 class="mb-3 p-4 card-header"><b>Publisher -SAAS</b></h4>
+            <hr>
+
+
+
+            <div class="material-tbl1 overflow-aut mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Name </th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr dir-paginate="bundleWiseInstallLicence in vm.saaslicencesAssociateList| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{bundleWiseInstallLicence.name}}</td>
+                            <td>{{bundleWiseInstallLicence.count}}</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                <button class="addNew" type="submit" style="background:#3226ae" data-toggle="tooltip"
+                    data-placement="bottom" title="Load More" ng-click="gotoPublisherSAAS()"> <span
+                        style="padding: 25px;">More....</span>
+
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="margin-left:13px">
+            <h4 class="mb-3 p-4 card-header"><b>Publisher-Install</b></h4>
+            <hr>
+
+
+
+            <div class="material-tbl1 overflow-aut mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Name </th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        <tr dir-paginate="bundleWiseInstallLicence in vm.installlicencesAssociateList| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{bundleWiseInstallLicence.name}}</td>
+                            <td>{{bundleWiseInstallLicence.count}}</td>
+
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                <button class="addNew" type="submit" style="background:#3226ae" data-toggle="tooltip"
+                    data-placement="bottom" title="Load More" ng-click="gotoPublisherInstall()"> <span
+                        style="padding: 25px;">More....</span>
+
+
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-6 ">
+        <div class="panel-body container-fluid">
+        <div class="card" style="margin-left:13px">
+            <h4 class="mb-3 p-4 card-header"><b>Database Details</b></h4>
+
+
+
+            <div class="material-tbl1 overflow-auto mt-3">
+                <table id="datatable-buttons"
+                    class=" table table-report table-bordered ttext-center align-middle justify-content-center table-bordered"
+                    style="width: 1150px;">
+                    <thead class="tabelhedaer-bg">
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Database Name </th>
+                            <th>Edition</th>
+                            <th>Count</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr dir-paginate="databaseDetial in vm.databaseDetials| filter:q |itemsPerPage:vm.perPage"
+                            total-items="vm.total_count" current-page="pagination.current">
+
+                            <td>{{$index+1}}</td>
+                            <td>{{databaseDetial.dbName}}</td>
+                            <td>{{databaseDetial.edition}}</td>
+                            <td>{{databaseDetial.count}}</td>
+                        </tr>
+
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
+</div> -->
+
+<!--    
     
     <div class="row" ng-show="menuBranch==0||menuBranch==1">
     
@@ -816,7 +911,7 @@
     </div> 
     </div>
     </div> -->
-      <!--   
+<!--   
     <div class="row" ng-show="menuBranch==0||menuBranch==2">
     
     
@@ -847,8 +942,8 @@
     </div> 
     </div>
     </div> -->
-    
-      <!-- <div class="row" ng-show="menuBranch==0||menuBranch==2">
+
+<!-- <div class="row" ng-show="menuBranch==0||menuBranch==2">
     
     
     
@@ -878,7 +973,7 @@
     </div> 
     </div>
     </div> -->
-        <!-- <div class="row" ng-show="menuBranch==0||menuBranch==2">
+<!-- <div class="row" ng-show="menuBranch==0||menuBranch==2">
     
     
     
@@ -908,7 +1003,7 @@
     </div> 
     </div>
     </div> -->
-      <div class="chat row mt-5"  style="padding-bottom: 114px">
+<div class="chat row mt-5" style="padding-bottom: 114px">
     <!--   <div  class="col-md-4 col-lg-4">
      				 <div class="intro-y" style="padding-right: 19px;">
                             <div class="box p-2">
@@ -952,7 +1047,7 @@
                         </div>
       
       </div> -->
-      
+
     <!--   
        <div  class="col-md-8 col-lg-8">
        <div class=" intro-y chart__box box">
@@ -981,12 +1076,9 @@
        </div>
       
       </div> -->
-            </uib-tab>
+    </uib-tab>
 
-           
 
-                
-    </div>
-    
 
- 
+
+</div>

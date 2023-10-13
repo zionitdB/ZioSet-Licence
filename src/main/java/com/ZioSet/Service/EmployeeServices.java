@@ -3,6 +3,7 @@ package com.ZioSet.Service;
 import java.util.List;
 import java.util.Optional;
 
+import com.ZioSet.model.AssetEmployeeAssigned;
 import com.ZioSet.model.Employee;
 
 public interface EmployeeServices {
@@ -20,6 +21,12 @@ public interface EmployeeServices {
 	int getEmployeeCount();
 
 	int getEmployeeCountAndSearch(String searchText);
+
+	List<AssetEmployeeAssigned> getEmployeeWiseAllocationReport(int employeeId);
+
+	void deleteEmployee(Employee employee);
+
+	List<Employee> getAllEmployeesByBranch(String branchName);
 
 
 }

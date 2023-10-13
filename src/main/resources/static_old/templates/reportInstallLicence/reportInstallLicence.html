@@ -1,0 +1,189 @@
+  <style>
+<!--
+
+-->
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Install licenece Report ">
+           
+         <div class="material mt-5" >
+                    
+            
+                    <form class="row g-3">
+                 <!--     <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Report By<sup
+                                    style="color: red;">*</sup></label>
+                            <select id="alloMaterial"  class="form-control"  ng-model="vm.report.reportBy" ng-change="vm.callData(vm.report)">
+                               <option value="" disabled selected>Select Report By</option>
+                                <option value="Publisher">Publisher</option>
+                                <option value="Licencce Name">Licencce Name</option>
+                                  <option value="Detection Date">Detection Date</option>
+                             
+                            </select>
+                             <span style="color:red" ng-show="reportByErr">Report By is Mandatory</span>
+                        </div> -->
+                     
+                        <div class="col-md-6" >
+                      <label for="name13">Date: </label> <input  type="date" ng-model="vm.report.detectedDate" name="code" 
+																		class="form-control typeahead-demo mandtry"   />
+							
+						                                             <span ng-show="dateErr" style="color:red">  * From Date is mandatory</span>
+						                                         	
+						             
+                        </div>
+                         <div class="col-md-6" ng-show="vm.report.reportBy=='Publisher'">
+								<label for="allocto" class="form-label"> Publisher<sup
+									style="color: red;">*</sup></label> <select class="form-control"
+									ng-model="vm.report.publisher"
+									ng-options="publisher as publisher for publisher in vm.publishers"
+									required>
+									<option value="" disabled selected>Select Publisher</option>
+								</select> <span style="color: red" ng-show="publisherErr">Publisher is
+									Mandatory</span>
+							</div>
+                            <div class="col-md-6" ng-show="vm.report.reportBy=='Licencce Name'">
+								<label for="allocto" class="form-label"> Licence Name<sup
+									style="color: red;">*</sup></label> <select class="form-control"
+									ng-model="vm.report.licenceName"
+									ng-options="licencceName as licencceName for licencceName in vm.licencceNames"
+									required>
+									<option value="" disabled selected>Select Licence Name</option>
+								</select> <span style="color: red" ng-show="licenceNameErr">Licence Name is
+									Mandatory</span>
+							</div>
+                       
+                        
+                          
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Assined" ng-click="vm.getData(vm.report)">Get</button>
+                            <button type="submit" class="cancleBtn" title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div> 
+            
+                      
+                        
+			<!-- List View Star -->
+                <div class="material mt-5" >
+                    <div class="container-fluid">
+                    <div class="row">
+                      
+                           <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.reports" report-fields="vm.labels" style="display:none" filename="'Install Licennce Report'" ></button>
+						            
+                        
+                        
+                        </div>
+                        
+                      
+                    </div>
+                      
+                       
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 1150px;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+
+                                   
+                                    <th>Associate</th>
+                                   
+                                    <th>Product</th>
+                                       <th>Version</th>
+                                        <th>Edition</th>
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Serial NO</th>
+                                  
+                                     <th>Computer Name</th>
+                                     <th>Install Date</th>
+                                   
+
+                                </tr>
+                            </thead>
+                            <tbody>
+							<tr ng-repeat="report in vm.reports| filter:q ">
+							
+                                        
+                                
+                                    <th>{{$index+1}} </th>
+                                    <td>{{report.publisher}}</td>
+                                    <td>{{report.applicationName}}</td>
+                                     <td>{{report.version}}</td>
+                                      <td>{{report.edition}}</td>
+                                    <td>{{report.asset.make}}</td>
+                                    <td>{{report.asset.model}}</td>
+                                     <td>{{report.asset.serialNo}}</td>
+                                   
+                                         <td>{{report.computeName}}</td>
+                                      <td>{{report.insDate}}</td>
+                                    
+                                       
+                                   
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

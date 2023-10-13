@@ -72,6 +72,24 @@ public class InstallLicenceStock {
 	@Transient
 	private String expiryDate;
 	
+
+	@Transient
+	private String detDate;
+	
+	
+	
+	public String getDetDate() {
+		return detDate;
+	}
+
+
+
+	public void setDetDate(String detDate) {
+		this.detDate = detDate;
+	}
+
+
+
 	public String getExpiryDate() {
 		return expiryDate;
 	}
@@ -101,6 +119,25 @@ public class InstallLicenceStock {
 
 	@Transient
 	private int srNo;
+	
+	@Transient
+	private Employee employee;
+	
+	
+	
+	
+
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 
 
 	public int getLicenceInstallStockId() {

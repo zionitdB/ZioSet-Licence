@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.transaction.Transactional;
 @Entity
 @Table(name="asset_licence")
 public class AssetLicence {
@@ -37,6 +39,13 @@ public class AssetLicence {
 	
 	@Column(name="assing_date")
 	private Date assingDate;
+	
+	
+	@Transient
+	private int srNo;
+	
+	@Transient
+	private String assDate;
 
 	public int getId() {
 		return Id;
@@ -84,6 +93,22 @@ public class AssetLicence {
 
 	public void setAssingDate(Date assingDate) {
 		this.assingDate = assingDate;
+	}
+
+	public int getSrNo() {
+		return srNo;
+	}
+
+	public void setSrNo(int srNo) {
+		this.srNo = srNo;
+	}
+
+	public String getAssDate() {
+		return assDate;
+	}
+
+	public void setAssDate(String assDate) {
+		this.assDate = assDate;
 	}
 
 	

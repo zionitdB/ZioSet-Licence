@@ -1,0 +1,238 @@
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style=" font-size: 1.7rem;
+    font-weight: 700;   text-align: left;"heading="Asset Employee Mapping">
+    	<!--  <div class="row  mt-3">
+              
+                        
+                        <div class="col-md-4" ng-click="totalAssignedAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total Assigned Asset  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.employeesAssetCounts.totalAssingedAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4" ng-click="totalRemainingAsset()">
+                            <div class="card mb-3 dash-card" style="width: 266px">
+                                <div class="card-header">Total Remaining Asset  </div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end"> {{vm.employeesAssetCounts.totalRmainingAssetCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" ng-click="totolAssignedEmployee()">
+                            <div class="card mb-3 dash-card"  style="width: 266px">
+                                <div class="card-header">Total Assigned Employee</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end">{{vm.employeesAssetCounts.totalAssingedEmployeeCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                             <div class="col-md-4" ng-click="totalRemainingEmployee()">
+                            <div class="card mb-3 dash-card"  style="width: 266px">
+                                <div class="card-header">Total Remaining Employee</div>
+                                <div class="card-body">
+                                    <h5 class="card-text card-title"> </h5>
+                                    <h3 class="card-text text-end">{{vm.employeesAssetCounts.totalRmainingEmployeeCount}} </h3>
+                                </div>
+                            </div>
+                        </div>
+                        </div> -->
+                    </div>
+           <!-- Transfer Start  -->
+ 				<div class="material mt-5" ng-show="transTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Transfer Asset</b>
+                    </legend>
+                    <hr>
+                    
+                    <form class="row g-3">
+
+                      <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Asset :  </label> {{vm.assetsMappe.asset.make}}  {{vm.assetsMappe.asset.model}} - {{vm.assetsMappe.asset.tagCode }}
+                            
+                            
+                            
+                       
+                        </div>
+                         <div class="col-md-6">
+                         </div>
+                        
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Existing Employee:  </label> {{vm.assetsMappe.employee.employeeNo}}  {{vm.assetsMappe.employee.employeeName}} 
+                            
+                            
+                            
+                       
+                        </div>
+                         <div class="col-md-6">
+                         </div>
+                         <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Employee <sup style="color: red;">*</sup></label>
+                            
+                            
+                            <input  type="text" ng-model="vm.mapped.newemployee" uib-typeahead="employee as employee.firstName+' '+employee.lastName for employee in vm.employees | filter:$viewValue | limitTo:20" typeahead-no-results="codes" required
+																		class="form-control typeahead-demo mandtry"   typeahead-on-select="vm.checkEmployee(supplier)" />
+							                                           
+						                                             
+                       	<span style="color:red" ng-show="empErr">Employee  is Mandatory</span>
+                       	 	<span style="color:red" ng-show="sameEmpErr">Same Employee</span>
+                       	
+                       
+                        </div>
+                        
+                       <!--   <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Asset <sup style="color: red;">*</sup></label>
+                           
+                              <input  type="text" ng-model="vm.mapped.asset" name="Asset" uib-typeahead="availablesAsset as availablesAsset.make+' '+availablesAsset.model+'-'+availablesAsset.tagCode  for availablesAsset in vm.availablesAssets | filter:$viewValue | limitTo:20" typeahead-no-results="codes" required
+																		class="form-control typeahead-demo mandtry"   />
+                       	<span style="color:red" ng-show="assetErr">Asset is Mandatory</span>
+                       	
+                       
+                        </div> -->
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save"  title="Save" ng-click="vm.transfer(vm.mapped)">Submit</button>
+                            <button type="submit" class="cancleBtn"  title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Transfer End   -->
+             
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNew">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Asset Employee Mapping</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+
+                      
+                        
+                        
+                         <div class="col-md-6">
+                         
+                            <label for="assectcod" class="form-label">Employee <sup style="color: red;">*</sup></label>
+                            
+                            
+                            <input  type="text" ng-model="vm.mapped.employee" name="employee" uib-typeahead="employee as employee.firstName +' '+employee.lastName for employee in vm.employees | filter:$viewValue | limitTo:20" typeahead-no-results="codes" required
+																		class="form-control typeahead-demo mandtry"  typeahead-on-select="onSelectEmployee(vm.mapped.employee)"  />
+							                                           
+						                                             
+                       	<span style="color:red" ng-show="empErr">Employee  is Mandatory</span>
+                       		<span style="color:red" ng-show="empInvErr">Invalid Employee  </span>
+                       	
+                       
+                        </div>
+                        
+                         <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Asset <sup style="color: red;">*</sup><small>(Asset Id/Serial No)</small></label>
+                           
+                              <input  type="text" ng-model="vm.mapped.asset"  uib-typeahead="availablesAsset as availablesAsset.assetId+' '+availablesAsset.serialNo+' '+availablesAsset.make+' '+availablesAsset.model  for availablesAsset in vm.availablesAssets | filter:$viewValue | limitTo:20" typeahead-no-results="codes"  required
+																		class="form-control typeahead-demo mandtry"   />
+                       	<span style="color:red" ng-show="assetErr">Asset is Mandatory</span>
+                       	<span style="color:red" ng-show="assInvErr">Invalid Asset  </span>
+                       	
+                       
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" title="Save" ng-click="vm.mappeAsset(vm.mapped)">Submit</button>
+                            <button type="submit" class="cancleBtn" title="Cancel" ng-click="vm.cancle()">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- List View Star -->
+                <div class="material mt-5" >
+                    <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-4">
+                            <form class="d-flex search">
+                                <input class="me-2" type="search" placeholder="Search" aria-label="Search" ng-change="vm.loadAssetsEmployeedMappeds()" ng-model="vm.serachText">
+                            </form>
+                        </div>
+                          <div class="col-2 text-center">
+                          
+					              <input type="number" min="1" max="100" class="form-control" ng-model="vm.perPage" ng-change="vm.loadAssets()"   >
+                          </div>
+                        <div class="col-2 text-center">
+                                                    <button class="addNew"  data-toggle="tooltip" data-placement="bottom" type="submit"  id="tooltip-touch" title="Export Excel" ng-click="newExcel()">   <i class="bi bi-download"></i></button>
+                        
+						       <button id="btnExport" ng-json-export-excel data="vm.employeesAsset" report-fields="vm.labels" style="display:none" filename="'Employees Assets'" ></button>
+						            
+                        
+                        
+                        </div>
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom"  
+                             title="Add AssetEmployeeMapped"style="margin-left: 128px;" ng-click="vm.addNew()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      
+                    </div>
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center align-middle justify-content-center table-striped"
+                           >
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                    
+                                    <th>Asset Type</th>
+                                    <th>Serial No</th>
+                                    <th>Asset Id</th>
+                        
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                   
+                                   <th>Employee Name</th>
+                                   <th>Employee No</th>
+                                   
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <tr ng-show="vm.assetsMappes.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="assetsMappe in vm.assetsMappes| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                        
+                                
+                                    <th>{{(vm.perPage*(vm.pageno-1))+($index+1)}}</th>
+                                  
+                                    <td>{{assetsMappe.asset.assetType}}</td>
+                                    <td>{{assetsMappe.asset.serialNo}}</td>
+                                    <td>{{assetsMappe.asset.assetId}}</td>
+                                    <td>{{assetsMappe.asset.make}}</td>
+                                    <td>{{assetsMappe.asset.model}}</td>
+                                      
+                                    <td>{{assetsMappe.employee.firstName}} {{assetsMappe.employee.lastName}}</td>
+                                    <td>{{assetsMappe.employee.employeeNo}}</td>
+
+                                       
+                                    <td>
+                                       <i class="bi bi-trash" data-toggle="tooltip" data-placement="bottom"  
+                                        ng-click="vm.release(assetsMappe)"style="margin-right: 10px;" title="Release"></i>
+                                 	  	<i ng-if="asset.tagCode==''||asset.tagCode==null" class="bi bi-arrow-down-up" ng-click="vm.transafer(assetsMappe)" data-toggle="tooltip" data-placement="bottom"  
+                                 	  	 title="Transfer"></i>
+                                   	
+                                   
+                                   
+                                    </td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

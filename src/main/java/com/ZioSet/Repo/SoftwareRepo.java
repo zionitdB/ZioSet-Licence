@@ -31,7 +31,7 @@ public interface SoftwareRepo extends JpaRepository<Software, Integer>,SoftwareC
 
 	List<Software> chekAssetFetchOnLastCycle(Integer id, Date latestDate);
 	
-	@Query("from Software s where  s.asset.Id=?1 and Date(s.detectedDate)<=?3 and Date(s.detectedDate)>=?2")
+	@Query("from Software s where  s.asset.Id=?1 and Date(s.detectedDate)<=?2 and Date(s.detectedDate)>=?3")
 	List<Software> chekAssetFetchOnINDateRange(Integer id, Date fromdate, Date todate);
 	
 

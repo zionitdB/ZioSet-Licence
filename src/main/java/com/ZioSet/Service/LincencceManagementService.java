@@ -182,4 +182,30 @@ public interface LincencceManagementService {
 
 	int getTodayFetchInstallLicenceCount(Date date);
 
+	List<LicenceExpriry> getAvailanleLicenceExpiryPagination(int page_no, int item_per_page);
+
+	List<LicenceExpriry> getAvailanleLicenceExpirySearchPagination(String searchText, int pageNo, int perPage);
+
+	int getAllCountAvailanleLicenceExpiry();
+
+	int getSearchCountAvailanleLicenceExpiry(String searchText);
+
+	List<Licence> getExpiringLicencesSAASPagination(int page_no, int item_per_page);
+
+	List<Licence> getExpiringLicencesSAASSearchPagination(String searchText, int pageNo, int perPage);
+
+	int getAllCountExpiringLicencesSAAS();
+
+	int getSearchCountExpiringLicencesSAAS(String searchText);
+
+	List<AssetLicence> getAllAssetLicencce();
+
+	void deleteAssetLicence(AssetLicence assetLicence);
+
+	int getexpirySAASCount();
+
+	Optional<Licence> getLicenceByPublisherProductKey(String publisher, String product, String key);
+
+	List<InstallLicenceStock> getSystemLincencceByAssetId(int assetId);
+
 }

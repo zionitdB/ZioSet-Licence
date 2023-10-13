@@ -148,7 +148,7 @@
 		}
 		
 		$scope.file="Customer"
-			vm.labels={'srNo':'Sr No','publisher':'Associate Name','applicationName': 'Product  Name','version': 'Version','edition': 'Edition','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','computeName':'Computer Name','insDate':'Install Date'}
+			vm.labels={'srNo':'Sr No','publisher':'Associate Name','applicationName': 'Product  Name','version': 'Version','edition': 'Edition','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','computeName':'Computer Name','asset.employeeNo':'Employee No','asset.employeeName':'Employee Name','insDate':'Install Date'}
 		
 		
 		

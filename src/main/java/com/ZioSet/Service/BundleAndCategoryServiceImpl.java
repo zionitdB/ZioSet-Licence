@@ -136,4 +136,16 @@ public class BundleAndCategoryServiceImpl implements BundleAndCategoryService {
 		return categoryApplicationsRepo.getCategoryApplicationsByCategory(categoryId);
 	}
 
+	@Override
+	public List<CategoryApplications> getCategoryApplicationsByCategoryName(String categoryName) {
+		// TODO Auto-generated method stub
+		return categoryApplicationsRepo.getCategoryApplicationsByCategoryName(categoryName);
+	}
+
+	@Override
+	public List<BundleApplications> getbundleApplicationByBundleName(String bundleName) {
+		// TODO Auto-generated method stub
+		return bundleApplicationsRepo.getbundleApplicationByBundleName(bundleName);
+	}
+
 }

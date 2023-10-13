@@ -12,5 +12,9 @@ public interface LincencceCustomeRepo {
 	int getLicenceCount();
 
 	int getLicenceCountAndSearch(String searchText);
+	List<Licence> getExpiringLicencesSAASPagination(int page_no, int item_per_page);
+	List<Licence> getExpiringLicencesSAASSearchPagination(String searchText, int pageNo, int perPage);
+	int getAllCountExpiringLicencesSAAS();
+	int getSearchCountExpiringLicencesSAAS(String searchText);
 
 }

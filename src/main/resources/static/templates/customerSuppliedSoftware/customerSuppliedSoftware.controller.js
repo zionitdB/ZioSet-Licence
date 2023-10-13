@@ -26,12 +26,43 @@
 
 		(function activate() {
 			loadCustomerSuppliedSoftwares()
+			$scope.editOp=false
 		})();
+		
+
+		$scope.filename="Machines"
+			vm.labels={'srNo': 'Sr No','formSrNo': 'Form Sr No','assetTagNo': 'Asset Tag No','title': 'Title','version':'Version','language':'Language','remark':'Remark','licenceCount':'licenceCount'}
+		
+		$scope.newExcel= function(){
+			$rootScope.loader=true;
+	    	  getAllCustomerSuppliedSoftwares();
+				 $rootScope.loader=true;
+				//document.getElementById('btnExport').click();
+			
+			}
+		function getAllCustomerSuppliedSoftwares(){
+			var url = customerSuppliedSoftwareUrl + "/getAllCustomerSuppliedSoftwares";
+			var msg=""
+			genericFactory.getAll(msg,url).then(function(response) {
+				vm.allsuppliedSoftwares = response.data;
+				setTimeout(function(){
+					 
+					 document.getElementById('btnExport').click();
+					 $rootScope.loader=false;
+					 
+					  $rootScope.$digest();
+					},1000);
+				console.log("allsuppliedSoftwares: "+JSON.stringify(vm.allsuppliedSoftwares))
+								
+			})
+			
+		}
 		
 		function upload(){
 			
 			$scope.uploadTab=false;
 			$scope.uploadTab=true;
+			$scope.editOp=false
 		}
 		//***********************Pagination Start*****************************//
 		$scope.searchByPagination=function (search){
@@ -52,6 +83,7 @@
 		function addNew(){
 			$scope.addNewTab=true;
 			$scope.uploadTab=false;
+			$scope.editOp=false
 		}
 		
 		function uploadSave(){
@@ -164,6 +196,7 @@
 		function cancle(){
 			$scope.addNewTab=false;
 			vm.assetL={}
+			$scope.editOp=false
 		}
 		
 		function delet(suppliedSoftware){
@@ -188,6 +221,7 @@
 		function edit(suppliedSoftware){
 		
 			$scope.addNewTab=true
+			$scope.editOp=true
 			vm.suppliedSoftware=suppliedSoftware
 			vm.suppliedSoftware.licenceCount=parseInt(suppliedSoftware.licenceCount)
 			
@@ -245,6 +279,7 @@
 						
 						loadCustomerSuppliedSoftwares();
 						$scope.addNewTab=false;
+						$scope.editOp=false
 						vm.suppliedSoftware={}
 						if(response.data.code==200){
 							toastr.success(response.data.message);

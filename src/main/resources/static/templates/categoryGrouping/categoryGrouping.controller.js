@@ -53,8 +53,9 @@
 		
 				vm.applications.push(application);
 		}
-		function remove(application){
-			vm.applications.splice(application,1);
+		function remove(index){
+			console.log("INDEX "+index)
+			vm.applications.splice(index,1);
 		}
 		function edit(category){
 			getAllApplicationName()
@@ -120,8 +121,11 @@
 		
 		function add(){
 			$scope.addNew=true;
-			$scope.createdDate=new Date();
+			
 			getAllApplicationName();
+			vm.category={}
+			vm.applications=[]
+			vm.category.createdDate=new Date();
 			
 		}
 

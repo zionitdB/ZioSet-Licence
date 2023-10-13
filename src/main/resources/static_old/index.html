@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="no-js">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Dash Board</title>
+
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+	<link data-require="bootstrap-css@3.1.1" data-semver="3.1.1" rel="stylesheet"
+		href="dist/css/bootstrap-pagination.min.css" />
+
+	<link rel="stylesheet" href="dist/css/bootstrap.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="dist/css/style.css">
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+	<link rel="stylesheet" type="text/css"  href="bower_components/metismenu/dist/metisMenu.min.css">
+    <link rel="stylesheet" href="bower_components/icons-1.5.0/font/bootstrap-icons.css">
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+ <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script><!-- Popper for Bootstrap -->
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/metisMenu.min.js"></script>
+        <script src="assets/js/waves.js"></script>
+        <script src="assets/js/jquery.slimscroll.js"></script>
+         <!--  <script src="plugins/datatables/vfs_fonts.js"></script> -->
+	<!-- jQuery -->
+	<script src="plugins/jquery/jquery.min.js"></script>
+	<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+		<!-- Bootstrap 4 -->
+		<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-loader/angular-loader.min.js"></script>
+	<script type="text/javascript" src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+	<script src="bower_components/angular-route/angular-route.min.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+	<script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/angular-recaptcha@4.2.0/release/angular-recaptcha.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+ 
+  <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+ <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<!-- 	<script src="bower_components/angular/angular.min.js"></script>	 -->
+	<script src="assets/js/script.js"></script>	
+	
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.min.css">
+		<script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
+	
+ 		
+	<script src="bower_components/metismenu/dist/metisMenu.min.js"></script>
+	
+	            <script src="bower_components/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+	            
+	            <!-- pie chart -->
+	            <script src="plugins/chart/chart.js"></script>
+	            <script  src="https://www.npmjs.com/package/angular-chart.js"></script>
+      <script src="https:////cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+      
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.5/less.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+	 
+	 <script src="http://alasql.org/console/xlsx.core.min.js"></script>
+	
+<script type="text/javascript">
+		// Adapt your paths!
+		var Module = {
+			memoryInitializerPrefixURL : 'node_modules/bwip-js/',
+			preRun : [ function() {
+				Module.FS_createPreloadedFile("/", "Inconsolata.otf",
+						"node_modules/bwip-js/Inconsolata.otf", true, false);
+			} ],
+			postRun : [ function() {
+				var load_font = Module.cwrap("load_font", 'number', [ 'string',
+						'string', 'number' ]);
+				load_font("Inconsolata.otf", "INCONSOLATA", 108);
+			} ]
+		};
+	</script>
+	
+<!-- ********* DATA MATRIX ********** -->
+<script src="bower_components/bwip-js/freetype.js"></script>
+<script src="bower_components/bwip-js/bwip.js"></script>
+<script src="bower_components/bwip-js/lib/canvas.js"></script>
+<!-- <script src="node_modules/td-angular-barcode/dist/td-barcode.js"></script>
+ --><!-- ********* DATA MATRIX ********** -->
+
+
+
+	
+		<script src="templates/app.js"></script>
+		<script src="templates/main/main.module.js"></script>
+		<script src="templates/main/main.controller.js"></script>
+		
+		
+		<!-- home Start -->
+		<script src="templates/home/calendar.js"></script>
+<script src="templates/home/home.module.js"></script>
+<script src="templates/home/home.controller.js"></script>
+<!-- home End -->
+
+<!-- Generic Start -->
+<script src="templates/generic/generic.module.js"></script>
+<script src="templates/generic/generic.factory.js"></script>
+<script src="templates/generic/generic.http.js"></script>
+<script src="templates/generic/FileSaver.js"></script>
+<script src="templates/generic/json-export-excel.js"></script>
+
+<!-- Generic End -->
+<!-- Login form Start -->
+<script src="templates/login/login.module.js"></script>
+<script src="templates/login/login.controller.js"></script>
+<script src="templates/login/login.factory.js"></script>
+<script src="templates/login/login.http.js"></script>
+<!-- Login form End -->
+
+
+<!-- USER START -->
+<script src="templates/user/user.module.js"></script>
+<script src="templates/user/user.controller.js"></script>
+<!-- USER END -->
+
+<!-- ASSET START -->
+<script src="templates/asset/asset.module.js"></script>
+<script src="templates/asset/asset.controller.js"></script>
+<!-- ASSET END -->
+
+
+
+
+<!-- TagUpload START -->
+<script src="templates/tagUpload/tagUpload.module.js"></script>
+<script src="templates/tagUpload/tagUpload.controller.js"></script>
+<script src="templates/tagUpload/barcode.js"></script>
+<!-- TagUpload END -->
+
+
+<!--AssetEmployeeMapped START -->
+<script src="templates/assetEmployeeMapped/assetEmployeeMapped.module.js"></script>
+<script src="templates/assetEmployeeMapped/assetEmployeeMapped.controller.js"></script>
+<!-- AssetEmployeeMapped END -->
+
+<!--Asset Info START -->
+<script src="templates/assetInfo/assetInfo.module.js"></script>
+<script src="templates/assetInfo/assetInfo.controller.js"></script>
+<!-- Asset Info END -->
+
+
+<!--Notification START -->
+<script src="templates/notification/notification.module.js"></script>
+<script src="templates/notification/notification.controller.js"></script>
+<!-- Notification END -->
+
+
+
+<!--Deallocation Asset START -->
+<script src="templates/deallocationAsset/deallocationAsset.module.js"></script>
+<script src="templates/deallocationAsset/deallocationAsset.controller.js"></script>
+<!-- Deallocation Asset  END -->
+
+<script src="templates/employee/employee.module.js"></script>
+<script src="templates/employee/employee.controller.js"></script>
+
+
+<!--Asset Tag mapping  Report START -->
+<script src="templates/profile/profile.module.js"></script>
+<script src="templates/profile/profile.controller.js"></script>
+<!-- Asset Tag mapping  END -->
+
+<script src="templates/help/help.module.js"></script>
+<script src="templates/help/help.controller.js"></script>
+
+
+
+<script src="templates/rolePermission/rolePermission.module.js"></script>
+<script src="templates/rolePermission/rolePermission.controller.js"></script>
+
+<script src="templates/licence/licence.module.js"></script>
+<script src="templates/licence/licence.controller.js"></script>
+
+
+<script src="templates/licenceLifeNotification/licenceLifeNotification.module.js"></script>
+<script src="templates/licenceLifeNotification/licenceLifeNotification.controller.js"></script>
+
+<script src="templates/licenceAllocation/licenceAllocation.module.js"></script>
+<script src="templates/licenceAllocation/licenceAllocation.controller.js"></script>
+
+<script src="templates/bundleAppication/bundleAppication.module.js"></script>
+<script src="templates/bundleAppication/bundleAppication.controller.js"></script>
+
+
+<script src="templates/categoryGrouping/categoryGrouping.module.js"></script>
+<script src="templates/categoryGrouping/categoryGrouping.controller.js"></script>
+
+
+
+<script src="templates/customerSuppliedSoftware/customerSuppliedSoftware.module.js"></script>
+<script src="templates/customerSuppliedSoftware/customerSuppliedSoftware.controller.js"></script>
+
+
+<script src="templates/systemLicence/systemLicence.module.js"></script>
+<script src="templates/systemLicence/systemLicence.controller.js"></script>
+
+
+
+<script src="templates/licenceExpiry/licenceExpiry.module.js"></script>
+<script src="templates/licenceExpiry/licenceExpiry.controller.js"></script>
+
+<script src="templates/saasLicenceDashboard/saasLicenceDashboard.module.js"></script>
+<script src="templates/saasLicenceDashboard/saasLicenceDashboard.controller.js"></script>
+
+
+
+<script src="templates/installedLiceneExpiry/installedLiceneExpiry.module.js"></script>
+<script src="templates/installedLiceneExpiry/installedLiceneExpiry.controller.js"></script>
+
+
+<script src="templates/uploadLiceneExpiry/uploadLiceneExpiry.module.js"></script>
+<script src="templates/uploadLiceneExpiry/uploadLiceneExpiry.controller.js"></script>
+
+
+<script src="templates/systemDashboard/systemDashboard.module.js"></script>
+<script src="templates/systemDashboard/systemDashboard.controller.js"></script>
+
+
+<script src="templates/installLicenceDashboard/installLicenceDashboard.module.js"></script>
+<script src="templates/installLicenceDashboard/installLicenceDashboard.controller.js"></script>
+
+
+
+<script src="templates/InstockLicence/InstockLicence.module.js"></script>
+<script src="templates/InstockLicence/InstockLicence.controller.js"></script>
+
+
+
+<script src="templates/AssignedLicence/AssignedLicence.module.js"></script>
+<script src="templates/AssignedLicence/AssignedLicence.controller.js"></script>
+
+
+
+<script src="templates/saasLiceneExpiry/saasLiceneExpiry.module.js"></script>
+<script src="templates/saasLiceneExpiry/saasLiceneExpiry.controller.js"></script>
+
+
+<script src="templates/InstallLicence/InstallLicence.module.js"></script>
+<script src="templates/InstallLicence/InstallLicence.controller.js"></script>
+
+
+<script src="templates/renewalLicence/renewalLicence.module.js"></script>
+<script src="templates/renewalLicence/renewalLicence.controller.js"></script>
+
+
+<script src="templates/workerInstalled/workerInstalled.module.js"></script>
+<script src="templates/workerInstalled/workerInstalled.controller.js"></script>
+
+
+<script src="templates/systemDetails/systemDetails.module.js"></script>
+<script src="templates/systemDetails/systemDetails.controller.js"></script>
+
+
+
+<script src="templates/licenceDetials/licenceDetials.module.js"></script>
+<script src="templates/licenceDetials/licenceDetials.controller.js"></script>
+
+
+
+<script src="templates/fetchInstallLicence/fetchInstallLicence.module.js"></script>
+<script src="templates/fetchInstallLicence/fetchInstallLicence.controller.js"></script>
+
+<script src="templates/emailTemplate/emailTemplate.module.js"></script>
+<script src="templates/emailTemplate/emailTemplate.controller.js"></script>
+
+
+<script src="templates/mailManger/mailManger.module.js"></script>
+<script src="templates/mailManger/mailManger.controller.js"></script>
+
+
+<script src="templates/todayFetchInstallLicence/todayFetchInstallLicence.module.js"></script>
+<script src="templates/todayFetchInstallLicence/todayFetchInstallLicence.controller.js"></script>
+
+
+<script src="templates/branch/branch.module.js"></script>
+<script src="templates/branch/branch.controller.js"></script>
+
+<script src="templates/reportActiveLicence/reportActiveLicence.module.js"></script>
+<script src="templates/reportActiveLicence/reportActiveLicence.controller.js"></script>
+
+
+<script src="templates/reportExpiryLicence/reportExpiryLicence.module.js"></script>
+<script src="templates/reportExpiryLicence/reportExpiryLicence.controller.js"></script>
+
+
+<script src="templates/reportInstallLicence/reportInstallLicence.module.js"></script>
+<script src="templates/reportInstallLicence/reportInstallLicence.controller.js"></script>
+
+
+
+<script src="templates/assetUnavailableworker/assetUnavailableworker.module.js"></script>
+<script src="templates/assetUnavailableworker/assetUnavailableworker.controller.js"></script>
+
+
+<script src="templates/unavailableworkerforLast5Days/unavailableworkerforLast5Days.module.js"></script>
+<script src="templates/unavailableworkerforLast5Days/unavailableworkerforLast5Days.controller.js"></script>
+
+<script src="templates/reportUnavailableWorker/reportUnavailableWorker.module.js"></script>
+<script src="templates/reportUnavailableWorker/reportUnavailableWorker.controller.js"></script>
+
+
+
+<script src="templates/DashboardTable/DashboardTable.module.js"></script>
+<script src="templates/DashboardTable/DashboardTable.controller.js"></script>
+
+
+</head>
+
+
+
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div ui-view="main"></div>
+
+
+
+
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
+
+	
+
+	<script>
+		$.widget.bridge('uibutton', $.ui.button)
+	</script>
+	<!-- 
+<script src="dist/js/dropdown.min.js"></script>
+ -->
+</body>
+
+</html>

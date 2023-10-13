@@ -62,16 +62,16 @@
 							type="checkbox" ng-checked="type.check"
 							ng-click="selectQR($index)"> {{type.licenceType }}   - {{type.count }}</li>
                         </ul> -->
-                    <legend class="dotted    mt-5"   style="color: #616060; font-size: 18px;" ng-repeat="type in vm.types"><i class="bi bi-plus-square"  ng-show="!type.check" ng-click="selectQR($index)"></i> <i ng-show="type.check" ng-click="selectQR($index)"class="bi bi-dash-square" ></i><b> {{type.licenceType }}   - {{type.count }} </b>
+                    <legend class="dotted    mt-5"   style="color: #616060; font-size: 18px;" ng-repeat="type in vm.types"><i class="bi bi-plus-square"   title="Show" ng-show="!type.check" ng-click="selectQR($index)"></i> <i ng-show="type.check" title="Hide" ng-click="selectQR($index)"class="bi bi-dash-square" ></i><b> {{type.licenceType }}   - {{type.count }} </b>
                         
-		                     		<legend class="dotted    mt-5" ng-show="type.check"  style="color: #616060; font-size: 18px;margin-left: 100px;" ng-repeat="associate in vm.associateNames"><i class="bi bi-plus-square"  ng-show="!associate.check" ng-click="selectAssocaiation($index)"></i> <i ng-show="associate.check" ng-click="selectAssocaiation($index)"class="bi bi-dash-square" ></i><b> {{associate.associateName}}   - {{associate.count}} </b>
+		                     		<legend class="dotted    mt-5" ng-show="type.check"  style="color: #616060; font-size: 18px;margin-left: 100px;" ng-repeat="associate in vm.associateNames"><i class="bi bi-plus-square" title="Show"  ng-show="!associate.check" ng-click="selectAssocaiation($index)"></i> <i ng-show="associate.check" title="Hide" ng-click="selectAssocaiation($index)"class="bi bi-dash-square" ></i><b> {{associate.associateName}}   - {{associate.count}} </b>
 		                   						
 		                   						
-		                   						<legend class="dotted    mt-5" ng-show="associate.check"  style="color: #616060; font-size: 18px;margin-left: 200px;" ng-repeat="product in vm.products"><i class="bi bi-plus-square"  ng-show="!product.check" ng-click="selectProduct($index)"></i> <i ng-show="product.check" ng-click="selectProduct($index)"class="bi bi-dash-square" ></i><b> {{product.productName}}   - {{product.count}} </b>
+		                   						<legend class="dotted    mt-5" ng-show="associate.check"  style="color: #616060; font-size: 18px;margin-left: 200px;" ng-repeat="product in vm.products"><i class="bi bi-plus-square" title="Show"  ng-show="!product.check" ng-click="selectProduct($index)"></i> <i ng-show="product.check"  title="Hide"  ng-click="selectProduct($index)"class="bi bi-dash-square" ></i><b> {{product.productName}}   - {{product.count}} </b>
 		                 					   
-		                 					   				<div class="material-tbl mt-3" ng-show="product.check" style="margin-left: -300px;">
-													                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
-													                            style="width: 100%;">
+		                 					   				<div class="material-tbl mt-3" ng-show="product.check" >
+													                        <table id="datatable-buttons" class="ttext-center align-middle justify-content-center table-bordered"
+													                            style="width: 92%;">
 													                            <thead>
 													                                <tr>
 													                                    <th>Sr No</th>

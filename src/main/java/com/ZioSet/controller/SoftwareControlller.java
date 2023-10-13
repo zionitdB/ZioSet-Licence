@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 
@@ -17,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ZioSet.Service.AssetEmployeeMappeServices;
 import com.ZioSet.Service.SoftwareService;
+import com.ZioSet.configuration.SoftwareDetailsInsert;
 import com.ZioSet.dto.LastFiveDateCountDTO;
 import com.ZioSet.dto.RequestObj;
+import com.ZioSet.model.AssetEmployeeAssigned;
 import com.ZioSet.model.Software;
 
 @RestController
@@ -29,12 +33,17 @@ public class SoftwareControlller {
 
 	@Autowired
 	SoftwareService softwareService;
-
+	@Autowired
+	AssetEmployeeMappeServices assetEmployeeMappeServices;
+	
+	
 	@RequestMapping(value = "/sycingByWorker1", method = RequestMethod.POST)
 	public @ResponseBody void sycingByWorker1(@RequestBody Software softwares) {
 		try {
-			System.out.println("Syncing.........................................................");
-			softwareService.addSoftwareOnj(softwares);
+			System.out.println("Syncing........................................................."+softwares.getSerialNo());
+			/*SoftwareDetailsInsert detailsInser =new SoftwareDetailsInsert(softwares);
+			detailsInser.start();
+			*/softwareService.addSoftwareOnj(softwares);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,6 +51,24 @@ public class SoftwareControlller {
 		}
 
 	}
+	@RequestMapping(value = "/sycingByWorker2", method = RequestMethod.POST)
+	public @ResponseBody void sycingByWorker2(@RequestBody List<Software> softwares) {
+		try {
+			System.out.println("Syncing Starts .........................................................");
+
+			for(Software  software:softwares){
+				softwareService.addSoftwareOnj(software);
+				System.out.println("Application........................................................."+software.getApplicationName()+" "+software.getSystemIp());
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
 
 	@RequestMapping(value = "/getInstallLicenceCountForLastDays", method = RequestMethod.GET)
 	public @ResponseBody LastFiveDateCountDTO getInstallLicenceCountForLastDays() {
@@ -165,11 +192,17 @@ public class SoftwareControlller {
 		try {
 			list = softwareService.getInstallLiceneceByDate(requestObj.getDate());
 			int srNo=1;
+			
+			System.out.println("LIST SIZE "+list.size()+" "+requestObj.getDate());
 			for(Software software:list){
 				/*if(software.getInstallDate()!=null){
 					Format formatter = new SimpleDateFormat("dd-MM-yyyy");
 					String s = formatter.format(software.getInstallDate());
 					software.setInstallDate(s);
+				}*/
+				/*Optional<AssetEmployeeAssigned>  optional= assetEmployeeMappeServices.getAllocationByAsset(software.getAsset().getId());
+				if(optional.isPresent()){
+					software.setEmployee(optional.get().getEmployee());
 				}*/
 				
 				software.setSrNo(srNo);

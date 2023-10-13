@@ -25,6 +25,7 @@ import com.ZioSet.Repo.MemoryDetailsRepo;
 import com.ZioSet.Repo.OSDetialsRepo;
 import com.ZioSet.Repo.RamTotalRepo;
 import com.ZioSet.Repo.SoftwareRepo;
+import com.ZioSet.Repo.WorkerLicencesRepo;
 import com.ZioSet.Service.AssetEmployeeMappeServices;
 import com.ZioSet.Service.AssetService;
 import com.ZioSet.Service.BundleAndCategoryService;
@@ -97,6 +98,10 @@ public class DashboardController {
 	@Autowired
 	RamTotalRepo ramTotalRepo;
 	
+
+	@Autowired
+	WorkerLicencesRepo workerLicencesRepo;
+	
 	
 	
 	
@@ -144,10 +149,11 @@ public class DashboardController {
 		
 		try {
 		List<Integer> categories =installLicenceStockRepo.getListWorkerInstalledList();
+		System.out.println("INT SIZE "+categories.size());
 		int srNo=1;
 		for(Integer id:categories){
 			List<Software> optionalSOF=softwareRepo.chekAssetFetchOnINDateRange(id,requestObj.getFromdate(),requestObj.getTodate());
-			
+			System.out.println("ID "+id+"  From "+requestObj.getFromdate()+"  TO "+requestObj.getTodate());
 			
 			/// Foe not PResent
 			if(optionalSOF.size()==0){
@@ -260,17 +266,23 @@ public class DashboardController {
 	public @ResponseBody LicencenPercentageDto getWorkerPercentage() {
 		LicencenPercentageDto count=new LicencenPercentageDto();
 		try {
-			int totalAssetInStock=installLicenceStockRepo.getDistictAssetCountInStock();
+			
+			
+			
+			
+			
+			
+			
+			int totalAssetInStock=workerLicencesRepo.getRegisterWorkerLicencesCount();
 			System.out.println("TOTAL COUNT "+totalAssetInStock);
 			Date latestDate=softwareService.getLatestDate();
+			
 			int countByFistDate=softwareService.getFetchUniqueCountByDate(latestDate);
 			System.out.println(" COUNT "+countByFistDate);
-			System.out.println(" Date "+latestDate);
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");  
-			String strDate = dateFormat.format(latestDate);
+			
 			count.setTotalCount(totalAssetInStock);
 			count.setActiveCount(countByFistDate);
-			count.setDate(strDate);
+			count.setDate(latestDate);
 		/*	int installCount=installLicenceStockRepo.getSystemLicenceCount();
 			int saasCount=lincencceManagementService.getLicenceCount();
 			System.out.println("INSTALL COUNT "+installCount);
@@ -699,7 +711,7 @@ public class DashboardController {
 				int uploadedCount=0;
 			List<LicenceExpriry> list=lincencceManagementService.getExpiredLicencesByDate(nextDate);
 			for(LicenceExpriry expriry:list){
-				//System.out.println("expriry "+expriry.getReleaseName());
+				System.out.println("expriry "+expriry.getPublisherName()+"- "+expriry.getProductName()+" -"+expriry.getReleaseName());
 				
 				List<InstallLicenceStock> installLicenceStocks=lincencceManagementService.getInstallLicenceStockByPublisherProductAndRelease(expriry.getPublisherName(),expriry.getProductName(),expriry.getReleaseName()); 
 				System.out.println("Expiring Install Count "+installLicenceStocks.size());
@@ -715,7 +727,9 @@ public class DashboardController {
 			int endOfLifeSAAS=uploadedCount;
 			List<Licence> renewal=lincencceManagementService.getTotalRenewalCount(nextDate);
 			int renewalCount=renewal.size();
+			 
 			
+			int expirySAAS=lincencceManagementService.getexpirySAASCount();
 			
 			count.setAssetCount(total);
 			count.setEmployeeCount(employeeC);
@@ -728,6 +742,7 @@ public class DashboardController {
 			count.setRenewalCount(renewalCount);
 			count.setTotalInstock(totalInstock);
 			count.setTotalSaas(totalSaas);
+			count.setExpirySAAS(expirySAAS);
 			count.setTodayFetchCount(todayFetchCount);
 		
 		} catch (Exception e) {
@@ -948,10 +963,11 @@ public class DashboardController {
 		CountDTO osCountDTO= new CountDTO();
 		try {
 			
-			List<InstallLicenceStock>  mySQLs=installLicenceStockRepo.getListOfLicencesByProductName("MySQL Server 5.7");
-			List<InstallLicenceStock>  msSQLs=installLicenceStockRepo.getListOfLicencesByProductName("Microsoft SQL Server 2019 (64-bit)");
+			List<InstallLicenceStock>  mySQLs=installLicenceStockRepo.getListOfLicencesByProductName("MySQL Server ");
+			List<InstallLicenceStock>  msSQLs=installLicenceStockRepo.getListOfLicencesByProductName("Microsoft SQL ");
+			System.out.println("MYSQL "+mySQLs.size());
+			System.out.println("msSQLs "+msSQLs.size());
 
-			
 			for(InstallLicenceStock stock:mySQLs){
 				mySQLeditions.add(stock.getEdition());
 			}
@@ -963,20 +979,27 @@ public class DashboardController {
 			
 			for(String name:mySQLeditions){
 				DBEditionCountDto dBEditionCountDto= new DBEditionCountDto();
-				int count=installLicenceStockRepo.getCountByEditionAndProductName(name,"MySQL Server 5.7");
+				int count=installLicenceStockRepo.getCountByEditionAndProductName(name,"MySQL Server");
 				dBEditionCountDto.setDbName("MySQL Server");
 				dBEditionCountDto.setEdition(name);
 				dBEditionCountDto.setCount(count);
-				list.add(dBEditionCountDto);
+				if(count!=0){
+					list.add(dBEditionCountDto);
+
+				}
 				
 			}
 			for(String name:msSQLeditions){
 				DBEditionCountDto dBEditionCountDto= new DBEditionCountDto();
-				int count=installLicenceStockRepo.getCountByEditionAndProductName(name,"Microsoft SQL Server 2019 (64-bit)");
-				dBEditionCountDto.setDbName("Microsoft SQL Server 2019 (64-bit)");
+				int count=installLicenceStockRepo.getCountByEditionAndProductName(name,"Microsoft SQL");
+				dBEditionCountDto.setDbName("Microsoft SQL");
 				dBEditionCountDto.setEdition(name);
 				dBEditionCountDto.setCount(count);
-				list.add(dBEditionCountDto);
+				if(count!=0){
+					list.add(dBEditionCountDto);
+
+				}
+				
 			}
 			
 		

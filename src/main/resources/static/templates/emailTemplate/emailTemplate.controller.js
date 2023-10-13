@@ -45,8 +45,12 @@
 		function delet(template){
 			var msg=""
 				 var url =emailUrl+"/deletEmailTemplate";
+			console.log("url: "+url)
+
+			
 				genericFactory.add(msg,url,template).then(function(response) {
 				vm.emailTemplates = response.data;
+				loadTemplates();
 				console.log("emailTemplate: "+JSON.stringify(vm.emailTemplates))
 								
 			});

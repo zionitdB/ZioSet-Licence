@@ -1,0 +1,207 @@
+  <style>
+
+/*Check Box*/
+.c_check {
+  visibility: hidden;
+  position: relative;
+  margin-right: .4em;
+   font-size: 2em;
+  height: .9em;
+  width: .9em;
+}
+.c_check:before, .c_check:after {
+  /* default checkbox */
+  box-sizing: border-box;
+  visibility: visible;
+  display: inline-block;
+  content: '';
+  touch-action: manipulation;
+  cursor: pointer;
+  /* position */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .9em;
+  height: .9em;
+  /* design */
+  border: .1em solid grey;
+  border-radius: .1em;
+  transition: all .3s ease-in-out;
+}
+.c_check:after {
+  transition: all .3s ease-in-out, border-top, border-right;
+  transition-delay: 0s, .3s, .3s;
+  z-index: 2;
+}
+.c_check:checked:after {
+  height: .4em;
+  border-top: none;
+  border-right: none;
+  border-width: .15em;
+  border-radius: 0px;
+  border-bottom-left-radius: .05em;
+  border-color: #64c5b1;
+  transform: rotate(-45deg) translate(0.1em, 0.2em) scale(1.1);
+  box-shadow: -0.05em 0.08em 0.1em rgba(0, 0, 0, 0.5);
+}
+
+</style>
+ 
+ <div >
+        <uib-tabset active="activeJustified" justified="true">
+            <uib-tab style="    text-align: left;font-size: 1.7rem;
+    font-weight: 700;"heading="Email Template">
+            
+            <!-- Upload Form Start  -->
+ 		
+            <div class="material mt-5" ng-show="showKeyWardTab">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Keyword</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                   <ol><p>User:</p>
+					  <li><b>#URNM</b> :: User Name</li>
+					  <li><b>#FRNM</b> :: First Name</li>
+					  <li><b>#LTNM </b>:: LAST Name</li>
+					   <li><b>#OTP </b>:: OTP</li>
+					  <li><b>#DATE </b>:: Date</li>
+					   <li><b>#VLDT </b>:: Valid Time</li>
+					</ol>
+                     
+                        
+                 
+                       
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="cancleBtn" ng-click="vm.close()" title="Cancel">Close</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Upload End   -->
+            <!-- Add New Form Start  -->
+ 				<div class="material mt-5" ng-show="addNew">
+                    <legend class="dotted text-center" style="color: #616060; font-size: 18px;"><b>Add New Template</b>
+                    </legend>
+                    <hr>
+                    <form class="row g-3">
+                   
+                        <div class="col-md-6">
+                            <label for="alloMaterial" class="form-label">Template For<sup
+                                    style="color: red;">*</sup></label>
+                            <select id="selAssetType" class="form-control" ng-model="vm.template.templateFor">
+                               <option value="" disabled selected>Select Template For </option>
+                                <option value="Login OTP">Login OTP</option>
+                                <option value="User Registration">User Registration</option>
+                                 <option value="CPU Change">CPU Change</option>
+                                  <option value="OS Change">OS Change</option>
+                               
+                             
+                            </select>
+                             <span style="color:red" ng-show="templateForErr">Template For is Mandatory</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Subject<sup style="color: red;">*</sup></label>
+                            <textarea type="text" class="form-control" id="subject" ng-model="vm.template.subject"  nplaceholder="Enter Subject"></textarea>
+                      	   <span style="color:red" ng-show="subjectErr">Subject  is Mandatory</span>
+                      
+                        </div>
+                   <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Template<sup style="color: red;">*</sup>                            
+                            
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Show Keyward" ng-click="vm.showKeyWard()">   <i class="bi bi-eye" ></i></button>
+                            </label>
+                            <textarea type="text" class="form-control" id="templateBody" ng-model="vm.template.templateBody"  nplaceholder="Enter Template Body"></textarea>
+                      	   <span style="color:red" ng-show="templateErr">Template  is Mandatory</span>
+                      
+                        </div>
+                        
+                       <div class="col-md-6">
+                            <label for="assectcod" class="form-label">Signature<sup style="color: red;">*</sup></label>
+                            <textarea type="text" class="form-control" id="templateBody" ng-model="vm.template.signiture"  nplaceholder="Enter Signature"></textarea>
+                      	   <span style="color:red" ng-show="signitureErr">Signature  is Mandatory</span>
+                      
+                        </div>
+                       
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="save" ng-click="vm.save(vm.template)" title="Save" ng-disabled="diabledSaveButton">Submit</button>
+                            <button type="submit" class="cancleBtn" ng-click="vm.cancle()" title="Cancel">Cancel</button>
+                            
+                           
+                        </div>
+                    </form>
+                </div>
+			<!-- Add New Form End   -->
+			<!-- List View Star -->
+                <div class="material mt-5">
+                    <div class="container-fluid">
+                    <div class="row">
+                 
+                     
+                        <div class="col-2 text-center">
+                            <button class="addNew" type="submit"  data-toggle="tooltip" data-placement="bottom" title="Add New Asset" ng-click="vm.addNew()">   <i class="bi bi-plus-square" ></i></button>
+                        </div>
+                      
+                    </div>
+                     
+                       
+                </div>
+                    <div class="material-tbl mt-3">
+                        <table id="datatable-buttons" class="text-center table-striped align-middle justify-content-center "
+                            style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Sr No</th>
+                                   
+                                 
+                                     <th>Template For</th>
+                                       <th>Subject</th>
+                                     <th>Template</th>
+                                    <th>Signature</th>
+                                    <th>Added By</th>
+                                    <th>Added Date</th>
+                                  
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <tr ng-show="vm.emailTemplates.length <= 0"><td colspan="8" style="text-align:center;color:#5D6D7E;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Data Not Found!!
+							<tr dir-paginate="emailTemplate in vm.emailTemplates| filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+							
+                                        
+                                
+                                    <th>{{$index+1}}</th>
+                                    <td>{{emailTemplate.templateFor}}</td>
+                                     <td>{{emailTemplate.subject}}</td>
+                                      <td>{{emailTemplate.templateBody}}</td>
+                                      <td>{{emailTemplate.signiture}}</td>
+                                   
+                                    <td>{{emailTemplate.addedBy}}</td>
+                                   
+                                    <td>{{emailTemplate.addedDate|date:'dd-MM-yyyy'}}</td>
+                                 
+										
+                                       
+                                    <td>
+                                       <i class="bi bi-pencil-square"  data-toggle="tooltip" data-placement="bottom"  title="Edit" ng-click="vm.edit(emailTemplate)"style="margin-right: 10px;"></i>
+                                       <i class="bi bi-trash"  data-toggle="tooltip" data-placement="bottom"  title="Delete"   ng-if="vm.user.role.roleId==1||vm.user.role.roleId==3" ng-click="vm.delet(emailTemplate)" style="margin-right: 10px;"></i>
+                                       
+                                   	
+                                   
+                                   
+                                    </td>
+                                </tr>
+                               
+                            </tbody>
+                            
+                        </table>
+                  <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"  ></dir-pagination-controls>
+
+                    </div>
+                </div>
+		<!-- List View Star -->
+            </uib-tab>
+           
+        </uib-tabset>
+    </div>

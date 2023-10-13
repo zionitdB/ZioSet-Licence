@@ -81,7 +81,21 @@ public class Licence {
 	
 	@Column(name="licence_key")
 	private String licenceKey;
+	
 
+	@Column(name="key_gen_indx")
+	private String keyGenIndx;
+	
+	
+	
+	
+
+	public String getKeyGenIndx() {
+		return keyGenIndx;
+	}
+	public void setKeyGenIndx(String keyGenIndx) {
+		this.keyGenIndx = keyGenIndx;
+	}
 	@Transient
 	private int srNo;
 	@Transient
@@ -96,6 +110,9 @@ public class Licence {
 	
 	@Transient
 	private String expDate;
+	
+	@Transient
+	private Asset asset;
 	
 	
 	
@@ -219,6 +236,12 @@ public class Licence {
 	}
 	public void setPeriod(String period) {
 		this.period = period;
+	}
+	public Asset getAsset() {
+		return asset;
+	}
+	public void setAsset(Asset asset) {
+		this.asset = asset;
 	}
 	
 	

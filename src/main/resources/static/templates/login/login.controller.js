@@ -105,11 +105,11 @@
 			}
 		}
 		function doLogin(user){
-			var captchaResponse = $window.grecaptcha.getResponse();
-			if (captchaResponse.length === 0) {
+			//var captchaResponse = $window.grecaptcha.getResponse();
+			/*if (captchaResponse.length === 0) {
 				toastr.error('Please complete the reCAPTCHA.');
 				return;
-			}
+			}*/
 			var msg=""								
 			var  url =userUrl+"/login"
 			console.log("URL :: "+url)

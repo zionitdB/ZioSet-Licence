@@ -41,13 +41,24 @@ public interface InstallLicenceStockRepo   extends JpaRepository<InstallLicenceS
 	int getDistictAssetCountInStock();
 	
 	//@Query("select  (distinct i.asset.Id) From InstallLicenceStock i")
-	@Query(value = "SELECT distinct asset_id FROM db_zioset.licence_install_stock ;", nativeQuery = true)
+	@Query(value = "SELECT distinct asset_id FROM licence_install_stock;", nativeQuery = true)
 	List<Integer> getListWorkerInstalledList();
+	
+	@Query("select count(*) From InstallLicenceStock i where i.associate.associateName=?1 ")
+	int getCountOfInstallLicenceStock(String str);
 	
 	@Query("From InstallLicenceStock i where i.product.productName=?1 ")
 	List<InstallLicenceStock> getListOfLicencesByProductName(String string);
-	
-	@Query("select count(*) From InstallLicenceStock i where i.edition=?1 and i.product.productName=?2 ")
+	/*@Query("From InstallLicenceStock i where i.product.productName=?1 ")
+	List<InstallLicenceStock> getListOfLicencesByProductName(String string);
+	*/
+	/*@Query("select count(*) From InstallLicenceStock i where i.edition=?1 and i.product.productName LIKE :2 ")
 	int getCountByEditionAndProductName(String name, String string);
+*/	@Query("From InstallLicenceStock i where i.asset.id=?1 ")
+	List<InstallLicenceStock> getInstallLicenceStockebyAssetId(int assetId);
+	@Query("select count(*) From InstallLicenceStock i where i.product.productName=?1 ")
 
+	int getCountOfInstallLicenceStockByproduct(String applicationName);
+	@Query("From InstallLicenceStock i where i.asset.id=?1  and i.product.id=?2")
+	List<InstallLicenceStock> getInstallLicenceStockebyAssetIdAndProduct(int id, int id2);
 }

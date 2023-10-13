@@ -540,33 +540,65 @@ public class LincencceManagementServiceImpl implements LincencceManagementServic
 		c.setTime(today); 
 		c.add(Calendar.DATE, 30);
 		Date comDate = c.getTime();
-		for(Licence licence:licences){
-			Date exDate = null;
-			if(licence.getPurchaseDate()!=null){
-				if(licence.getLicencePeriodUnit().equalsIgnoreCase("Year")){
-					System.out.println("PURCHASE "+licence.getPurchaseDate() );
-					c.setTime(licence.getPurchaseDate()); 
-					c.add(Calendar.YEAR, licence.getLicencePeriod());
-					exDate=c.getTime();
+		try {
+			for(Licence licence:licences){
+				Date exDate = null;
+				//System.out.println("EXT DATA ::   "+licence.getPurchaseDate());
+				//System.out.println(" UNIY "+licence.getLicencePeriodUnit());
+				if(licence.getPurchaseDate()!=null){
+					if(licence.getLicencePeriodUnit().equalsIgnoreCase("Year")){
+					//	System.out.println("PURCHASE "+licence.getPurchaseDate() );
+						c.setTime(licence.getPurchaseDate()); 
+						c.add(Calendar.YEAR, licence.getLicencePeriod());
+						exDate=c.getTime();
+						//System.out.println("YEAR");
+
+					}
+					if(licence.getLicencePeriodUnit().equalsIgnoreCase("Month")){
+						c.setTime(licence.getPurchaseDate()); 
+						c.add(Calendar.MONTH, licence.getLicencePeriod());
+						exDate=c.getTime();
+						//System.out.println("MONTH");
+					}
+					if(licence.getLicencePeriodUnit().equalsIgnoreCase("Day")){
+						c.setTime(licence.getPurchaseDate()); 
+						c.add(Calendar.DATE, licence.getLicencePeriod());
+						exDate=c.getTime();
+					//	System.out.println("Day");
+					}
+					
+					
+					String pattern = "dd/MM/yyyy";
+
+					DateFormat df = new SimpleDateFormat(pattern);
+
+					String todayAsString = df.format(comDate);
+					
+					
+				
+					
+					
+
+
+					
+					
+					
+					String exString = df.format(exDate);
+					System.out.println("todayAsString"+todayAsString);
+					System.out.println("exString"+exString);
+					
+
+					if(comDate.compareTo(exDate)>0||comDate.compareTo(exDate)==0){
+						list.add(licence);
+					}
+
 				}
-				if(licence.getLicencePeriodUnit().equalsIgnoreCase("Month")){
-					c.setTime(licence.getPurchaseDate()); 
-					c.add(Calendar.MONTH, licence.getLicencePeriod());
-					exDate=c.getTime();
-				}
-				if(licence.getLicencePeriodUnit().equalsIgnoreCase("Day")){
-					c.setTime(licence.getPurchaseDate()); 
-					c.add(Calendar.DATE, licence.getLicencePeriod());
-					exDate=c.getTime();
-				}
-				if(comDate.compareTo(exDate)>0||comDate.compareTo(exDate)==0){
-					list.add(licence);
-				}
-				System.out.println("EXT DATA ::   "+exDate);
+				
 
 			}
-			
-
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
@@ -589,6 +621,84 @@ public class LincencceManagementServiceImpl implements LincencceManagementServic
 	public int getTodayFetchInstallLicenceCount(Date date) {
 		// TODO Auto-generated method stub
 		return softwareRepo.getTodayFetchInstallLicenceCount(date);
+	}
+
+	@Override
+	public List<LicenceExpriry> getAvailanleLicenceExpiryPagination(int page_no, int item_per_page) {
+		// TODO Auto-generated method stub
+		return licenceExpriryRepo.getAvailanleLicenceExpiryPagination(page_no,item_per_page);
+	}
+
+	@Override
+	public List<LicenceExpriry> getAvailanleLicenceExpirySearchPagination(String searchText, int pageNo, int perPage) {
+		// TODO Auto-generated method stub
+		return licenceExpriryRepo.getAvailanleLicenceExpirySearchPagination(searchText,pageNo,perPage);
+	}
+
+	@Override
+	public int getAllCountAvailanleLicenceExpiry() {
+		// TODO Auto-generated method stub
+		return licenceExpriryRepo.getAllCountAvailanleLicenceExpiry();
+	}
+
+	@Override
+	public int getSearchCountAvailanleLicenceExpiry(String searchText) {
+		// TODO Auto-generated method stub
+		return licenceExpriryRepo.getSearchCountAvailanleLicenceExpiry(searchText);
+	}
+
+	@Override
+	public List<Licence> getExpiringLicencesSAASPagination(int page_no, int item_per_page) {
+		// TODO Auto-generated method stub
+		return lincencceRepo.getExpiringLicencesSAASPagination(page_no,item_per_page);
+	}
+
+	@Override
+	public List<Licence> getExpiringLicencesSAASSearchPagination(String searchText, int pageNo, int perPage) {
+		// TODO Auto-generated method stub
+		return lincencceRepo.getExpiringLicencesSAASSearchPagination(searchText,pageNo,perPage);
+	}
+
+	@Override
+	public int getAllCountExpiringLicencesSAAS() {
+		// TODO Auto-generated method stub
+		return lincencceRepo.getAllCountExpiringLicencesSAAS();
+	}
+
+	@Override
+	public int getSearchCountExpiringLicencesSAAS(String searchText) {
+		// TODO Auto-generated method stub
+		return lincencceRepo.getSearchCountExpiringLicencesSAAS(searchText);
+	}
+
+	@Override
+	public List<AssetLicence> getAllAssetLicencce() {
+		// TODO Auto-generated method stub
+		return assetLicenceRepo.findAll();
+	}
+
+	@Override
+	public void deleteAssetLicence(AssetLicence assetLicence) {
+		// TODO Auto-generated method stub
+		assetLicenceRepo.delete(assetLicence);
+	}
+
+	@Override
+	public int getexpirySAASCount() {
+		// TODO Auto-generated method stub
+		return lincencceRepo.getAllCountExpiringLicencesSAAS();
+	}
+
+	@Override
+	public Optional<Licence> getLicenceByPublisherProductKey(String publisher, String product, String key) {
+		// TODO Auto-generated method stub
+		return lincencceRepo.getLicenceByPublisherProductKey(publisher, product, key);
+	}
+
+	@Override
+	public List<InstallLicenceStock> getSystemLincencceByAssetId(int assetId) {
+		// TODO Auto-generated method stub
+		return installLicenceStockRepo.getInstallLicenceStockebyAssetId(assetId);
 	}
 
 }

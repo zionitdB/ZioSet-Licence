@@ -36,12 +36,12 @@
 			//console.log("LOGIN DETIALSS "+JSON.stringify(vm.user));
 			//loadNotificationCount();
 			getAllAsset();
-			/*setInterval(function(){ 
+		/*	setInterval(function(){ 
 				var msg=""
 					 var url =notificationUrl+"/getNotificationCount";
 					genericFactory.getAll(msg,url).then(function(response) {
 						$rootScope.notificationCount = response.data;
-						//console.log("$rootScope.notificationCount     "+JSON.stringify($rootScope.notificationCount));
+						console.log("$rootScope.notificationCount     "+JSON.stringify($rootScope.notificationCount));
 					
 					
 				});

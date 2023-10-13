@@ -27,7 +27,7 @@
 
 			}
 		$scope.filename="Machines"
-			vm.labels={'srNo': 'Sr No','branch.branchName': 'Branch','assetType':'Asset Type','serialNo':'Serial No','make':'Make','model':'Model','allocatedToName':' Name','allocatedToNo':'Employee No'}
+			vm.labels={'srNo': 'Sr No','make':'Make','model':'Model','serialNo':'Serial No','assetId':'Asset No','employeeNo':'Employee No','employeeNo':'Employee Name'}
 		
 		
 		

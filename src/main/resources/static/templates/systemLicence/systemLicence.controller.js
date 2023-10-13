@@ -25,7 +25,34 @@
 			loadAssocistes();	
 			loadProducts();
 		})();
-	
+		$scope.filename="Machines"
+			vm.labels={'srNo': 'Sr No','associate.associateName': 'Publisher','product.productName': 'Product','productVersion': 'Version','asset.make':'Make','asset.model':'Model','asset.serialNo':'Serial No','asset.assetId':'Asset Id','computerName':'Computer Name','detDate':'Detection Date','insDate':'Install Date', 'invoiceNo':'InvoiceNo','invoiceDate':'Invoice Date','age':'Age','asset.make':'Make','asset.model':'Model','employee.employeeNo':'Employee No','employee.firstName':'First Name','employee.lastName':'Last Name','status':'Status'}
+		
+		$scope.newExcel=function (){
+			$rootScope.loader=true;
+	    	  getAllsystemLicence();
+				 $rootScope.loader=true;
+				//document.getElementById('btnExport').click();
+		}
+		
+		function getAllsystemLicence(){
+			
+			var msg="";
+			var url=licenceUrl+"/getAllInstallLicenceStocks";
+			
+			genericFactory.getAll(msg,url).then(function(response) {
+				vm.systemLicences = response.data;
+				setTimeout(function(){
+					 
+					 document.getElementById('btnExport').click();
+					 $rootScope.loader=false;
+					 
+					  $rootScope.$digest();
+					},1000);
+				console.log("systemLicences : "+JSON.stringify(vm.systemLicences))
+								
+			});
+		}
 		
 	//***********************Pagination Start*****************************//
 		$scope.searchByPagination=function (search){

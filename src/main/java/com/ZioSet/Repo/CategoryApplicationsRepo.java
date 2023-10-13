@@ -10,5 +10,8 @@ import com.ZioSet.model.CategoryApplications;
 public interface CategoryApplicationsRepo extends JpaRepository<CategoryApplications, Integer>{
 	@Query("From CategoryApplications c where c.category.categorId=?1")
 	List<CategoryApplications> getCategoryApplicationsByCategory(int categoryId);
+	@Query("From CategoryApplications c where c.category.categoryName=?1")
+
+	List<CategoryApplications> getCategoryApplicationsByCategoryName(String categoryName);
 
 }

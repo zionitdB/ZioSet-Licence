@@ -19,6 +19,7 @@
 			addNew:addNew,
 			cancle:cancle,
 			save:save,
+			delet:delet,
 			upload:upload,
 			uploadSave:uploadSave,
 			loadLicenceNameByType:loadLicenceNameByType,
@@ -38,6 +39,26 @@
 			loadTypes();
 			
 		})();
+		
+		function delet(assetLicence){
+			var msg="";
+			var 	url=licenceUrl+"/deleteAssetLicence";
+			genericFactory.add(msg,url,assetLicence).then(function(response) {
+				vm.responceObj = response.data;
+				loadLicence();
+				if(vm.responceObj.data.code==200){
+					toastr.success(vm.responceObj.data.message);
+					//$scope.diabledSaveButton=true
+					
+				}else{
+					alert(vm.responceObj.data.message);
+					//$scope.diabledSaveButton=false
+					
+				}
+				console.log("responceObj: "+JSON.stringify(vm.responceObj))
+								
+			});
+		}
 		function upload(){
 			$scope.addNew=false;
 			$scope.uploadTab=true;
@@ -126,7 +147,7 @@
 		}
 		
 		$scope.filename="Machines"
-			vm.labels={'srNo': 'Sr No','branch.branchName': 'Location','deviceGrouping': 'Device Grouping','deskLocation': 'Location','assetType':'Asset Type','serialNo':'Serial No','assetId':'Asset Id','tagCode':'EPC','purchaseOrderNo':'Purchase Order No', 'invoiceNo':'InvoiceNo','invoiceDate':'Invoice Date','age':'Age','make':'Make','model':'Model','status':'Status'}
+			vm.labels={'srNo': 'Sr No','asset.make': 'Make','asset.model': 'Model','asset.serialNo': 'Serial No','licence.associate.associateName':'Publisher','licence.product.productName':'Product','licence.licenceKey':'Licence Key','assDate':'Assigned Date'}
 		
 		
 		$scope.newExcel= function(){
@@ -137,7 +158,7 @@
 	    	//  getAllAssets();
 				 $rootScope.loader=true;
 				exportData();
-	    	  //document.getElementById('btnExport').click();
+	    	  //
 			
 			}
 		
@@ -159,7 +180,19 @@
 			vm.asset={};
 		
 		}
+		function exportData(){
+			var msg="";
+			var url=licenceUrl+"/getAllAssetLicencce"
+
+			genericFactory.getAll(msg,url).then(function(response) {
+				vm.assetLicences= response.data;
+				
+				console.log("assetLicences: "+JSON.stringify(vm.assetLicences ))
+				$rootScope.loader=false;
 		
+				document.getElementById('btnExport').click();
+			});
+		}
 		
 		function loadAsseyUnalllocatedLicence(){
 			var msg="";
@@ -257,9 +290,16 @@
 			vm.assetLicence.licenceKey=vm.assetLicence.licence.licenceKey;
 
 			genericFactory.add(msg,url,vm.assetLicence).then(function(response) {
-				vm.licences = response.data;
-				
-				console.log("licencees: "+JSON.stringify(vm.licences ))
+				vm.responce = response.data;
+				loadLicence();
+				vm.asset={}
+				$scope.addNew=false;
+				if(vm.responce.code==200){
+					toastr.success(vm.responce.message);
+				}else{
+					toastr.error(vm.responce.message);
+				}
+				console.log("licencees: "+JSON.stringify(vm.responce ))
 								
 			});
 

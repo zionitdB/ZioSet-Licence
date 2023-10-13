@@ -2,7 +2,12 @@ package com.ZioSet.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.security.sasl.AuthorizeCallback;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,12 +19,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ZioSet.Repo.AuthorizedApplicationRepo;
+import com.ZioSet.Repo.InstallLicenceStockRepo;
+import com.ZioSet.Repo.ProductRepo;
 import com.ZioSet.Service.BundleAndCategoryService;
+import com.ZioSet.dto.LicenceCountDto;
 import com.ZioSet.dto.ResponceObj;
+import com.ZioSet.model.AssetLicence;
+import com.ZioSet.model.Associate;
+import com.ZioSet.model.AuthorizedApplication;
 import com.ZioSet.model.Bundle;
 import com.ZioSet.model.BundleApplications;
 import com.ZioSet.model.Category;
 import com.ZioSet.model.CategoryApplications;
+import com.ZioSet.model.InstallLicenceStock;
+import com.ZioSet.model.Licence;
+import com.ZioSet.model.Product;
 
 
 
@@ -30,6 +45,277 @@ public class BundleAndCategoryController {
 	
 	@Autowired
 	BundleAndCategoryService bundleAndCategoryService;
+	@Autowired
+	InstallLicenceStockRepo installLicenceStockRepo;
+	@Autowired
+	ProductRepo productRepo;
+	@Autowired
+	AuthorizedApplicationRepo authorizedApplicationRepo;
+	
+	
+	
+	
+	@RequestMapping(value = "/getAuthorizedApplicationPagination/{page_no}/{item_per_page}", method = RequestMethod.GET)
+	public @ResponseBody List<Product> getAuthorizedApplicationPagination(@PathVariable("page_no") int page_no,@PathVariable("item_per_page") int item_per_page) {
+		List<Product> list= new  ArrayList<Product>();
+		try {	
+			
+				list=productRepo.getProductByPagination(page_no,item_per_page);
+			
+				for(Product product:list){
+					Optional<AuthorizedApplication> optional= authorizedApplicationRepo.findByProductId(product.getId());
+					if(optional.isPresent()){
+						product.setCheck(true);
+
+					}else{
+						product.setCheck(false);
+					}
+					//list.add(product);
+				}
+				
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/getAuthorizedApplicationSearchPagination", method = RequestMethod.GET)
+	public @ResponseBody List<Product> getAuthorizedApplicationSearchPagination(@RequestParam("searchText") String searchText,@RequestParam("pageNo") int pageNo,@RequestParam("perPage") int perPage) {
+		List<Product> list= new  ArrayList<Product>();
+		try {	
+			
+			list=productRepo.getProductBySearchPagination(searchText,pageNo,perPage);
+			for(Product product:list){
+				Optional<AuthorizedApplication> optional= authorizedApplicationRepo.findByProductId(product.getId());
+				if(optional.isPresent()){
+					product.setCheck(true);
+
+				}else{
+					product.setCheck(false);
+				}
+				//list.add(product);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@RequestMapping(value = "/getAuthorizedApplicationCount", method = RequestMethod.GET)
+	public @ResponseBody int  getAuthorizedApplicationCount() {
+		int  count= 0;
+		try {
+			count= productRepo.getProductCount();
+
+			
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	@RequestMapping(value = "/getSearchCountProduct", method = RequestMethod.GET)
+	public @ResponseBody int  getSearchCountProduct(@RequestParam("searchText") String searchText) {
+		int  count= 0;
+		try {
+			count= productRepo.getSearchCountProduct(searchText);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	
+	@RequestMapping(value = "/getAuthorizedApplication", method = RequestMethod.GET)
+	public @ResponseBody List<Product> getAuthorizedApplication() {
+		List<Product> list= new  ArrayList<Product>();
+		try {	
+			List<Product> products=productRepo.findAll();
+			
+			for(Product product:products){
+				Optional<AuthorizedApplication> optional= authorizedApplicationRepo.findByProductId(product.getId());
+				if(optional.isPresent()){
+					product.setCheck(true);
+
+				}else{
+					product.setCheck(false);
+				}
+				//list.add(product);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@RequestMapping(value = "/addAuthorizedApplication", method = RequestMethod.POST)
+	public @ResponseBody ResponceObj addAuthorizedApplication(@RequestBody Product product) {
+		ResponceObj  responceObj= new  ResponceObj();
+		try {	
+			
+			
+			if(product.isCheck()){
+				Optional<AuthorizedApplication> optional= authorizedApplicationRepo.findByProductId(product.getId());
+				if(!optional.isPresent()){
+					AuthorizedApplication application= new AuthorizedApplication();
+					application.setProduct(product);
+					authorizedApplicationRepo.save(application);
+					responceObj.setCode(200);
+					responceObj.setMessage("New Application is added");
+				}
+			}else{
+				Optional<AuthorizedApplication> optional= authorizedApplicationRepo.findByProductId(product.getId());
+
+			authorizedApplicationRepo.delete(optional.get());
+			responceObj.setCode(200);
+			responceObj.setMessage(" Application is removed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return responceObj;
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/getBundleWiseCount", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> getBundleWiseCount() {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+
+		try {	
+			
+			List<Bundle> bundles= bundleAndCategoryService.getAllBundles();
+			
+			for(Bundle bundle:bundles){
+				List<BundleApplications> applications= bundleAndCategoryService.getApplicationByBundleId(bundle.getBundleId());
+				int totalCount=0;
+				for(BundleApplications bundleApplications:applications){
+					int count = installLicenceStockRepo.getCountOfInstallLicenceStockByproduct(bundleApplications.getApplicationName());
+					totalCount+=count;
+				}
+				LicenceCountDto countDto= new LicenceCountDto();
+				countDto.setBundleName(bundle.getBundleName());
+				countDto.setCount(totalCount);
+				list.add(countDto);
+			} 
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	@RequestMapping(value = "/getApplicationCountByBundle", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> getApplicationCountByBundle(@RequestParam("bundleName") String bundleName) {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+		Set<String> associtesStr= new  HashSet<String>();
+
+		try {	
+			
+			
+				List<BundleApplications> applications= bundleAndCategoryService.getbundleApplicationByBundleName(bundleName);
+				for(BundleApplications bundleApplications:applications){
+					int count = installLicenceStockRepo.getCountOfInstallLicenceStockByproduct(bundleApplications.getApplicationName());
+					LicenceCountDto countDto= new LicenceCountDto();
+					countDto.setApplicationName(bundleApplications.getApplicationName());
+					countDto.setCount(count);
+					list.add(countDto);
+				}
+				
+		
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/getCategoriesWiseCount", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> getCategoriesWiseCount() {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+		Set<String> associtesStr= new  HashSet<String>();
+
+		try {	
+			
+			List<Category> categories= bundleAndCategoryService.getAllCategory();
+			
+			for(Category category:categories){
+				List<CategoryApplications> applications= bundleAndCategoryService.getCategoryApplicationsByCategory(category.getCategorId());
+				int totalCount=0;
+				for(CategoryApplications categoryApplications:applications){
+					int count = installLicenceStockRepo.getCountOfInstallLicenceStockByproduct(categoryApplications.getApplicationName());
+					totalCount+=count;
+				}
+				LicenceCountDto countDto= new LicenceCountDto();
+				countDto.setCategoryName(category.getCategoryName());
+				countDto.setCount(totalCount);
+				list.add(countDto);
+			} 
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@RequestMapping(value = "/getApplicationCountCategory", method = RequestMethod.GET)
+	public @ResponseBody List<LicenceCountDto> getApplicationCountCategory(@RequestParam("categoryName") String categoryName) {
+		List<LicenceCountDto> list= new  ArrayList<LicenceCountDto>();
+		Set<String> associtesStr= new  HashSet<String>();
+
+		try {	
+			
+			
+				List<CategoryApplications> applications= bundleAndCategoryService.getCategoryApplicationsByCategoryName(categoryName);
+				for(CategoryApplications categoryApplications:applications){
+					int count = installLicenceStockRepo.getCountOfInstallLicenceStockByproduct(categoryApplications.getApplicationName());
+					LicenceCountDto countDto= new LicenceCountDto();
+					countDto.setApplicationName(categoryApplications.getApplicationName());
+					countDto.setCount(count);
+					list.add(countDto);
+				}
+				
+		
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	
 	@RequestMapping(value = "/addBundle", method = RequestMethod.POST)
@@ -37,7 +323,7 @@ public class BundleAndCategoryController {
 		ResponceObj responceDTO= new ResponceObj();
 		try {		 
 			System.out.println("adding ");
-			bundle.setCreatedDate(new Date());
+			//bundle.setCreatedDate(new Date());
 			
 			
 			Bundle bundle2=bundleAndCategoryService.addBundle(bundle);
@@ -202,7 +488,7 @@ public class BundleAndCategoryController {
 		ResponceObj responceDTO= new ResponceObj();
 		try {		 
 			System.out.println("adding ");
-			category.setCreatedDate(new Date());
+			//category.setCreatedDate(new Date());
 			
 			
 			Category category2=bundleAndCategoryService.addCategory(category);

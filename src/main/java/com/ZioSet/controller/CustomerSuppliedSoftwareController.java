@@ -51,13 +51,19 @@ public class CustomerSuppliedSoftwareController {
 	
 	@RequestMapping(value = "/getAllCustomerSuppliedSoftwares", method = RequestMethod.GET)
 	public @ResponseBody List<CustomerSuppliedSoftware> getAllCustomerSuppliedSoftwares() {
-		List<CustomerSuppliedSoftware> devices= null;
+		List<CustomerSuppliedSoftware> list= null;
 		try {
-			devices = customerSuppliedSoftwareService.getAllCustomerSuppliedSoftwares();
+			list = customerSuppliedSoftwareService.getAllCustomerSuppliedSoftwares();
+			int srNo=1;
+			for(CustomerSuppliedSoftware customerSuppliedSoftware:list){
+				customerSuppliedSoftware.setSrNo(srNo);
+				srNo++;
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return devices;
+		return list;
 	}
 	
 	
@@ -68,9 +74,16 @@ public class CustomerSuppliedSoftwareController {
 			System.out.println("S  "+customerSuppliedSoftware.toString());
 			Optional<CustomerSuppliedSoftware> optional= customerSuppliedSoftwareService.getCustomerSuppliedSoftware(customerSuppliedSoftware.getFormSrNo());
 			if(optional.isPresent()){
+				CustomerSuppliedSoftware customerSuppliedSoftware2= optional.get();
+				customerSuppliedSoftware2.setAssetTagNo(customerSuppliedSoftware.getAssetTagNo());
+				customerSuppliedSoftware2.setLanguage(customerSuppliedSoftware.getLanguage());
+				customerSuppliedSoftware2.setLicenceCount(customerSuppliedSoftware.getLicenceCount());
+				customerSuppliedSoftware2.setRemark(customerSuppliedSoftware.getRemark());
+				customerSuppliedSoftware2.setTitle(customerSuppliedSoftware.getTitle());
+				customerSuppliedSoftware2.setVersion(customerSuppliedSoftware.getVersion());
 				customerSuppliedSoftwareService.addNewCustomerSuppliedSoftware(optional.get());
 				responceObject.setCode(200);
-				responceObject.setMessage("Device Updated ... !!!");
+				responceObject.setMessage("Added Sucessfully!!!");
 			}else{
 				customerSuppliedSoftwareService.addNewCustomerSuppliedSoftware(customerSuppliedSoftware);
 
